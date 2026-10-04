@@ -256,6 +256,12 @@
         "disabled": "Desactivado",
         "hint": "Cuando está habilitado, las diferencias de código en el chat se expandirán por defecto. Cuando está deshabilitado, las diferencias comienzan colapsadas."
       },
+      "hideToolCalls": {
+        "label": "Ocultar llamadas a herramientas",
+        "enabled": "Ocultas",
+        "disabled": "Visibles",
+        "hint": "Deja en el chat solo tus prompts, las respuestas y los cambios. Las lecturas de archivos, búsquedas, comandos y agentes se ejecutan igual, pero sus tarjetas no se muestran; las ediciones, preguntas y aprobaciones de plan se mantienen. Solo afecta a la vista: al desactivarlo vuelven todas las tarjetas."
+      },
       "taskCompletionNotification": {
         "label": "Notificación del sistema por tarea completada",
         "enabled": "Activado",

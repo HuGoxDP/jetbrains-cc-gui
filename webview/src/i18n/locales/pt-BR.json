@@ -256,6 +256,12 @@
         "disabled": "Desativado",
         "hint": "Quando ativado, os diffs de código no chat ficam expandidos por padrão. Quando desativado, os diffs começam recolhidos e podem ser expandidos clicando."
       },
+      "hideToolCalls": {
+        "label": "Ocultar chamadas de ferramentas",
+        "enabled": "Ocultas",
+        "disabled": "Visíveis",
+        "hint": "Deixa no chat só seus prompts, as respostas e as alterações. Leituras de arquivos, buscas, comandos e agentes rodam normalmente, mas seus cartões não aparecem; edições, perguntas e aprovações de plano continuam. Só afeta a exibição: ao desligar, todos os cartões voltam."
+      },
       "commitGeneration": {
         "label": "Geração de Mensagem de Commit com IA",
         "enabled": "Ativado",

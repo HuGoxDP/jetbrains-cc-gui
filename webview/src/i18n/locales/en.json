@@ -499,6 +499,12 @@
         "disabled": "Disabled",
         "hint": "When enabled, code diffs in chat will be expanded by default. When disabled, diffs start collapsed and can be expanded by clicking."
       },
+      "hideToolCalls": {
+        "label": "Hide tool calls",
+        "enabled": "Hidden",
+        "disabled": "Shown",
+        "hint": "Keep the chat to your prompts, the answers and the edits. File reads, searches, commands and agents run as usual but their cards are not drawn; edits, questions and plan approvals stay. Display only: switching it off shows every card again."
+      },
       "commitGeneration": {
         "label": "AI Commit Message Generation",
         "enabled": "Enabled",

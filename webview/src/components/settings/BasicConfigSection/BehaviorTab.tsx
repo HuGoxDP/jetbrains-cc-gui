@@ -5,6 +5,7 @@ import { PermissionDialogTimeoutSetting } from './PermissionDialogTimeoutSetting
 import { ToggleSettingSection } from './ToggleSettingSection';
 import { SendShortcutSection } from './SendShortcutSection';
 import { NotificationSettingsGroup } from './NotificationSettingsGroup';
+import { setHideToolCalls, useHideToolCalls } from '../../../utils/hideToolCalls';
 
 export interface BehaviorTabProps {
   sendShortcut?: 'enter' | 'cmdEnter';
@@ -96,6 +97,7 @@ const BehaviorTab = ({
   onPermissionDialogTimeoutChange = () => {},
 }: BehaviorTabProps) => {
   const { t } = useTranslation();
+  const hideToolCalls = useHideToolCalls();
 
   return (
     <div className={styles.tabContent}>
@@ -141,6 +143,18 @@ const BehaviorTab = ({
         enabledLabel={t('settings.basic.diffExpanded.enabled')}
         disabledLabel={t('settings.basic.diffExpanded.disabled')}
         hint={t('settings.basic.diffExpanded.hint')}
+      />
+
+      {/* Hide tool calls: display only, read straight from its own store so the
+          chat follows the switch at once */}
+      <ToggleSettingSection
+        icon="codicon-eye-closed"
+        label={t('settings.basic.hideToolCalls.label')}
+        checked={hideToolCalls}
+        onChange={setHideToolCalls}
+        enabledLabel={t('settings.basic.hideToolCalls.enabled')}
+        disabledLabel={t('settings.basic.hideToolCalls.disabled')}
+        hint={t('settings.basic.hideToolCalls.hint')}
       />
 
       {/* AI commit generation toggle */}

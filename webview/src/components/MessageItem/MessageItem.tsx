@@ -10,6 +10,7 @@ import { GroupedBlocksRenderer } from './GroupedBlocksRenderer';
 import { copyToClipboard } from '../../utils/copyUtils';
 import { quoteToChatInput } from '../../utils/quoteUtils';
 import { isNonRenderedToolUse } from '../../utils/toolConstants';
+import { isHiddenToolCall, useHideToolCalls } from '../../utils/hideToolCalls';
 import { groupBlocks } from './groupBlocks';
 
 export interface MessageItemProps {
@@ -156,9 +157,13 @@ export const MessageItem = memo(function MessageItem({
   // non-rendered tools never disturb the message list. `blocks` is kept whole
   // for the empty-placeholder check below, since a message carrying only a
   // non-rendered tool is not an empty streaming placeholder.
+  // "Hide tool calls" filters here too, for the same reason: a hidden card
+  // that stayed in the list would still regroup and re-render its neighbours.
+  const hideToolCalls = useHideToolCalls();
   const renderedBlocks = useMemo(
-    () => blocks.filter((block) => !isNonRenderedToolUse(block, isMessageStreaming)),
-    [blocks, isMessageStreaming],
+    () => blocks.filter((block) =>
+      !isNonRenderedToolUse(block, isMessageStreaming) && !(hideToolCalls && isHiddenToolCall(block))),
+    [blocks, isMessageStreaming, hideToolCalls],
   );
   const isUserImageOnly =
     message.type === 'user' &&
@@ -233,6 +238,18 @@ export const MessageItem = memo(function MessageItem({
   );
 
   if (isEmptyStreamingPlaceholder && !showStreamingConnectHint) {
+    return <></>;
+  }
+
+  // A reply made only of hidden tool calls has nothing left to show; drawing it
+  // would leave an empty bubble with its copy buttons between two real ones.
+  if (
+    hideToolCalls &&
+    message.type === 'assistant' &&
+    renderedBlocks.length === 0 &&
+    blocks.length > 0 &&
+    !(message.content && message.content.trim().length > 0)
+  ) {
     return <></>;
   }
 

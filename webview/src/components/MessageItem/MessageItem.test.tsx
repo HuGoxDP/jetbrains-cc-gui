@@ -1,5 +1,6 @@
-import { cleanup, render, renderHook, screen } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
+import { act, cleanup, render, renderHook, screen } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { setHideToolCalls } from '../../utils/hideToolCalls';
 import type { ClaudeContentBlock, ClaudeMessage, ToolResultBlock } from '../../types';
 import { extractMarkdownContent } from '../../utils/copyUtils';
 import { MessageItem } from './MessageItem';
@@ -438,5 +439,53 @@ describe('MessageItem token usage display', () => {
 
     expect(screen.getByText('0:03')).toBeTruthy();
     expect(screen.queryByText(/输入/)).toBeNull();
+  });
+});
+
+describe('MessageItem with tool calls hidden', () => {
+  afterEach(() => {
+    act(() => setHideToolCalls(false));
+    cleanup();
+  });
+
+  const assistant = (content: unknown[], text = ''): ClaudeMessage => ({
+    type: 'assistant',
+    content: text,
+    raw: { content } as any,
+  });
+
+  it('draws read and command cards until the setting is switched on, then only the edit', () => {
+    const message = assistant([
+      { type: 'tool_use', id: 'r1', name: 'Read', input: { file_path: '/a.ts' } },
+      { type: 'tool_use', id: 'b1', name: 'Bash', input: { command: 'ls' } },
+      { type: 'tool_use', id: 'e1', name: 'Edit', input: { file_path: '/a.ts' } },
+    ]);
+    renderMessageItem(message);
+    expect(screen.queryAllByTestId(/read-tool|bash-tool|content-block-tool_use/).length).toBeGreaterThan(0);
+
+    act(() => setHideToolCalls(true));
+    expect(screen.queryByTestId('read-tool-block')).toBeNull();
+    expect(screen.queryByTestId('bash-tool-block')).toBeNull();
+    // The edit is what the turn produced, so it stays.
+    expect(screen.getByTestId('edit-tool-block')).toBeTruthy();
+  });
+
+  it('draws nothing for a reply made only of hidden tools', () => {
+    act(() => setHideToolCalls(true));
+    const { container } = renderMessageItem(assistant([
+      { type: 'tool_use', id: 'r1', name: 'Read', input: {} },
+      { type: 'tool_use', id: 'g1', name: 'Grep', input: {} },
+    ]));
+    expect(container.querySelector('.message')).toBeNull();
+  });
+
+  it('keeps the text of a reply whose tools are hidden', () => {
+    act(() => setHideToolCalls(true));
+    renderMessageItem(assistant([
+      { type: 'text', text: 'Done.' },
+      { type: 'tool_use', id: 'r1', name: 'Read', input: {} },
+    ], 'Done.'));
+    expect(screen.getByTestId('content-block-text')).toBeTruthy();
+    expect(screen.queryByTestId('read-tool-block')).toBeNull();
   });
 });

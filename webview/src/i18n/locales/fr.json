@@ -256,6 +256,12 @@
         "disabled": "Désactivé",
         "hint": "Lorsque activé, les différences de code dans le chat seront développées par défaut. Lorsque désactivé, les différences commencent réduites."
       },
+      "hideToolCalls": {
+        "label": "Masquer les appels d'outils",
+        "enabled": "Masqués",
+        "disabled": "Affichés",
+        "hint": "Ne garder dans le chat que vos prompts, les réponses et les modifications. Lectures de fichiers, recherches, commandes et agents s'exécutent normalement, mais leurs cartes ne sont pas affichées ; les modifications, questions et validations de plan restent. Affichage seulement : désactivé, toutes les cartes réapparaissent."
+      },
       "taskCompletionNotification": {
         "label": "Notification système de fin de tâche",
         "enabled": "Activé",
