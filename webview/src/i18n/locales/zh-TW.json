@@ -26,6 +26,7 @@
     "optional": "Optional"
   },
   "chat": {
+    "jumpToPinnedMessage": "回到這則訊息所在的位置",
     "sendMessage": "給 {{provider}} 發送訊息",
     "createNewSession": "建立新會話",
     "confirmNewSession": "目前會話已有訊息，確定要建立新會話嗎？",
@@ -261,6 +262,12 @@
         "enabled": "隱藏",
         "disabled": "顯示",
         "hint": "聊天中只保留你的提示、回答和修改。讀取檔案、搜尋、指令和子代理照常執行，但不顯示其卡片；編輯、提問和計畫確認仍會顯示。僅影響顯示：關閉後所有卡片都會重新出現。"
+      },
+      "pinUserMessages": {
+        "label": "固定你的上一則訊息",
+        "enabled": "固定",
+        "disabled": "不固定",
+        "hint": "回覆捲動時，引出它的那則訊息會停在聊天頂端，直到下一則訊息接替。滑鼠移上去會出現回到原位的按鈕。"
       },
       "taskCompletionNotification": {
         "label": "任務完成系統通知",

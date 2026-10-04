@@ -4,6 +4,7 @@ import { createRef, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { ClaudeMessage, ClaudeContentBlock, ToolResultBlock } from '../types';
 import { MessageList } from './MessageList';
 import { reconcileMessageKeys, type MessageKeySnapshot } from '../utils/messageUtils';
+import { setPinUserMessages } from '../utils/pinUserMessages';
 
 // Mock MessageItem to keep this suite focused on list-level paging behaviour.
 vi.mock('./MessageItem', () => ({
@@ -479,5 +480,82 @@ describe('MessageList container behaviour', () => {
       />
     );
     expect(screen.getByTestId('waiting-indicator')).toBeTruthy();
+  });
+});
+
+describe('MessageList pinned user messages', () => {
+  afterEach(() => {
+    act(() => setPinUserMessages(true));
+    cleanup();
+  });
+
+  const turn = (n: number): ClaudeMessage[] => [
+    { type: 'user', content: `ask ${n}`, id: `ask-${n}` },
+    { type: 'assistant', content: `reply ${n}`, id: `reply-${n}` },
+    // A tool result is a "user" message too, and must not start a turn.
+    {
+      type: 'user',
+      content: '[tool_result]',
+      id: `result-${n}`,
+      raw: { content: [{ type: 'tool_result', tool_use_id: `call-${n}`, content: 'ok' }] },
+    },
+    { type: 'assistant', content: `done ${n}`, id: `done-${n}` },
+  ] as unknown as ClaudeMessage[];
+
+  it('gives each message the user typed a turn of its own, with its replies inside', () => {
+    const { container } = renderList([...turn(1), ...turn(2)]);
+
+    const turns = container.querySelectorAll('.message-turn');
+    expect(turns).toHaveLength(2);
+    const pinned = Array.from(turns).map((el) => el.querySelector('.message-turn-pin')?.textContent);
+    expect(pinned[0]).toContain('ask 1');
+    expect(pinned[1]).toContain('ask 2');
+    // The tool result stays in its turn, unpinned.
+    expect(turns[0].textContent).toContain('[tool_result]');
+    expect(turns[0].querySelector('.message-turn-pin')?.textContent).not.toContain('[tool_result]');
+  });
+
+  it('keeps what comes before the first message outside any turn', () => {
+    const intro = { type: 'assistant', content: 'welcome', id: 'intro' } as unknown as ClaudeMessage;
+    const { container } = renderList([intro, ...turn(1)]);
+
+    expect(container.querySelectorAll('.message-turn')).toHaveLength(1);
+    expect(container.querySelector('.message-turn')?.textContent).not.toContain('welcome');
+    expect(screen.getByText('welcome')).toBeTruthy();
+  });
+
+  it('draws a flat list when pinning is off', () => {
+    act(() => setPinUserMessages(false));
+    const { container } = renderList([...turn(1), ...turn(2)]);
+
+    expect(container.querySelectorAll('.message-turn')).toHaveLength(0);
+    expect(screen.getAllByTestId('message-item')).toHaveLength(8);
+  });
+
+  it('does not remount messages when a new turn arrives', () => {
+    const first = turn(1);
+    const { rerender } = renderList(first);
+    fireEvent.click(screen.getByText('reply 1'));
+
+    const next = [...first, ...turn(2)];
+    const endRef = createRef<HTMLDivElement>();
+    rerender(
+      <MessageList
+        messages={next}
+        messageKeys={keysFor(next)}
+        streamingActive={false}
+        isThinking={false}
+        loading={false}
+        loadingStartTime={null}
+        t={t}
+        getMessageText={noopGetText}
+        getContentBlocks={noopGetBlocks}
+        findToolResult={noopFindToolResult}
+        extractMarkdownContent={noopExtractMd}
+        messagesEndRef={endRef}
+      />,
+    );
+
+    expect(screen.getByText('reply 1').getAttribute('data-local-state')).toBe('preserved');
   });
 });

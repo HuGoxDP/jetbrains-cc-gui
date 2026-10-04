@@ -26,6 +26,7 @@
     "optional": "Opcional"
   },
   "chat": {
+    "jumpToPinnedMessage": "Voltar para onde esta mensagem está",
     "sendMessage": "Enviar mensagem para {{provider}}",
     "createNewSession": "Criar Nova Sessão",
     "confirmNewSession": "A sessão atual possui mensagens. Tem certeza que deseja criar uma nova sessão?",
@@ -261,6 +262,12 @@
         "enabled": "Ocultas",
         "disabled": "Visíveis",
         "hint": "Deixa no chat só seus prompts, as respostas e as alterações. Leituras de arquivos, buscas, comandos e agentes rodam normalmente, mas seus cartões não aparecem; edições, perguntas e aprovações de plano continuam. Só afeta a exibição: ao desligar, todos os cartões voltam."
+      },
+      "pinUserMessages": {
+        "label": "Fixar sua última mensagem",
+        "enabled": "Fixada",
+        "disabled": "Não fixada",
+        "hint": "Enquanto uma resposta rola, a mensagem que a iniciou fica no topo do chat até a próxima tomar o lugar dela. Passe o mouse para voltar ao lugar dela."
       },
       "commitGeneration": {
         "label": "Geração de Mensagem de Commit com IA",

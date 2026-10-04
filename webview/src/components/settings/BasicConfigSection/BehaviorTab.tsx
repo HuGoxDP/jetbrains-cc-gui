@@ -6,6 +6,7 @@ import { ToggleSettingSection } from './ToggleSettingSection';
 import { SendShortcutSection } from './SendShortcutSection';
 import { NotificationSettingsGroup } from './NotificationSettingsGroup';
 import { setHideToolCalls, useHideToolCalls } from '../../../utils/hideToolCalls';
+import { setPinUserMessages, usePinUserMessages } from '../../../utils/pinUserMessages';
 
 export interface BehaviorTabProps {
   sendShortcut?: 'enter' | 'cmdEnter';
@@ -98,6 +99,7 @@ const BehaviorTab = ({
 }: BehaviorTabProps) => {
   const { t } = useTranslation();
   const hideToolCalls = useHideToolCalls();
+  const pinUserMessages = usePinUserMessages();
 
   return (
     <div className={styles.tabContent}>
@@ -155,6 +157,16 @@ const BehaviorTab = ({
         enabledLabel={t('settings.basic.hideToolCalls.enabled')}
         disabledLabel={t('settings.basic.hideToolCalls.disabled')}
         hint={t('settings.basic.hideToolCalls.hint')}
+      />
+
+      <ToggleSettingSection
+        icon="codicon-pinned"
+        label={t('settings.basic.pinUserMessages.label')}
+        checked={pinUserMessages}
+        onChange={setPinUserMessages}
+        enabledLabel={t('settings.basic.pinUserMessages.enabled')}
+        disabledLabel={t('settings.basic.pinUserMessages.disabled')}
+        hint={t('settings.basic.pinUserMessages.hint')}
       />
 
       {/* AI commit generation toggle */}

@@ -26,6 +26,7 @@
     "optional": "Optional"
   },
   "chat": {
+    "jumpToPinnedMessage": "Volver a donde está este mensaje",
     "sendMessage": "Enviar mensaje a {{provider}}",
     "createNewSession": "Crear nueva sesión",
     "confirmNewSession": "La sesión actual tiene mensajes, ¿estás seguro de que quieres crear una nueva sesión?",
@@ -261,6 +262,12 @@
         "enabled": "Ocultas",
         "disabled": "Visibles",
         "hint": "Deja en el chat solo tus prompts, las respuestas y los cambios. Las lecturas de archivos, búsquedas, comandos y agentes se ejecutan igual, pero sus tarjetas no se muestran; las ediciones, preguntas y aprobaciones de plan se mantienen. Solo afecta a la vista: al desactivarlo vuelven todas las tarjetas."
+      },
+      "pinUserMessages": {
+        "label": "Fijar tu último mensaje",
+        "enabled": "Fijado",
+        "disabled": "Sin fijar",
+        "hint": "Mientras una respuesta pasa, el mensaje que la inició se queda arriba del chat hasta que el siguiente ocupa su lugar. Pasa el puntero por encima para volver a donde está."
       },
       "taskCompletionNotification": {
         "label": "Notificación del sistema por tarea completada",

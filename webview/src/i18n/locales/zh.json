@@ -43,6 +43,7 @@
     "optional": "可选"
   },
   "chat": {
+    "jumpToPinnedMessage": "回到这条消息所在的位置",
     "sendMessage": "给 {{provider}} 发送消息",
     "createNewSession": "创建新会话",
     "confirmNewSession": "当前会话已有消息，确定要创建新会话吗？",
@@ -504,6 +505,12 @@
         "enabled": "隐藏",
         "disabled": "显示",
         "hint": "聊天中只保留你的提示、回答和修改。读取文件、搜索、命令和子代理照常运行，但不显示其卡片；编辑、提问和计划确认仍会显示。仅影响显示：关闭后所有卡片都会重新出现。"
+      },
+      "pinUserMessages": {
+        "label": "固定你的上一条消息",
+        "enabled": "固定",
+        "disabled": "不固定",
+        "hint": "回复滚动时，引出它的那条消息会停在聊天顶部，直到下一条消息接替。鼠标移上去会出现回到原位的按钮。"
       },
       "commitGeneration": {
         "label": "AI 生成提交信息",

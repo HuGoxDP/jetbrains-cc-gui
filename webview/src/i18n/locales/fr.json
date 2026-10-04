@@ -26,6 +26,7 @@
     "optional": "Optional"
   },
   "chat": {
+    "jumpToPinnedMessage": "Revenir à l’emplacement de ce message",
     "sendMessage": "Envoyer un message à {{provider}}",
     "createNewSession": "Créer une nouvelle session",
     "confirmNewSession": "La session actuelle contient des messages, êtes-vous sûr de vouloir créer une nouvelle session ?",
@@ -261,6 +262,12 @@
         "enabled": "Masqués",
         "disabled": "Affichés",
         "hint": "Ne garder dans le chat que vos prompts, les réponses et les modifications. Lectures de fichiers, recherches, commandes et agents s'exécutent normalement, mais leurs cartes ne sont pas affichées ; les modifications, questions et validations de plan restent. Affichage seulement : désactivé, toutes les cartes réapparaissent."
+      },
+      "pinUserMessages": {
+        "label": "Épingler votre dernier message",
+        "enabled": "Épinglé",
+        "disabled": "Non épinglé",
+        "hint": "Pendant qu’une réponse défile, le message qui l’a lancée reste en haut du chat jusqu’à ce que le suivant prenne sa place. Survolez-le pour revenir à son emplacement."
       },
       "taskCompletionNotification": {
         "label": "Notification système de fin de tâche",

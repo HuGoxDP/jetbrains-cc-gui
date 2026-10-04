@@ -43,6 +43,7 @@
     "optional": "Optional"
   },
   "chat": {
+    "jumpToPinnedMessage": "Back to where this message sits",
     "sendMessage": "Send message to {{provider}}",
     "createNewSession": "Create New Session",
     "confirmNewSession": "Current session has messages. Are you sure you want to create a new session?",
@@ -504,6 +505,12 @@
         "enabled": "Hidden",
         "disabled": "Shown",
         "hint": "Keep the chat to your prompts, the answers and the edits. File reads, searches, commands and agents run as usual but their cards are not drawn; edits, questions and plan approvals stay. Display only: switching it off shows every card again."
+      },
+      "pinUserMessages": {
+        "label": "Pin your last message",
+        "enabled": "Pinned",
+        "disabled": "Not pinned",
+        "hint": "While a reply scrolls past, the message that started it stays at the top of the chat until your next one takes its place. Hover it for a button back to where it sits."
       },
       "commitGeneration": {
         "label": "AI Commit Message Generation",

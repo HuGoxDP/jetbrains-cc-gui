@@ -26,6 +26,7 @@
     "optional": "선택사항"
   },
   "chat": {
+    "jumpToPinnedMessage": "이 메시지가 있는 곳으로 돌아가기",
     "sendMessage": "{{provider}}에게 메시지 보내기",
     "createNewSession": "새 세션 만들기",
     "confirmNewSession": "현재 세션에 메시지가 있습니다. 새 세션을 만드시겠습니까?",
@@ -261,6 +262,12 @@
         "enabled": "숨김",
         "disabled": "표시",
         "hint": "채팅에는 프롬프트, 답변, 변경만 남깁니다. 파일 읽기, 검색, 명령, 에이전트는 그대로 실행되지만 카드를 그리지 않습니다. 편집, 질문, 계획 승인은 남습니다. 표시만 바꾸는 설정이라 끄면 모든 카드가 다시 보입니다."
+      },
+      "pinUserMessages": {
+        "label": "마지막 메시지 고정",
+        "enabled": "고정",
+        "disabled": "고정 안 함",
+        "hint": "응답이 스크롤되는 동안 그 응답을 시작한 메시지가 채팅 맨 위에 남고, 다음 메시지가 오면 자리를 넘겨줍니다. 마우스를 올리면 원래 위치로 돌아가는 버튼이 나옵니다."
       },
       "taskCompletionNotification": {
         "label": "작업 완료 시스템 알림",

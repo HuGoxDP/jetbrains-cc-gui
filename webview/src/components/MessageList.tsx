@@ -1,8 +1,11 @@
-import { memo, useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react';
+import { Fragment, memo, useState, useEffect, useLayoutEffect, useRef, useMemo, useCallback, forwardRef, useImperativeHandle } from 'react';
 import type { TFunction } from 'i18next';
 import type { ClaudeMessage, ClaudeContentBlock, CodexHistoryPageInfo, ToolResultBlock } from '../types';
 import { sendBridgeEvent } from '../utils/bridge';
 import { MessageItem } from './MessageItem';
+import { MessageTurn } from './MessageTurn';
+import { groupMessageTurns } from './messageTurns';
+import { usePinUserMessages } from '../utils/pinUserMessages';
 import WaitingIndicator from './WaitingIndicator';
 import { ContextMenu } from './ContextMenu';
 import { useContextMenu, copySelection } from '../hooks/useContextMenu.js';
@@ -132,6 +135,7 @@ export const MessageList = memo(forwardRef<MessageListRevealHandle, MessageListP
   useEffect(() => {
     loadingEarlierHistoryRef.current = loadingEarlierHistory;
   }, [loadingEarlierHistory]);
+  const pinUserMessages = usePinUserMessages();
   const [detailedOutputEnabled, setDetailedOutputEnabled] = useState(() =>
     getDetailedOutputEnabled()
   );
@@ -305,6 +309,52 @@ export const MessageList = memo(forwardRef<MessageListRevealHandle, MessageListP
     () => new WeakMap<ClaudeMessage, { messageIndex: number; signature: string }>(),
     [getContentBlocks, findToolResult, currentSessionId],
   );
+  // Each message the user typed opens a turn whose box keeps it pinned while its
+  // replies scroll past. With pinning off, one flat run as before.
+  const turns = useMemo(
+    () => (pinUserMessages
+      ? groupMessageTurns(visibleMessages, isHumanUserMessage)
+      : [{ start: 0, end: visibleMessages.length, pinned: false }]),
+    [pinUserMessages, visibleMessages],
+  );
+
+  const renderItem = (message: ClaudeMessage, visibleIndex: number) => {
+    const messageIndex = shouldCollapse ? visibleIndex + collapsedCount : visibleIndex;
+    const messageKey = messageKeys[messageIndex];
+    let cachedSignature = toolSignatureCache.get(message);
+    if (!cachedSignature || cachedSignature.messageIndex !== messageIndex) {
+      cachedSignature = {
+        messageIndex,
+        signature: getMessageToolResultSignature(message, messageIndex, getContentBlocks, findToolResult),
+      };
+      toolSignatureCache.set(message, cachedSignature);
+    }
+    const toolResultSignature = cachedSignature.signature;
+
+    return (
+      <MessageItem
+        key={messageKey}
+        message={message}
+        messageIndex={messageIndex}
+        messageKey={messageKey}
+        isLast={messageIndex === messages.length - 1}
+        streamingActive={streamingActive}
+        isThinking={isThinking}
+        t={t}
+        getMessageText={getMessageText}
+        getContentBlocks={getContentBlocks}
+        findToolResult={findToolResult}
+        extractMarkdownContent={extractMarkdownContent}
+        onNodeRef={onMessageNodeRef}
+        onNavigateToProviderSettings={onNavigateToProviderSettings}
+        onNavigateToDependencySettings={onNavigateToDependencySettings}
+        toolResultSignature={toolResultSignature}
+        currentProvider={currentProvider}
+        detailedOutputEnabled={detailedOutputEnabled}
+      />
+    );
+  };
+
   return (
     <div ref={containerRef} onContextMenu={handleMessageContextMenu}>
       {ctxMenu.visible && (
@@ -355,40 +405,20 @@ export const MessageList = memo(forwardRef<MessageListRevealHandle, MessageListP
         </div>
       )}
 
-      {visibleMessages.map((message, visibleIndex) => {
-        const messageIndex = shouldCollapse ? visibleIndex + collapsedCount : visibleIndex;
-        const messageKey = messageKeys[messageIndex];
-        let cachedSignature = toolSignatureCache.get(message);
-        if (!cachedSignature || cachedSignature.messageIndex !== messageIndex) {
-          cachedSignature = {
-            messageIndex,
-            signature: getMessageToolResultSignature(message, messageIndex, getContentBlocks, findToolResult),
-          };
-          toolSignatureCache.set(message, cachedSignature);
+      {turns.map((turn) => {
+        const items = visibleMessages.slice(turn.start, turn.end);
+        if (!turn.pinned) {
+          return <Fragment key={`turn-${turn.start}`}>{items.map((m, i) => renderItem(m, turn.start + i))}</Fragment>;
         }
-        const toolResultSignature = cachedSignature.signature;
-
+        const headIndex = shouldCollapse ? turn.start + collapsedCount : turn.start;
         return (
-          <MessageItem
-            key={messageKey}
-            message={message}
-            messageIndex={messageIndex}
-            messageKey={messageKey}
-            isLast={messageIndex === messages.length - 1}
-            streamingActive={streamingActive}
-            isThinking={isThinking}
-            t={t}
-            getMessageText={getMessageText}
-            getContentBlocks={getContentBlocks}
-            findToolResult={findToolResult}
-            extractMarkdownContent={extractMarkdownContent}
-            onNodeRef={onMessageNodeRef}
-            onNavigateToProviderSettings={onNavigateToProviderSettings}
-            onNavigateToDependencySettings={onNavigateToDependencySettings}
-            toolResultSignature={toolResultSignature}
-            currentProvider={currentProvider}
-            detailedOutputEnabled={detailedOutputEnabled}
-          />
+          <MessageTurn
+            key={`turn-${messageKeys[headIndex]}`}
+            head={renderItem(items[0], turn.start)}
+            jumpLabel={t('chat.jumpToPinnedMessage')}
+          >
+            {items.slice(1).map((m, i) => renderItem(m, turn.start + 1 + i))}
+          </MessageTurn>
         );
       })}
 

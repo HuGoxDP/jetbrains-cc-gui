@@ -2,6 +2,16 @@ import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { ClaudeMessage } from '../types';
 import { getLogicalOffsetTop } from '../utils/viewport';
 import { sampleAnchorItems, type AnchorItem } from './sampleAnchorItems';
+import { usePinUserMessages } from '../utils/pinUserMessages';
+
+/**
+ * Where a message actually sits in the conversation. A pinned user message is
+ * drawn at the top of the chat while its turn scrolls, so its own box says where
+ * it is held, not where it is; the box of its turn starts at its real place.
+ */
+function placeOf(message: HTMLElement): HTMLElement {
+  return (message.closest('.message-turn') as HTMLElement | null) ?? message;
+}
 
 interface MessageAnchorRailProps {
   messages: ClaudeMessage[];
@@ -44,6 +54,7 @@ export const MessageAnchorRail = memo(function MessageAnchorRail({
   messageNodeMap,
 }: MessageAnchorRailProps) {
   const [activeAnchorId, setActiveAnchorId] = useState<string | null>(null);
+  const pinUserMessages = usePinUserMessages();
   const [tooltipAnchorId, setTooltipAnchorId] = useState<string | null>(null);
   const tooltipTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -108,9 +119,10 @@ export const MessageAnchorRail = memo(function MessageAnchorRail({
 
   // Scroll to a specific anchor message
   const scrollToAnchor = useCallback((messageId: string) => {
-    const node = messageNodeMap.current?.get(messageId);
+    const message = messageNodeMap.current?.get(messageId);
     const container = containerRef.current;
-    if (!node || !container) return;
+    if (!message || !container) return;
+    const node = placeOf(message);
 
     // getLogicalOffsetTop returns the layout-space delta (zoom-compensated),
     // so it matches scrollTop/clientHeight units. The raw getBoundingClientRect
@@ -136,11 +148,14 @@ export const MessageAnchorRail = memo(function MessageAnchorRail({
 
     // Track which anchor IDs are currently intersecting the viewport
     const visibleSet = new Set<string>();
+    // A pinned message stays on screen for its whole turn, so the turn's box is
+    // what is watched; this maps it back to the message's anchor id.
+    const idOfTarget = new Map<Element, string>();
 
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          const id = (entry.target as HTMLElement).dataset.messageAnchorId;
+          const id = idOfTarget.get(entry.target) ?? (entry.target as HTMLElement).dataset.messageAnchorId;
           if (!id) continue;
           if (entry.isIntersecting) {
             visibleSet.add(id);
@@ -171,14 +186,17 @@ export const MessageAnchorRail = memo(function MessageAnchorRail({
     const anchorIds = new Set(anchors.map((a) => a.id));
     for (const [id, node] of nodeMap) {
       if (anchorIds.has(id)) {
-        observer.observe(node);
+        const target = placeOf(node);
+        idOfTarget.set(target, id);
+        observer.observe(target);
       }
     }
 
     return () => {
       observer.disconnect();
     };
-  }, [containerRef, messageNodeMap, anchors]);
+    // Pinning wraps each turn in a box (or takes it away), so the watched nodes change with it.
+  }, [containerRef, messageNodeMap, anchors, pinUserMessages]);
 
   if (anchors.length === 0) return null;
 
