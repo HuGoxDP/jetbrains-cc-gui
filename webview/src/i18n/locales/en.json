@@ -2414,6 +2414,20 @@
       "skill": "Skill"
     }
   },
+  "fork": {
+    "button": "Fork conversation from here",
+    "done": "Forked. The message is back in the input: change it and send.",
+    "doneDraftKept": "Forked. Your draft was kept; the message you forked from is on the clipboard.",
+    "failed": "Could not fork the conversation",
+    "notAvailable": "This message cannot be forked from yet. Try again once the reply finishes.",
+    "errors": {
+      "INVALID_REQUEST": "Could not fork: the request was incomplete",
+      "SESSION_NOT_FOUND": "Could not fork: the session file was not found",
+      "MESSAGE_NOT_FOUND": "Could not fork: this message is not in the saved conversation",
+      "NOTHING_BEFORE": "This is the first message, so there is nothing before it to keep. Start a new session instead.",
+      "FORK_FAILED": "Could not write the forked session"
+    }
+  },
   "rewind": {
     "title": "Rewind Files to Previous State",
     "tooltip": "Rewind",

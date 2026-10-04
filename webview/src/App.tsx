@@ -13,6 +13,7 @@ import { AppSettingsOverlay } from './components/AppSettingsOverlay';
 import { AppChatArea } from './components/AppChatArea';
 import { AppDialogMounts } from './components/AppDialogMounts';
 import { useUIState } from './contexts/UIStateContext';
+import { ForkMessageContext } from './contexts/ForkMessageContext';
 import { DEFAULT_PERMISSION_DIALOG_TIMEOUT_SECONDS } from './utils/permissionDialogTimeout';
 import { createApplyHistoryModel } from './applyHistoryModel';
 import { useAppGlobalEffects } from './useAppGlobalEffects';
@@ -78,6 +79,7 @@ const App = () => {
     showNewSessionConfirm, handleConfirmNewSession, handleCancelNewSession,
     showInterruptConfirm, handleConfirmInterrupt, handleCancelInterrupt,
     handleRewindSelect, handleRewindSelectCancel, handleRewindConfirm, handleRewindCancel,
+    forkFromMessage,
   } = useAppChatController({ model, applyHistoryModel, setPermissionDialogTimeoutSeconds });
 
   const statusPanelExpanded = !userCollapsedRef.current;
@@ -105,81 +107,83 @@ const App = () => {
           onPermissionDialogTimeoutChange={setPermissionDialogTimeoutSeconds}
         />
       ) : (
-        <AppChatArea
-          mergedMessages={mergedMessages}
-          sessionTitle={sessionTitle}
-          getMessageText={getMessageText}
-          getContentBlocks={getContentBlocks}
-          findToolResult={findToolResult}
-          getToolResultRaw={getToolResultRaw}
-          subagents={subagents}
-          globalTodos={globalTodos}
-          filteredFileChanges={filteredFileChanges}
-          subagentHistoryCtxValue={subagentHistoryCtxValue}
-          sessionIdCtxValue={sessionIdCtxValue}
-          chatInputRef={chatInputRef}
-          messagesContainerRef={messagesContainerRef}
-          messagesEndRef={messagesEndRef}
-          inputAreaRef={inputAreaRef}
-          messageNodeMapRef={messageNodeMapRef}
-          userCollapsedRef={userCollapsedRef}
-          messageListRef={messageListRef}
-          isAutoScrollingRef={isAutoScrollingRef}
-          anchorCollapsedCount={anchorCollapsedCount}
-          setAnchorCollapsedCount={setAnchorCollapsedCount}
-          onMessageNodeRef={handleMessageNodeRef}
-          statusPanelExpanded={statusPanelExpanded}
-          forceStatusUpdate={forceStatusUpdate}
-          onUndoFile={handleUndoFile}
-          onDiscardAll={onDiscardAll}
-          onKeepAll={handleKeepAll}
-          onSubmit={handleSubmit}
-          onInterrupt={interruptSession}
-          onRewind={handleOpenRewindSelectDialog}
-          onNavigateToProviderSettings={handleNavigateToProviderSettings}
-          onProviderSelect={wrappedHandleProviderSelect}
-          currentProvider={model.currentProvider}
-          selectedModel={model.selectedModel}
-          permissionMode={model.permissionMode}
-          codexNativeAutoReviewAvailable={model.codexNativeAutoReviewAvailable}
-          selectedAgent={model.selectedAgent}
-          sdkStatusLoading={model.sdkStatusLoading}
-          sdkStatusError={model.sdkStatusError}
-          onRetrySdkStatus={model.retrySdkStatus}
-          currentSdkInstalled={model.currentSdkInstalled}
-          activeProviderConfig={model.activeProviderConfig}
-          claudeSettingsAlwaysThinkingEnabled={model.claudeSettingsAlwaysThinkingEnabled}
-          reasoningEffort={model.reasoningEffort}
-          codexFastMode={model.codexFastMode}
-          dshPreset={model.dshPreset}
-          streamingEnabledSetting={model.streamingEnabledSetting}
-          sendShortcut={model.sendShortcut}
-          autoOpenFileEnabled={model.autoOpenFileEnabled}
-          longContextEnabled={model.longContextEnabled}
-          usagePercentage={model.usagePercentage}
-          usageUsedTokens={model.usageUsedTokens}
-          usageMaxTokens={model.usageMaxTokens}
-          onModeSelect={model.handleModeSelect}
-          onModelSelect={model.handleModelSelect}
-          onAgentSelect={model.handleAgentSelect}
-          onReasoningChange={model.handleReasoningChange}
-          onCodexFastModeChange={model.handleCodexFastModeChange}
-          onDshPresetChange={model.handleDshPresetChange}
-          onToggleThinking={model.handleToggleThinking}
-          onStreamingEnabledChange={model.handleStreamingEnabledChange}
-          onAutoOpenFileEnabledChange={model.handleAutoOpenFileEnabledChange}
-          onLongContextChange={model.handleLongContextChange}
-          messageQueue={messageQueue}
-          onRemoveFromQueue={dequeueMessage}
-          onReorderQueue={reorderMessageQueue}
-          onLoadSession={loadHistorySession}
-          onDeleteSession={deleteHistorySession}
-          onDeleteSessions={deleteHistorySessions}
-          onExportSession={exportHistorySession}
-          onToggleFavorite={toggleFavoriteSession}
-          onUpdateTitle={updateHistoryTitle}
-          onConvertToCliSession={convertToCliSession}
-        />
+        <ForkMessageContext.Provider value={forkFromMessage}>
+          <AppChatArea
+            mergedMessages={mergedMessages}
+            sessionTitle={sessionTitle}
+            getMessageText={getMessageText}
+            getContentBlocks={getContentBlocks}
+            findToolResult={findToolResult}
+            getToolResultRaw={getToolResultRaw}
+            subagents={subagents}
+            globalTodos={globalTodos}
+            filteredFileChanges={filteredFileChanges}
+            subagentHistoryCtxValue={subagentHistoryCtxValue}
+            sessionIdCtxValue={sessionIdCtxValue}
+            chatInputRef={chatInputRef}
+            messagesContainerRef={messagesContainerRef}
+            messagesEndRef={messagesEndRef}
+            inputAreaRef={inputAreaRef}
+            messageNodeMapRef={messageNodeMapRef}
+            userCollapsedRef={userCollapsedRef}
+            messageListRef={messageListRef}
+            isAutoScrollingRef={isAutoScrollingRef}
+            anchorCollapsedCount={anchorCollapsedCount}
+            setAnchorCollapsedCount={setAnchorCollapsedCount}
+            onMessageNodeRef={handleMessageNodeRef}
+            statusPanelExpanded={statusPanelExpanded}
+            forceStatusUpdate={forceStatusUpdate}
+            onUndoFile={handleUndoFile}
+            onDiscardAll={onDiscardAll}
+            onKeepAll={handleKeepAll}
+            onSubmit={handleSubmit}
+            onInterrupt={interruptSession}
+            onRewind={handleOpenRewindSelectDialog}
+            onNavigateToProviderSettings={handleNavigateToProviderSettings}
+            onProviderSelect={wrappedHandleProviderSelect}
+            currentProvider={model.currentProvider}
+            selectedModel={model.selectedModel}
+            permissionMode={model.permissionMode}
+            codexNativeAutoReviewAvailable={model.codexNativeAutoReviewAvailable}
+            selectedAgent={model.selectedAgent}
+            sdkStatusLoading={model.sdkStatusLoading}
+            sdkStatusError={model.sdkStatusError}
+            onRetrySdkStatus={model.retrySdkStatus}
+            currentSdkInstalled={model.currentSdkInstalled}
+            activeProviderConfig={model.activeProviderConfig}
+            claudeSettingsAlwaysThinkingEnabled={model.claudeSettingsAlwaysThinkingEnabled}
+            reasoningEffort={model.reasoningEffort}
+            codexFastMode={model.codexFastMode}
+            dshPreset={model.dshPreset}
+            streamingEnabledSetting={model.streamingEnabledSetting}
+            sendShortcut={model.sendShortcut}
+            autoOpenFileEnabled={model.autoOpenFileEnabled}
+            longContextEnabled={model.longContextEnabled}
+            usagePercentage={model.usagePercentage}
+            usageUsedTokens={model.usageUsedTokens}
+            usageMaxTokens={model.usageMaxTokens}
+            onModeSelect={model.handleModeSelect}
+            onModelSelect={model.handleModelSelect}
+            onAgentSelect={model.handleAgentSelect}
+            onReasoningChange={model.handleReasoningChange}
+            onCodexFastModeChange={model.handleCodexFastModeChange}
+            onDshPresetChange={model.handleDshPresetChange}
+            onToggleThinking={model.handleToggleThinking}
+            onStreamingEnabledChange={model.handleStreamingEnabledChange}
+            onAutoOpenFileEnabledChange={model.handleAutoOpenFileEnabledChange}
+            onLongContextChange={model.handleLongContextChange}
+            messageQueue={messageQueue}
+            onRemoveFromQueue={dequeueMessage}
+            onReorderQueue={reorderMessageQueue}
+            onLoadSession={loadHistorySession}
+            onDeleteSession={deleteHistorySession}
+            onDeleteSessions={deleteHistorySessions}
+            onExportSession={exportHistorySession}
+            onToggleFavorite={toggleFavoriteSession}
+            onUpdateTitle={updateHistoryTitle}
+            onConvertToCliSession={convertToCliSession}
+          />
+        </ForkMessageContext.Provider>
       )}
 
       <AppDialogMounts

@@ -2420,6 +2420,20 @@
       "skill": "Skill"
     }
   },
+  "fork": {
+    "button": "从这里分叉对话",
+    "done": "已分叉。消息已放回输入框，修改后再发送。",
+    "doneDraftKept": "已分叉。已保留你的草稿，分叉来源消息已复制到剪贴板。",
+    "failed": "无法分叉对话",
+    "notAvailable": "暂时无法从这条消息分叉，请在回复结束后再试。",
+    "errors": {
+      "INVALID_REQUEST": "无法分叉：请求不完整",
+      "SESSION_NOT_FOUND": "无法分叉：找不到会话文件",
+      "MESSAGE_NOT_FOUND": "无法分叉：已保存的对话中没有这条消息",
+      "NOTHING_BEFORE": "这是第一条消息，之前没有可保留的内容。请改为开始新会话。",
+      "FORK_FAILED": "无法写入分叉的会话"
+    }
+  },
   "rewind": {
     "title": "回溯文件到之前的状态",
     "tooltip": "回溯",

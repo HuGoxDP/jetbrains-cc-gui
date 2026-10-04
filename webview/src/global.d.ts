@@ -186,6 +186,13 @@ interface Window {
   onConversionResult?: (json: string) => void;
 
   /**
+   * Conversation fork result callback.
+   * Called by the Java backend after a fork_session request.
+   * Payload: { success: true, sessionId: string } or { success: false, errorCode: string }.
+   */
+  onSessionForked?: (json: string) => void;
+
+  /**
    * Add user message to chat (used for external Quick Fix feature)
    * Immediately shows the user's message in the chat UI before AI response
    */

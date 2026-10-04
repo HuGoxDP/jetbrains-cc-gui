@@ -12,6 +12,7 @@ import {
   useMessageProcessing,
   useMessageSender,
   useChatComputations,
+  useForkSession,
 } from './hooks';
 import type { UseWindowCallbacksOptions, UseMessageSenderOptions } from './hooks';
 import {
@@ -377,6 +378,12 @@ export const useAppChatController = ({
     setIsRewinding, isRewinding,
   });
 
+  // ── Fork from a message ──
+  const { forkFromMessage } = useForkSession({
+    t, addToast, currentSessionId, currentProvider, loading, getMessageText,
+    loadHistorySession, chatInputRef,
+  });
+
   return {
     // Computed message data
     sessionTitle, mergedMessages, getMessageText, getContentBlocks,
@@ -396,5 +403,7 @@ export const useAppChatController = ({
     showInterruptConfirm, handleConfirmInterrupt, handleCancelInterrupt,
     // Rewind
     handleRewindSelect, handleRewindSelectCancel, handleRewindConfirm, handleRewindCancel,
+    // Fork
+    forkFromMessage,
   };
 };

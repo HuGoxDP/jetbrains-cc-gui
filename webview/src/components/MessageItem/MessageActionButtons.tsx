@@ -81,6 +81,37 @@ const QuoteButton = memo(function QuoteButton({
   );
 });
 
+/** Branch icon: a line splitting in two, used by the fork button */
+const ForkIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="4" cy="3" r="1.6" stroke="currentColor" strokeWidth="1.2"/>
+    <circle cx="4" cy="13" r="1.6" stroke="currentColor" strokeWidth="1.2"/>
+    <circle cx="12" cy="5" r="1.6" stroke="currentColor" strokeWidth="1.2"/>
+    <path d="M4 4.6v6.8M12 6.6c0 2.6-2 3.4-4.2 3.6C6 10.4 4.6 10.8 4 11.4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+  </svg>
+);
+
+interface ForkButtonProps {
+  onClick: () => void;
+  label: string;
+}
+
+const ForkButton = memo(function ForkButton({ onClick, label }: ForkButtonProps) {
+  return (
+    <button
+      type="button"
+      className="message-copy-btn message-copy-btn-inline message-fork-btn"
+      onClick={onClick}
+      title={label}
+      aria-label={label}
+    >
+      <span className="copy-icon">
+        <ForkIcon />
+      </span>
+    </button>
+  );
+});
+
 interface UserMessageHeaderProps {
   messageType: ClaudeMessage['type'];
   timestamp?: string;
@@ -89,10 +120,12 @@ interface UserMessageHeaderProps {
   isCopied: boolean;
   onQuote: () => void;
   onCopy: () => void;
+  /** Fork the conversation here; absent when this message cannot be forked from. */
+  onFork?: () => void;
   t: TFunction;
 }
 
-/** Timestamp and copy button for user messages */
+/** Timestamp, quote, copy and fork buttons for user messages */
 export const UserMessageHeader = memo(function UserMessageHeader({
   messageType,
   timestamp,
@@ -101,6 +134,7 @@ export const UserMessageHeader = memo(function UserMessageHeader({
   isCopied,
   onQuote,
   onCopy,
+  onFork,
   t,
 }: UserMessageHeaderProps) {
   if (messageType !== 'user' || !timestamp) return null;
@@ -127,6 +161,7 @@ export const UserMessageHeader = memo(function UserMessageHeader({
           />
         </>
       )}
+      {onFork && <ForkButton onClick={onFork} label={t('fork.button')} />}
     </div>
   );
 });

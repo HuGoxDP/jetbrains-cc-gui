@@ -100,7 +100,7 @@ class SessionConversionService {
             FileChannel fileChannel = null;
 
             try {
-                sessionFile = this.findSessionFile(sessionId, projectPath);
+                sessionFile = findSessionFile(sessionId, projectPath);
                 if (sessionFile == null) {
                     LOG.warn("[SessionConversionService] Session file not found: " + sessionId);
                     this.sendConversionResult(false, ConversionResultCode.SESSION_NOT_FOUND);
@@ -321,11 +321,12 @@ class SessionConversionService {
      * @param projectPath Project path (optional).
      * @return Session file path, or null if not found.
      */
-    private Path findSessionFile(String sessionId, String projectPath) {
+    // Package-private and static so SessionForkService finds the source transcript the same way.
+    static Path findSessionFile(String sessionId, String projectPath) {
         try {
             Path projectsDir = projectsDir();
             if (projectPath != null && !projectPath.isEmpty()) {
-                Path projectDir = this.getProjectDir(projectsDir, resolveProjectPathForFileOps(projectPath));
+                Path projectDir = getProjectDir(projectsDir, resolveProjectPathForFileOps(projectPath));
                 Path sessionFile = projectDir.resolve(sessionId + ".jsonl");
                 if (Files.exists(sessionFile)) {
                     return sessionFile;
@@ -363,7 +364,7 @@ class SessionConversionService {
      * @param projectPath Project path.
      * @return Project directory path.
      */
-    private Path getProjectDir(Path projectsDir, String projectPath) {
+    private static Path getProjectDir(Path projectsDir, String projectPath) {
         // Resolve symlinks first: the CLI stores sessions under the physical path's key (issue #1789)
         String sanitized = PathUtils.sanitizePath(PathUtils.realPath(projectPath));
         return projectsDir.resolve(sanitized);

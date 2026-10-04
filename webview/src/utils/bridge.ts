@@ -361,6 +361,16 @@ export const rewindFiles = (sessionId: string, userMessageId: string) => {
 };
 
 /**
+ * Fork a Claude conversation at a user message: a new session holding everything
+ * before that message. The reply arrives through window.onSessionForked.
+ * @param sessionId - Session to fork
+ * @param userMessageId - UUID of the user message the fork stops before
+ */
+export const forkSession = (sessionId: string, userMessageId: string) => {
+  sendToJava('fork_session', { sessionId, userMessageId });
+};
+
+/**
  * Undo changes for a single file
  * @param filePath - Absolute path to the file
  * @param status - File status: 'A' (added) or 'M' (modified)

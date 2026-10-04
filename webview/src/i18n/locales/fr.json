@@ -1880,6 +1880,20 @@
     "enable": "Activer",
     "cancel": "Annuler"
   },
+  "fork": {
+    "button": "Créer une branche de la conversation ici",
+    "done": "Branche créée. Le message est revenu dans la zone de saisie : modifiez-le et envoyez-le.",
+    "doneDraftKept": "Branche créée. Votre brouillon a été conservé ; le message d'origine est dans le presse-papiers.",
+    "failed": "Impossible de créer une branche de la conversation",
+    "notAvailable": "Impossible de créer une branche depuis ce message pour l'instant. Réessayez une fois la réponse terminée.",
+    "errors": {
+      "INVALID_REQUEST": "Impossible de créer la branche : la demande était incomplète",
+      "SESSION_NOT_FOUND": "Impossible de créer la branche : fichier de session introuvable",
+      "MESSAGE_NOT_FOUND": "Impossible de créer la branche : ce message n'est pas dans la conversation enregistrée",
+      "NOTHING_BEFORE": "C'est le premier message, il n'y a rien avant à conserver. Démarrez plutôt une nouvelle session.",
+      "FORK_FAILED": "Impossible d'écrire la session de la branche"
+    }
+  },
   "rewind": {
     "title": "Restaurer les fichiers à l'état précédent",
     "tooltip": "Restaurer les fichiers à leur état à ce message",

@@ -2030,6 +2030,20 @@
     "enable": "Ativar",
     "cancel": "Cancelar"
   },
+  "fork": {
+    "button": "Bifurcar a conversa a partir daqui",
+    "done": "Bifurcada. A mensagem voltou para o campo de entrada: altere e envie.",
+    "doneDraftKept": "Bifurcada. Seu rascunho foi mantido; a mensagem de origem está na área de transferência.",
+    "failed": "Não foi possível bifurcar a conversa",
+    "notAvailable": "Ainda não é possível bifurcar a partir desta mensagem. Tente de novo quando a resposta terminar.",
+    "errors": {
+      "INVALID_REQUEST": "Não foi possível bifurcar: a solicitação estava incompleta",
+      "SESSION_NOT_FOUND": "Não foi possível bifurcar: o arquivo da sessão não foi encontrado",
+      "MESSAGE_NOT_FOUND": "Não foi possível bifurcar: esta mensagem não está na conversa salva",
+      "NOTHING_BEFORE": "Esta é a primeira mensagem, então não há nada antes dela para manter. Inicie uma nova sessão.",
+      "FORK_FAILED": "Não foi possível gravar a sessão bifurcada"
+    }
+  },
   "rewind": {
     "title": "Reverter Arquivos ao Estado Anterior",
     "tooltip": "Reverter",

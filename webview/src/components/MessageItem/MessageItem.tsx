@@ -12,6 +12,8 @@ import { quoteToChatInput } from '../../utils/quoteUtils';
 import { isNonRenderedToolUse } from '../../utils/toolConstants';
 import { isHiddenToolCall, useHideToolCalls } from '../../utils/hideToolCalls';
 import { groupBlocks } from './groupBlocks';
+import { useForkMessage } from '../../contexts/ForkMessageContext';
+import { messageUuid } from '../../hooks/useForkSession';
 
 export interface MessageItemProps {
   message: ClaudeMessage;
@@ -118,6 +120,14 @@ export const MessageItem = memo(function MessageItem({
       }, 1500);
     }
   }, [hasCopyableText, markdownContent, messageIndex, copiedMessageIndex]);
+
+  // Forking needs the message's transcript uuid, which a just-sent message only gets
+  // once Claude has recorded it.
+  const forkMessage = useForkMessage();
+  const canFork = forkMessage !== null && message.type === 'user' && messageUuid(message) !== null;
+  const handleForkMessage = useCallback(() => {
+    forkMessage?.(message);
+  }, [forkMessage, message]);
 
   const handleQuoteMessage = useCallback(() => {
     if (!hasCopyableText) return;
@@ -267,6 +277,7 @@ export const MessageItem = memo(function MessageItem({
         isCopied={copiedMessageIndex === messageIndex}
         onQuote={handleQuoteMessage}
         onCopy={handleCopyMessage}
+        onFork={canFork ? handleForkMessage : undefined}
         t={t}
       />
 

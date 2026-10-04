@@ -1,10 +1,11 @@
-import { act, cleanup, render, renderHook, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, render, renderHook, screen } from '@testing-library/react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { setHideToolCalls } from '../../utils/hideToolCalls';
 import type { ClaudeContentBlock, ClaudeMessage, ToolResultBlock } from '../../types';
 import { extractMarkdownContent } from '../../utils/copyUtils';
 import { MessageItem } from './MessageItem';
 import { useChatComputations } from '../../hooks/useChatComputations';
+import { ForkMessageContext } from '../../contexts/ForkMessageContext';
 
 vi.mock('../MarkdownBlock', () => ({
   default: ({ content }: { content: string }) => <div data-testid="markdown-block">{content}</div>,
@@ -487,5 +488,64 @@ describe('MessageItem with tool calls hidden', () => {
     ], 'Done.'));
     expect(screen.getByTestId('content-block-text')).toBeTruthy();
     expect(screen.queryByTestId('read-tool-block')).toBeNull();
+  });
+});
+
+describe('MessageItem fork button', () => {
+  afterEach(() => cleanup());
+
+  const userMessage = (raw?: Record<string, unknown>): ClaudeMessage => ({
+    type: 'user',
+    content: 'Rename the helper',
+    timestamp: '2026-10-04T10:00:00.000Z',
+    raw: raw ?? { uuid: 'u-2', message: { content: 'Rename the helper' } },
+  });
+
+  const renderWithFork = (message: ClaudeMessage, fork: ((m: ClaudeMessage) => void) | null) => render(
+    <ForkMessageContext.Provider value={fork}>
+      <MessageItem
+        message={message}
+        messageIndex={0}
+        messageKey="message-0"
+        isLast={false}
+        streamingActive={false}
+        isThinking={false}
+        t={t}
+        getMessageText={getMessageText}
+        getContentBlocks={getContentBlocks}
+        findToolResult={findToolResult}
+        extractMarkdownContent={extractMarkdownContent}
+      />
+    </ForkMessageContext.Provider>,
+  );
+
+  it('forks from the message it sits on', () => {
+    const fork = vi.fn();
+    const message = userMessage();
+    renderWithFork(message, fork);
+
+    fireEvent.click(screen.getByRole('button', { name: 'fork.button' }));
+    expect(fork).toHaveBeenCalledWith(message);
+  });
+
+  it('is absent while forking is not possible', () => {
+    renderWithFork(userMessage(), null);
+    expect(screen.queryByRole('button', { name: 'fork.button' })).toBeNull();
+  });
+
+  it('waits for the message to be recorded', () => {
+    // A message just sent has no transcript uuid until Claude has written it.
+    renderWithFork(userMessage({ message: { content: 'Rename the helper' } }), vi.fn());
+    expect(screen.queryByRole('button', { name: 'fork.button' })).toBeNull();
+  });
+
+  it('is not offered on replies', () => {
+    renderWithFork({
+      type: 'assistant',
+      content: 'Done.',
+      timestamp: '2026-10-04T10:00:01.000Z',
+      raw: { uuid: 'a-1', message: { content: [{ type: 'text', text: 'Done.' }] } },
+    }, vi.fn());
+    expect(screen.queryByRole('button', { name: 'fork.button' })).toBeNull();
   });
 });

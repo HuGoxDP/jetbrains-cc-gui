@@ -1936,6 +1936,20 @@
     "enable": "開啟",
     "cancel": "取消"
   },
+  "fork": {
+    "button": "從這裡分叉對話",
+    "done": "已分叉。訊息已放回輸入框，修改後再送出。",
+    "doneDraftKept": "已分叉。已保留你的草稿，分叉來源訊息已複製到剪貼簿。",
+    "failed": "無法分叉對話",
+    "notAvailable": "暫時無法從這則訊息分叉，請在回覆結束後再試。",
+    "errors": {
+      "INVALID_REQUEST": "無法分叉：請求不完整",
+      "SESSION_NOT_FOUND": "無法分叉：找不到工作階段檔案",
+      "MESSAGE_NOT_FOUND": "無法分叉：已儲存的對話中沒有這則訊息",
+      "NOTHING_BEFORE": "這是第一則訊息，之前沒有可保留的內容。請改為開始新的工作階段。",
+      "FORK_FAILED": "無法寫入分叉的工作階段"
+    }
+  },
   "rewind": {
     "title": "回溯檔案到之前的狀態",
     "tooltip": "將檔案恢復到此訊息時的狀態",

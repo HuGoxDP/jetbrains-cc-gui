@@ -1886,6 +1886,20 @@
     "enable": "Habilitar",
     "cancel": "Cancelar"
   },
+  "fork": {
+    "button": "Bifurcar la conversación desde aquí",
+    "done": "Bifurcada. El mensaje vuelve a estar en el campo de entrada: cámbialo y envíalo.",
+    "doneDraftKept": "Bifurcada. Se conservó tu borrador; el mensaje desde el que bifurcaste está en el portapapeles.",
+    "failed": "No se pudo bifurcar la conversación",
+    "notAvailable": "Todavía no se puede bifurcar desde este mensaje. Inténtalo cuando termine la respuesta.",
+    "errors": {
+      "INVALID_REQUEST": "No se pudo bifurcar: la solicitud estaba incompleta",
+      "SESSION_NOT_FOUND": "No se pudo bifurcar: no se encontró el archivo de la sesión",
+      "MESSAGE_NOT_FOUND": "No se pudo bifurcar: este mensaje no está en la conversación guardada",
+      "NOTHING_BEFORE": "Es el primer mensaje, así que no hay nada antes que conservar. Inicia una sesión nueva.",
+      "FORK_FAILED": "No se pudo escribir la sesión bifurcada"
+    }
+  },
   "rewind": {
     "title": "Restaurar archivos al estado anterior",
     "tooltip": "Restaurar archivos a su estado en este mensaje",
