@@ -45,15 +45,9 @@ import {
 } from './stream-delta-normalizer.js';
 import { generateSessionTitle } from '../session-title-service.js';
 import { getClaudeCliPathOverride } from '../../utils/claude-cli-path.js';
+import { resolveEffortSelection } from './reasoning-effort.js';
 
 // ========== Internal helpers for deduplication ==========
-
-const SUPPORTED_EFFORT_LEVELS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
-
-function normalizeReasoningEffort(reasoningEffort) {
-  const effort = typeof reasoningEffort === 'string' ? reasoningEffort.trim() : '';
-  return SUPPORTED_EFFORT_LEVELS.has(effort) ? effort : null;
-}
 
 /**
  * Resolve Extended Thinking configuration from settings.
@@ -74,7 +68,7 @@ function resolveThinkingConfig(settings) {
 /**
  * Build query options object shared by both send functions.
  */
-function buildQueryOptions({ workingDirectory, permissionMode, sdkModelName, maxThinkingTokens, streamingEnabled, systemPromptAppend, preToolUseHook, sdkStderrLines, mcpServers, modelId }) {
+function buildQueryOptions({ workingDirectory, permissionMode, sdkModelName, maxThinkingTokens, streamingEnabled, systemPromptAppend, preToolUseHook, sdkStderrLines, mcpServers, modelId, ultracode = null }) {
   const claudeCliOverride = getClaudeCliPathOverride();
   return {
     cwd: workingDirectory,
@@ -83,7 +77,7 @@ function buildQueryOptions({ workingDirectory, permissionMode, sdkModelName, max
     maxTurns: 1000,
     enableFileCheckpointing: true,
     env: buildCliEnv(),
-    settings: buildWebviewControlledSettingsOverride(modelId),
+    settings: buildWebviewControlledSettingsOverride(modelId, { ultracode }),
     ...(maxThinkingTokens !== undefined && { maxThinkingTokens }),
     ...(streamingEnabled && { includePartialMessages: true }),
     additionalDirectories: Array.from(
@@ -520,7 +514,8 @@ export async function sendMessage(message, resumeSessionId = null, cwd = null, p
     const systemPromptAppend = buildSystemPromptAppend(openedFiles, agentPrompt, message);
 
     const effectivePermissionMode = (!permissionMode || permissionMode === '') ? 'default' : permissionMode;
-    const normalizedReasoningEffort = normalizeReasoningEffort(reasoningEffort);
+    const effortSelection = resolveEffortSelection(reasoningEffort, settings);
+    const normalizedReasoningEffort = effortSelection.effort;
     const { alwaysThinkingEnabled, maxThinkingTokens: configuredMaxThinkingTokens } = resolveThinkingConfig(settings);
     // maxThinkingTokens and reasoningEffort are mutually exclusive
     const maxThinkingTokens = (alwaysThinkingEnabled && !normalizedReasoningEffort) ? configuredMaxThinkingTokens : undefined;
@@ -529,7 +524,7 @@ export async function sendMessage(message, resumeSessionId = null, cwd = null, p
 
     const preToolUseHook = createPreToolUseHook(effectivePermissionMode, workingDirectory);
     const mcpServers = await loadMcpServersConfigAsRecord(workingDirectory);
-    const options = buildQueryOptions({ workingDirectory, permissionMode: effectivePermissionMode, sdkModelName, maxThinkingTokens, streamingEnabled, systemPromptAppend, preToolUseHook, sdkStderrLines, mcpServers, modelId: model });
+    const options = buildQueryOptions({ workingDirectory, permissionMode: effectivePermissionMode, sdkModelName, maxThinkingTokens, streamingEnabled, systemPromptAppend, preToolUseHook, sdkStderrLines, mcpServers, modelId: model, ultracode: effortSelection.ultracode });
 
     if (normalizedReasoningEffort) {
       options.effort = normalizedReasoningEffort;
@@ -597,7 +592,8 @@ export async function sendMessageWithAttachments(message, resumeSessionId = null
     const preToolUseHook = createPreToolUseHook(normalizedPermissionMode, workingDirectory);
 
     const { alwaysThinkingEnabled, maxThinkingTokens: configuredMaxThinkingTokens } = resolveThinkingConfig(settings);
-    const reasoningEffort = normalizeReasoningEffort(stdinData?.reasoningEffort || null);
+    const effortSelection = resolveEffortSelection(stdinData?.reasoningEffort || null, settings);
+    const reasoningEffort = effortSelection.effort;
     // maxThinkingTokens and reasoningEffort are mutually exclusive
     const maxThinkingTokens = (alwaysThinkingEnabled && !reasoningEffort) ? configuredMaxThinkingTokens : undefined;
     const streamingParam = stdinData?.streaming;
@@ -605,7 +601,7 @@ export async function sendMessageWithAttachments(message, resumeSessionId = null
     console.log('[DEBUG] (withAttachments) Config:', { normalizedPermissionMode, alwaysThinkingEnabled, maxThinkingTokens, streamingEnabled, reasoningEffort });
 
     const mcpServers = await loadMcpServersConfigAsRecord(workingDirectory);
-    const options = buildQueryOptions({ workingDirectory, permissionMode: normalizedPermissionMode, sdkModelName, maxThinkingTokens, streamingEnabled, systemPromptAppend, preToolUseHook, sdkStderrLines, mcpServers, modelId: model });
+    const options = buildQueryOptions({ workingDirectory, permissionMode: normalizedPermissionMode, sdkModelName, maxThinkingTokens, streamingEnabled, systemPromptAppend, preToolUseHook, sdkStderrLines, mcpServers, modelId: model, ultracode: effortSelection.ultracode });
 
     if (reasoningEffort) {
       options.effort = reasoningEffort;

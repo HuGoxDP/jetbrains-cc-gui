@@ -104,6 +104,11 @@ public class ClaudeChatWindow {
     // volatile: read from the daemon reader thread by the session_updated listener
     // and its loadFromServer continuation, while reassigned on the EDT.
     private volatile ClaudeSession session;
+    /** Set when the live Claude login switched while this window was mid-turn. */
+    private volatile boolean pendingClaudeRuntimeRestart;
+    /** Automatic account switches made for the current request; reset by a normal turn end. */
+    private final java.util.concurrent.atomic.AtomicInteger consecutiveAccountRotations =
+            new java.util.concurrent.atomic.AtomicInteger();
     private final WebviewWatchdog webviewWatchdog;
     private final StreamMessageCoalescer streamCoalescer;
     private final WebviewEventQueue<JBCefBrowser> webviewEventQueue;
@@ -2708,6 +2713,21 @@ public class ClaudeChatWindow {
         if (session == null) {
             return;
         }
+        if (pendingClaudeRuntimeRestart && !session.isBusy()) {
+            pendingClaudeRuntimeRestart = false;
+            claudeSDKBridge.shutdownDaemon();
+        }
+        if ("claude".equals(session.getProvider())) {
+            boolean limitReached = session.consumeUsageLimitReached();
+            if (limitReached && !session.isManuallyInterrupted()) {
+                if (ClaudeAccountCoordinator.onUsageLimitReached(this, consecutiveAccountRotations.get())) {
+                    consecutiveAccountRotations.incrementAndGet();
+                    return;
+                }
+            } else if (!limitReached) {
+                consecutiveAccountRotations.set(0);
+            }
+        }
         // Suppress the task-completion notification (sound + toast) when the user
         // manually stopped the turn. Only natural completions should produce a sound.
         if (session.isManuallyInterrupted()) {
@@ -2720,6 +2740,51 @@ public class ClaudeChatWindow {
                 com.github.claudecodegui.notifications.ClaudeNotifier.buildTitleFromSession(session),
                 com.github.claudecodegui.notifications.ClaudeNotifier.buildPreviewFromSession(session, "Task completed"));
         }
+    }
+
+    // ==================== Claude accounts ====================
+
+    /**
+     * The live Claude login changed. Restart this window's daemon so no runtime keeps the
+     * previous account's tokens — right away when idle, after the turn when streaming.
+     */
+    void onClaudeAccountSwitched(String accountsJson) {
+        if (disposed) {
+            return;
+        }
+        ClaudeSession current = session;
+        if (current != null && current.isBusy()) {
+            pendingClaudeRuntimeRestart = true;
+        } else {
+            claudeSDKBridge.shutdownDaemon();
+        }
+        pushClaudeAccounts(accountsJson);
+    }
+
+    void pushClaudeAccounts(String accountsJson) {
+        if (!disposed) {
+            callJavaScript("updateClaudeAccounts", JsUtils.escapeJs(accountsJson));
+        }
+    }
+
+    void showToast(String message, String type) {
+        if (!disposed) {
+            callJavaScript("addToast", JsUtils.escapeJs(message), JsUtils.escapeJs(type));
+        }
+    }
+
+    /** Continue the interrupted request after an automatic account switch. */
+    void sendAutomaticContinuation(String prompt) {
+        ClaudeSession current = session;
+        if (disposed || current == null || current.isBusy()) {
+            return;
+        }
+        callJavaScript("addUserMessage", JsUtils.escapeJs(prompt));
+        callJavaScript("showLoading", "true");
+        current.send(prompt, null, (String) null).exceptionally(ex -> {
+            LOG.warn("[Accounts] Continuation after account switch failed: " + ex.getMessage());
+            return null;
+        });
     }
 
     private void initializeSessionInfo() {

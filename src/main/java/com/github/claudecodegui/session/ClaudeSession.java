@@ -309,6 +309,11 @@ public class ClaudeSession {
      *
      * @return {@code true} if the user manually interrupted the current turn
      */
+    /** Whether the last turn stopped on a plan usage limit; clears the flag. */
+    public boolean consumeUsageLimitReached() {
+        return state.consumeUsageLimitReached();
+    }
+
     public boolean isManuallyInterrupted() {
         return manuallyInterrupted;
     }

@@ -195,7 +195,13 @@ export function isDangerousEnvVar(varName) {
   return DANGEROUS_ENV_VAR_SET.has(String(varName ?? '').toUpperCase());
 }
 
-export function buildWebviewControlledSettingsOverride(modelId) {
+/**
+ * @param {string} [modelId] - Webview-selected model id, may carry the `[1m]` suffix.
+ * @param {{ ultracode?: boolean|null }} [controls] - Webview-selected session controls.
+ *   `ultracode` is only written when it is a boolean (see resolveEffortSelection);
+ *   `null`/absent leaves the key out entirely.
+ */
+export function buildWebviewControlledSettingsOverride(modelId, controls = {}) {
   const env = {
     // Empty strings intentionally override settings.json env values while
     // evaluating as "not set" in Claude Code's env-precedence checks.
@@ -217,7 +223,13 @@ export function buildWebviewControlledSettingsOverride(modelId) {
     env.CLAUDE_CODE_DISABLE_1M_CONTEXT = /\[1m\]$/i.test(normalizedModel) ? '' : '1';
   }
 
-  return { env };
+  const override = { env };
+  if (typeof controls?.ultracode === 'boolean') {
+    // Session-scoped flag-settings key: standing dynamic-workflow orchestration
+    // on top of the xhigh effort the caller passes separately.
+    override.ultracode = controls.ultracode;
+  }
+  return override;
 }
 
 /**

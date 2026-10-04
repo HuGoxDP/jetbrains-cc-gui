@@ -65,18 +65,14 @@ import {
 } from './stream-event-processor.js';
 import { generateSessionTitle } from '../session-title-service.js';
 import { getClaudeCliPathOverride } from '../../utils/claude-cli-path.js';
+import { resolveEffortSelection } from './reasoning-effort.js';
 
-const SUPPORTED_EFFORT_LEVELS = new Set(['low', 'medium', 'high', 'xhigh', 'max']);
-
-function resolveReasoningEffort(params) {
-  const effort = typeof params.reasoningEffort === 'string'
-    ? params.reasoningEffort.trim()
-    : '';
-  return SUPPORTED_EFFORT_LEVELS.has(effort) ? effort : undefined;
+function resolveReasoningEffort(params, settings = null) {
+  return resolveEffortSelection(params.reasoningEffort, settings).effort ?? undefined;
 }
 
 function resolveThinkingTokens(params, settings) {
-  if (resolveReasoningEffort(params)) return undefined;
+  if (resolveReasoningEffort(params, settings)) return undefined;
 
   const alwaysThinkingEnabled = settings?.alwaysThinkingEnabled ?? true;
   const configuredMax = settings?.maxThinkingTokens
@@ -129,7 +125,7 @@ function resolveRequestModelState(modelId, settingsEnv) {
   };
 }
 
-function buildQueryOptions(workingDirectory, sdkModelName, permissionMode, maxThinkingTokens, reasoningEffort, streamingEnabled, systemPromptAppend, requestedSessionId, mcpServers, modelId) {
+function buildQueryOptions(workingDirectory, sdkModelName, permissionMode, maxThinkingTokens, reasoningEffort, streamingEnabled, systemPromptAppend, requestedSessionId, mcpServers, modelId, ultracode = null) {
   const claudeCliOverride = getClaudeCliPathOverride();
   return {
     cwd: workingDirectory,
@@ -138,7 +134,7 @@ function buildQueryOptions(workingDirectory, sdkModelName, permissionMode, maxTh
     maxTurns: 1000,
     enableFileCheckpointing: true,
     env: buildCliEnv(),
-    settings: buildWebviewControlledSettingsOverride(modelId),
+    settings: buildWebviewControlledSettingsOverride(modelId, { ultracode }),
     ...(reasoningEffort && { effort: reasoningEffort }),
     ...(maxThinkingTokens !== undefined && { maxThinkingTokens }),
     ...(streamingEnabled && { includePartialMessages: true }),
@@ -214,7 +210,8 @@ async function buildRequestContext(params, withAttachments, overrides = {}) {
 
   const permissionMode = normalizePermissionMode(params.permissionMode);
   const streamingEnabled = resolveStreamingEnabled(params, settings);
-  const reasoningEffort = resolveReasoningEffort(params);
+  const effortSelection = resolveEffortSelection(params.reasoningEffort, settings);
+  const reasoningEffort = effortSelection.effort ?? undefined;
   const maxThinkingTokens = resolveThinkingTokens(params, settings);
   const systemPromptAppend = buildSystemPromptAppend(params);
 
@@ -223,7 +220,7 @@ async function buildRequestContext(params, withAttachments, overrides = {}) {
   const options = buildQueryOptions(
     workingDirectory, sdkModelName, permissionMode,
     maxThinkingTokens, reasoningEffort, streamingEnabled, systemPromptAppend, requestedSessionId,
-    mcpServers, modelId
+    mcpServers, modelId, effortSelection.ultracode
   );
 
   const userMessage = await buildUserMessage(params, withAttachments, requestedSessionId);

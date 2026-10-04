@@ -147,6 +147,11 @@ public class ClaudeSDKToolWindow implements ToolWindowFactory, DumbAware {
         return windows;
     }
 
+    /** Every chat window in every open project, including detached windows. */
+    public static Set<ClaudeChatWindow> getAllChatWindows() {
+        return collectAllChatWindows();
+    }
+
     private static String resolveRestoredTabName(@NotNull TabStateService tabStateService, int index) {
         String savedName = tabStateService.getTabName(index);
         if (savedName != null && !savedName.isEmpty()) {

@@ -12,6 +12,7 @@ import {
 import {
   resetRuntimePersistent as claudeResetRuntimePersistent
 } from '../services/claude/persistent-query-service.js';
+import { getPlanUsage as claudeGetPlanUsage } from '../services/claude/usage-service.js';
 import {
   getSessionMessages as claudeGetSessionMessages,
   getSessionMessagesPage as claudeGetSessionMessagesPage,
@@ -136,11 +137,18 @@ export async function handleClaudeCommand(command, args, stdinData) {
       break;
     }
 
+    case 'getUsage': {
+      // Plan usage (5-hour / weekly windows) for the live login, or for a saved
+      // account when stdinData.configDir points at its credentials.
+      await claudeGetPlanUsage(stdinData || {});
+      break;
+    }
+
     default:
       throw new Error(`Unknown Claude command: ${command}`);
   }
 }
 
 export function getClaudeCommandList() {
-  return ['send', 'sendWithAttachments', 'getSession', 'getLatestUserMessage', 'rewindFiles', 'getMcpServerStatus', 'getMcpServerTools', 'resetRuntime', 'getContextUsage'];
+  return ['send', 'sendWithAttachments', 'getSession', 'getLatestUserMessage', 'rewindFiles', 'getMcpServerStatus', 'getMcpServerTools', 'resetRuntime', 'getContextUsage', 'getUsage'];
 }

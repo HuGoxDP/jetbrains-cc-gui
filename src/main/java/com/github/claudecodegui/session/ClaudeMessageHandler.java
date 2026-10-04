@@ -220,6 +220,9 @@ public class ClaudeMessageHandler implements MessageCallback {
                 return;
             }
 
+            if (looksLikeUsageLimit(error)) {
+                state.markUsageLimitReached();
+            }
             isStreaming = false;
             streamEndedThisTurn = false;
             errorReportedThisTurn = true;
@@ -327,6 +330,11 @@ public class ClaudeMessageHandler implements MessageCallback {
         try {
             // Parse the complete JSON message
             JsonObject messageJson = gson.fromJson(content, JsonObject.class);
+            if (messageJson != null && messageJson.has("error") && !messageJson.get("error").isJsonNull()
+                    && messageJson.get("error").isJsonPrimitive()
+                    && "rate_limit".equals(messageJson.get("error").getAsString())) {
+                state.markUsageLimitReached();
+            }
             JsonObject previousRaw = currentAssistantMessage != null ? currentAssistantMessage.raw : null;
             String previousAssistantContent = assistantContent.toString();
             String previousThinkingContent = ReplayDeduplicator.extractThinkingContent(previousRaw);
@@ -827,11 +835,40 @@ public class ClaudeMessageHandler implements MessageCallback {
                     || !msg.get("rate_limit_info").isJsonObject()) {
                 return;
             }
-            ClaudePlanUsageService.cacheRateLimitInfo(msg.getAsJsonObject("rate_limit_info"));
+            JsonObject info = msg.getAsJsonObject("rate_limit_info");
+            ClaudePlanUsageService.cacheRateLimitInfo(info);
+            if (isHardLimitRejection(info)) {
+                state.markUsageLimitReached();
+                LOG.info("Claude usage limit reached (" + (info.has("rateLimitType") ? info.get("rateLimitType").getAsString() : "unknown") + ")");
+            }
             LOG.debug("Cached Claude rate_limit_event");
         } catch (Exception e) {
             LOG.warn("Failed to parse rate_limit_event: " + e.getMessage());
         }
+    }
+
+    /**
+     * A {@code rejected} status stops the turn unless extra usage (overage) is carrying it.
+     */
+    static boolean isHardLimitRejection(JsonObject info) {
+        if (info == null || !info.has("status") || !"rejected".equals(info.get("status").getAsString())) {
+            return false;
+        }
+        String overage = info.has("overageStatus") && !info.get("overageStatus").isJsonNull()
+                ? info.get("overageStatus").getAsString() : null;
+        boolean usingOverage = info.has("isUsingOverage") && !info.get("isUsingOverage").isJsonNull()
+                && info.get("isUsingOverage").getAsBoolean();
+        return !usingOverage && !"allowed".equals(overage) && !"allowed_warning".equals(overage);
+    }
+
+    /** Text the CLI uses when a plan limit ends the turn. */
+    private static final java.util.regex.Pattern USAGE_LIMIT_TEXT = java.util.regex.Pattern.compile(
+            "usage limit reached|you've hit your limit|you have hit your limit|hit your (?:session|weekly) limit"
+                    + "|(?:5-hour|weekly|session) limit reached",
+            java.util.regex.Pattern.CASE_INSENSITIVE);
+
+    static boolean looksLikeUsageLimit(String text) {
+        return text != null && USAGE_LIMIT_TEXT.matcher(text).find();
     }
 
     // ===== Streaming message handlers =====

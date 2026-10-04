@@ -610,3 +610,10 @@ test('injectStartupEnvVars clears previously injected AWS credential vars after 
   assert.equal(result.AWS_REGION, null);
   assert.equal(result.AWS_SECRET_ACCESS_KEY, null);
 });
+
+test('buildWebviewControlledSettingsOverride writes ultracode only when the selector decided it', () => {
+  assert.equal(buildWebviewControlledSettingsOverride('claude-opus-4-8', { ultracode: true }).ultracode, true);
+  assert.equal(buildWebviewControlledSettingsOverride('claude-opus-4-8', { ultracode: false }).ultracode, false);
+  assert.equal('ultracode' in buildWebviewControlledSettingsOverride('claude-opus-4-8', { ultracode: null }), false);
+  assert.equal('ultracode' in buildWebviewControlledSettingsOverride('claude-opus-4-8'), false);
+});

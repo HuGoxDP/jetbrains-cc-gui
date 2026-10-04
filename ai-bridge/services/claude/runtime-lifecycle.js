@@ -139,6 +139,9 @@ export function buildRuntimeSignature(options, systemPromptAppend, streamingEnab
     runtimeSessionEpoch: runtimeSessionEpoch || '',
     model: options.model || '',
     effort: options.effort || '',
+    // Ultracode rides the inline settings override, which the CLI reads once at
+    // spawn. Toggling it must rebuild the runtime, exactly like an effort change.
+    ultracode: options.settings?.ultracode === true,
     // The [1m] suffix selects the 1M context window. The CLI subprocess locks
     // the window in at spawn from its environment, and setModel() cannot change
     // it afterwards (see shouldRecreateRuntimeForModel) — so toggling [1m] must

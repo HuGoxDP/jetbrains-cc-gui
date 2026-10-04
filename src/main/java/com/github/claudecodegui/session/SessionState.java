@@ -142,6 +142,8 @@ public class SessionState {
     private volatile String provider = "claude";
     // Reasoning effort (thinking depth). Null means "do not override SDK/settings".
     private volatile String reasoningEffort = null;
+    /** Set when the current turn stopped on a plan usage limit; consumed at stream end. */
+    private volatile boolean usageLimitReached = false;
     // Codex service tier: null = use Codex defaults, "fast" = Codex /fast.
     private volatile String codexServiceTier = null;
     private volatile String dshPreset = "";
@@ -249,6 +251,17 @@ public class SessionState {
 
     public String getReasoningEffort() {
         return reasoningEffort;
+    }
+
+    public void markUsageLimitReached() {
+        this.usageLimitReached = true;
+    }
+
+    /** Returns whether the turn hit a usage limit, and clears the flag. */
+    public boolean consumeUsageLimitReached() {
+        boolean reached = usageLimitReached;
+        usageLimitReached = false;
+        return reached;
     }
 
     public String getCodexServiceTier() {

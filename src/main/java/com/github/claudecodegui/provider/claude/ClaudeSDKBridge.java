@@ -34,6 +34,7 @@ public class ClaudeSDKBridge extends BaseSDKBridge {
     private final ClaudeMcpQueryService mcpQueryService;
     private final ClaudeRewindService rewindService;
     private final ClaudeDaemonRequestExecutor daemonRequestExecutor;
+    private final ClaudeUsageQueryService usageQueryService;
 
     public ClaudeSDKBridge() {
         super(ClaudeSDKBridge.class);
@@ -71,6 +72,9 @@ public class ClaudeSDKBridge extends BaseSDKBridge {
         );
         this.daemonRequestExecutor = new ClaudeDaemonRequestExecutor(
                 LOG, requestParamsBuilder, streamAdapter, jsonOutputExtractor
+        );
+        this.usageQueryService = new ClaudeUsageQueryService(
+                LOG, gson, nodeDetector, sdkDirSupplier, processManager, envConfigurator
         );
     }
 
@@ -471,6 +475,23 @@ public class ClaudeSDKBridge extends BaseSDKBridge {
      */
     public CompletableFuture<JsonObject> getMcpServerTools(String serverId, String cwd) {
         return mcpQueryService.getMcpServerTools(serverId, normalizeCwdForNode(cwd));
+    }
+
+    // ============================================================================
+    // Plan usage
+    // ============================================================================
+
+    /**
+     * Ask the CLI for Claude plan usage (5-hour / weekly windows).
+     *
+     * @param cwd              working directory for the lookup (optional)
+     * @param configDir        Claude config dir of a saved account to query in isolation;
+     *                         null asks about the live login
+     * @param includeBehaviors also return the "what is contributing" breakdown
+     */
+    public CompletableFuture<JsonObject> getPlanUsage(String cwd, String configDir, boolean includeBehaviors) {
+        String nodeConfigDir = configDir != null && !configDir.isEmpty() ? normalizeCwdForNode(configDir) : null;
+        return usageQueryService.getPlanUsage(normalizeCwdForNode(cwd), nodeConfigDir, includeBehaviors);
     }
 
     // ============================================================================

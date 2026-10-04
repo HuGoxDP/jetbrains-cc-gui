@@ -831,3 +831,18 @@ test('applyPermissionModeToRuntime ignores a transition completed after disposal
 });
 
 console.log('\n✅ All TurnSink tests defined. Run with: node runtime-lifecycle.test.js');
+
+// ============================================================================
+// buildRuntimeSignature — ultracode rebuild
+// ============================================================================
+
+test('buildRuntimeSignature changes when ultracode toggles, so the runtime is rebuilt', () => {
+  const base = { cwd: '/tmp/project', model: 'opus', effort: 'xhigh' };
+  const off = buildRuntimeSignature({ ...base, settings: { env: {} } }, '', true, 'epoch-x', 'claude-opus-4-8');
+  const on = buildRuntimeSignature({ ...base, settings: { env: {}, ultracode: true } }, '', true, 'epoch-x', 'claude-opus-4-8');
+  const explicitOff = buildRuntimeSignature({ ...base, settings: { env: {}, ultracode: false } }, '', true, 'epoch-x', 'claude-opus-4-8');
+
+  assert.notEqual(off, on);
+  assert.equal(off, explicitOff);
+  assert.match(on, /"ultracode":true/);
+});

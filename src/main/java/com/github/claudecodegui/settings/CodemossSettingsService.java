@@ -1273,6 +1273,11 @@ public class CodemossSettingsService {
         return providerManager.isLocalProviderActive();
     }
 
+    /** Whether Claude runs on the CLI's own (claude.ai subscription) login. */
+    public boolean isCliLoginProviderActive() {
+        return providerManager.isCliLoginProviderActive();
+    }
+
     // ==================== MCP Server Management ====================
 
     public List<JsonObject> getMcpServers() throws IOException {
