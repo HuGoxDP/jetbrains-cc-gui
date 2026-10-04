@@ -5,6 +5,7 @@ import type { ProviderManageTab } from './ProviderTabSection';
 import {
   BasicPanel,
   ProvidersPanel,
+  AccountsPanel,
   DependenciesPanel,
   UsagePanel,
   McpPanel,
@@ -31,6 +32,7 @@ import styles from './style.module.less';
 const TAB_PANELS: Record<SettingsTab, ComponentType<SettingsTabPanelProps>> = {
   basic: BasicPanel,
   providers: ProvidersPanel,
+  accounts: AccountsPanel,
   dependencies: DependenciesPanel,
   usage: UsagePanel,
   mcp: McpPanel,

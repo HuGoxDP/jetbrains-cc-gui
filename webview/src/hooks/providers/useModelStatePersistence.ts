@@ -19,11 +19,11 @@ import {
   apply1MContextSuffix,
   strip1MContextSuffix,
 } from '../../components/ChatInputBox/types';
+import { REASONING_EFFORT_VALUES } from '../../components/ChatInputBox/types';
 import type { CodexFastMode, PermissionMode, ReasoningEffort } from '../../components/ChatInputBox/types';
 import { isCliOnlyProvider, normalizeCliPermissionMode, OMP_ROLE_MODEL_IDS } from './cliProviders';
 
 const STORAGE_KEY = 'model-selection-state';
-const REASONING_VALUES = ['low', 'medium', 'high', 'xhigh', 'max'] as const;
 const CODEX_FAST_MODE_VALUES = ['normal', 'fast'] as const;
 
 const getCustomModels = (key: string): { id: string }[] => {
@@ -36,7 +36,7 @@ const getCustomModels = (key: string): { id: string }[] => {
 };
 
 const isReasoningEffort = (value: unknown): value is ReasoningEffort =>
-  typeof value === 'string' && (REASONING_VALUES as readonly string[]).includes(value);
+  typeof value === 'string' && (REASONING_EFFORT_VALUES as readonly string[]).includes(value);
 
 const isCodexFastMode = (value: unknown): value is CodexFastMode =>
   typeof value === 'string' && (CODEX_FAST_MODE_VALUES as readonly string[]).includes(value);

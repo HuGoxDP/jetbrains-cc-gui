@@ -347,6 +347,67 @@
     },
     "providers": "プロバイダー管理",
     "providersDesc": "ClaudeとCodex APIプロバイダー設定を管理し、異なるAPIサービスプロバイダー間で切り替え",
+    "accounts": {
+      "title": "Claude アカウント",
+      "description": "複数の Claude ログインを保存してワンクリックで切り替え、各プランの使用量を確認し、上限に達したら自動で切り替えます。",
+      "add": "アカウントを追加",
+      "loginClaudeAi": "Claude.ai でサインイン（Pro / Max）",
+      "loginConsole": "Anthropic Console でサインイン",
+      "saveCurrent": "現在のログインを保存",
+      "saveCurrentHint": "Claude CLI が現在使用しているログインを保存します",
+      "refreshUsage": "使用量を更新",
+      "loading": "アカウントを読み込み中…",
+      "loadFailed": "アカウントを読み込めませんでした。",
+      "retry": "再試行",
+      "autoRotate": "使用量の上限でアカウントを自動切り替え",
+      "autoRotateHint": "使用量の上限でターンが止まったら、ローテーション内の次のアカウントに切り替えて会話を続けます。",
+      "unsavedLive": "{{email}} でログイン中ですが、このログインはまだ保存されていません。",
+      "active": "使用中",
+      "empty": "保存済みのアカウントはありません。「アカウントを追加」でサインインするか、CLI が使用中のログインを保存してください。",
+      "keychainNote": "macOS では CLI が認証情報をキーチェーンに保存するため、使用量は使用中のアカウントのみ取得できます。",
+      "deleteTitle": "アカウントを削除",
+      "deleteMessage": "{{email}} を保存済みアカウントから削除しますか？現在のログインはサインアウトされません。",
+      "loginWaiting": "ブラウザーでのサインイン完了を待っています…",
+      "openLink": "開く",
+      "copyLink": "リンクをコピー",
+      "linkCopied": "リンクをコピーしました",
+      "codePlaceholder": "ブラウザーに表示されたコードを貼り付け",
+      "submitCode": "コードを送信",
+      "codeHint": "ブラウザーが IDE に戻らずコードを表示した場合のみ必要です。",
+      "switch": "切り替え",
+      "moveUp": "上へ",
+      "moveDown": "下へ",
+      "delete": "削除",
+      "inRotation": "自動ローテーションに含める",
+      "usageLoading": "使用量を確認中…",
+      "usageNotAvailable": "このログインにはプランの上限がありません（API キーまたはクラウドプロバイダー）。",
+      "usageKeychain": "このアカウントが使用中になると使用量が表示されます。",
+      "usageUnknown": "使用量はまだ確認されていません。",
+      "updated": "{{time}} に更新",
+      "resets": "{{when}}にリセット",
+      "window": {
+        "fiveHour": "5 時間",
+        "sevenDay": "週間",
+        "sevenDayOpus": "週間 · Opus",
+        "sevenDaySonnet": "週間 · Sonnet",
+        "model": "週間 · モデル"
+      },
+      "usageError": {
+        "unsupported": "インストール済みの Claude Code SDK は使用量を報告できません。依存関係で更新してください。",
+        "sdk_missing": "Claude Code SDK がインストールされていません。",
+        "timeout": "使用量の取得がタイムアウトしました。",
+        "auth": "ログインの有効期限が切れました。再度サインインしてください。",
+        "network": "使用量の確認中にネットワークエラーが発生しました。",
+        "unknown": "使用量を読み取れませんでした。"
+      },
+      "toast": {
+        "failed": "操作に失敗しました",
+        "switched": "{{email}} に切り替えました",
+        "saved": "{{email}} を保存しました",
+        "deleted": "アカウントを削除しました",
+        "loggedIn": "{{email}} としてサインインしました"
+      }
+    },
     "providerTab": {
       "claude": "Claude Code",
       "codex": "Codex",
@@ -1856,6 +1917,14 @@
     "xhigh": {
       "label": "最大",
       "description": "最大の推論深度"
+    },
+    "max": {
+      "label": "最大",
+      "description": "最大の推論深度"
+    },
+    "ultracode": {
+      "label": "Ultracode",
+      "description": "XHigh 推論に加えてワークフローを常時オーケストレーション"
     }
   },
   "errorBoundary": {

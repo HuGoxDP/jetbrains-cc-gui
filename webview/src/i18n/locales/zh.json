@@ -613,6 +613,67 @@
     },
     "providers": "供应商管理",
     "providersDesc": "管理 Claude 和 Codex API 供应商配置，切换不同的 API 服务提供商；以及检测本地 CLI 工具的安装状态",
+    "accounts": {
+      "title": "Claude 账号",
+      "description": "保存多个 Claude 登录，一键切换，查看每个套餐的用量，并在达到上限时自动切换。",
+      "add": "添加账号",
+      "loginClaudeAi": "使用 Claude.ai 登录（Pro / Max）",
+      "loginConsole": "使用 Anthropic Console 登录",
+      "saveCurrent": "保存当前登录",
+      "saveCurrentHint": "保存 Claude CLI 当前正在使用的登录",
+      "refreshUsage": "刷新用量",
+      "loading": "正在加载账号…",
+      "loadFailed": "无法加载账号。",
+      "retry": "重试",
+      "autoRotate": "达到用量上限时自动切换账号",
+      "autoRotateHint": "当回合因用量上限而停止时，切换到轮换中的下一个账号并继续对话。",
+      "unsavedLive": "当前登录为 {{email}}，但尚未保存。",
+      "active": "当前",
+      "empty": "还没有保存的账号。可通过“添加账号”登录，或保存 CLI 已在使用的登录。",
+      "keychainNote": "在 macOS 上 CLI 将凭据保存在钥匙串中，因此只能读取当前账号的用量。",
+      "deleteTitle": "移除账号",
+      "deleteMessage": "要从已保存账号中移除 {{email}} 吗？当前登录不会被注销。",
+      "loginWaiting": "等待你在浏览器中完成登录…",
+      "openLink": "打开",
+      "copyLink": "复制链接",
+      "linkCopied": "链接已复制",
+      "codePlaceholder": "粘贴浏览器中显示的代码",
+      "submitCode": "提交代码",
+      "codeHint": "仅当浏览器显示代码而没有返回 IDE 时需要。",
+      "switch": "切换",
+      "moveUp": "上移",
+      "moveDown": "下移",
+      "delete": "移除",
+      "inRotation": "参与自动轮换",
+      "usageLoading": "正在检查用量…",
+      "usageNotAvailable": "此登录没有套餐限额（API Key 或云服务商）。",
+      "usageKeychain": "账号激活后显示用量。",
+      "usageUnknown": "尚未检查用量。",
+      "updated": "更新于 {{time}}",
+      "resets": "{{when}}重置",
+      "window": {
+        "fiveHour": "5 小时",
+        "sevenDay": "每周",
+        "sevenDayOpus": "每周 · Opus",
+        "sevenDaySonnet": "每周 · Sonnet",
+        "model": "每周 · 模型"
+      },
+      "usageError": {
+        "unsupported": "已安装的 Claude Code SDK 无法报告用量，请在“依赖”中更新。",
+        "sdk_missing": "未安装 Claude Code SDK。",
+        "timeout": "用量查询超时。",
+        "auth": "登录已过期，请重新登录。",
+        "network": "检查用量时网络错误。",
+        "unknown": "无法读取用量。"
+      },
+      "toast": {
+        "failed": "操作失败",
+        "switched": "已切换到 {{email}}",
+        "saved": "已保存 {{email}}",
+        "deleted": "账号已移除",
+        "loggedIn": "已登录为 {{email}}"
+      }
+    },
     "promptEnhancer": {
       "title": "增强提示词",
       "description": "配置增强提示词功能使用的 provider 与模型，在消息发送前对输入内容进行重写增强。"
@@ -2395,6 +2456,10 @@
     "max": {
       "label": "max",
       "description": "最大推理深度"
+    },
+    "ultracode": {
+      "label": "Ultracode",
+      "description": "XHigh 推理并常驻工作流编排"
     }
   },
   "errorBoundary": {

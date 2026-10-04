@@ -788,8 +788,16 @@ export function codexModelSupportsMaxEffort(modelId: string): boolean {
  * Claude API values: low, medium, high, xhigh, max
  * Codex API values: low, medium, high, xhigh; GPT-5.6 and GPT-6 support max
  * Grok CLI values: low, medium, high, xhigh
+ *
+ * `ultracode` is not an API effort level: it is the synthetic top step for
+ * Claude models that support xhigh — xhigh effort plus the session-scoped
+ * `ultracode` settings key (standing workflow orchestration). The ai-bridge
+ * decomposes it (ai-bridge/services/claude/reasoning-effort.js).
  */
-export type ReasoningEffort = 'low' | 'medium' | 'high' | 'xhigh' | 'max';
+export type ReasoningEffort = 'low' | 'medium' | 'high' | 'xhigh' | 'max' | 'ultracode';
+
+/** Every value a ReasoningEffort can take, for validating persisted state. */
+export const REASONING_EFFORT_VALUES: readonly ReasoningEffort[] = ['low', 'medium', 'high', 'xhigh', 'max', 'ultracode'];
 
 /**
  * Codex execution speed mode.
@@ -843,6 +851,12 @@ export const REASONING_LEVELS: ReasoningInfo[] = [
     label: 'Max',
     icon: 'codicon-rocket',
     description: 'Maximum reasoning depth',
+  },
+  {
+    id: 'ultracode',
+    label: 'Ultracode',
+    icon: 'codicon-sparkle',
+    description: 'XHigh reasoning plus standing workflow orchestration',
   },
 ];
 

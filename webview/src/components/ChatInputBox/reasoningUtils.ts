@@ -18,6 +18,12 @@ export function getAvailableReasoningLevels(
   selectedModel?: string,
 ): ReasoningInfo[] {
   return REASONING_LEVELS.filter((level) => {
+    if (level.id === 'ultracode') {
+      // Claude only, and only on models that have the xhigh level it runs at.
+      return currentProvider === 'claude'
+        && selectedModel !== undefined
+        && XHIGH_EFFORT_CLAUDE_MODELS.has(selectedModel);
+    }
     if (currentProvider === 'grok') {
       return level.id === 'low' || level.id === 'medium' || level.id === 'high' || level.id === 'xhigh';
     }
@@ -44,8 +50,20 @@ export function resolveCurrentReasoningLevel(
   value: ReasoningEffort,
   availableLevels: ReasoningInfo[],
 ): ReasoningInfo | undefined {
-  return availableLevels.find((level) => level.id === value)
-    || availableLevels[availableLevels.length - 2]
+  const exact = availableLevels.find((level) => level.id === value);
+  if (exact) {
+    return exact;
+  }
+  // Fall back among the real levels: ultracode is an opt-in step, never a default.
+  const realLevels = availableLevels.filter((level) => level.id !== 'ultracode');
+  if (value === 'ultracode') {
+    // Ultracode runs at xhigh; keep the closest real level when it goes away.
+    return realLevels.find((level) => level.id === 'xhigh')
+      || realLevels[realLevels.length - 1]
+      || availableLevels[0];
+  }
+  return realLevels[realLevels.length - 2]
+    || realLevels[0]
     || availableLevels[0];
 }
 

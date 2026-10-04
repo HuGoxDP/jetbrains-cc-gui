@@ -390,7 +390,8 @@ public class SessionSendService {
                 effectivePermissionMode,
                 configuredModel,
                 agentPrompt,
-                requestedReasoningEffort != null ? requestedReasoningEffort : state.getReasoningEffort(),
+                SessionState.effortForNonClaudeProvider(
+                        requestedReasoningEffort != null ? requestedReasoningEffort : state.getReasoningEffort()),
                 effectiveCodexServiceTier,
                 handler
         ).thenApply(result -> null);
@@ -443,7 +444,8 @@ public class SessionSendService {
                 agentPrompt,
                 streaming,
                 false,
-                requestedReasoningEffort != null ? requestedReasoningEffort : state.getReasoningEffort(),
+                SessionState.effortForNonClaudeProvider(
+                        requestedReasoningEffort != null ? requestedReasoningEffort : state.getReasoningEffort()),
                 handler
         ).thenApply(result -> null);
     }
@@ -495,7 +497,8 @@ public class SessionSendService {
                 agentPrompt,
                 streaming,
                 false,
-                requestedReasoningEffort != null ? requestedReasoningEffort : state.getReasoningEffort(),
+                SessionState.effortForNonClaudeProvider(
+                        requestedReasoningEffort != null ? requestedReasoningEffort : state.getReasoningEffort()),
                 handler
         ).thenApply(result -> null);
     }
@@ -531,7 +534,8 @@ public class SessionSendService {
         }
 
         String effort = normalizeCliReasoningEffort(
-                requestedReasoningEffort != null ? requestedReasoningEffort : state.getReasoningEffort()
+                SessionState.effortForNonClaudeProvider(
+                        requestedReasoningEffort != null ? requestedReasoningEffort : state.getReasoningEffort())
         );
         String modelForCli = normalizeCliModelForProvider(provider, state.getModel());
         String effectiveMode = permissionMode != null && !permissionMode.isBlank()

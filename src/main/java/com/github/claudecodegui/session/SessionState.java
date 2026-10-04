@@ -42,6 +42,12 @@ public class SessionState {
         return mode != null && VALID_PERMISSION_MODES.contains(mode.trim());
     }
 
+    /** Synthetic Claude effort step: xhigh effort with standing workflow orchestration. */
+    public static final String ULTRACODE_EFFORT = "ultracode";
+
+    /** The real effort level ultracode runs at; what other providers get instead. */
+    public static final String ULTRACODE_BASE_EFFORT = "xhigh";
+
     /**
      * Canonical whitelist of valid Claude/Codex reasoning effort levels.
      */
@@ -53,6 +59,9 @@ public class SessionState {
         efforts.add("high");
         efforts.add("xhigh");
         efforts.add("max");
+        // Claude only: xhigh effort plus the session-scoped `ultracode` setting
+        // (ai-bridge/services/claude/reasoning-effort.js decomposes it).
+        efforts.add(ULTRACODE_EFFORT);
         VALID_REASONING_EFFORTS = Collections.unmodifiableSet(efforts);
     }
 
@@ -61,6 +70,17 @@ public class SessionState {
      */
     public static boolean isValidReasoningEffort(String effort) {
         return effort != null && VALID_REASONING_EFFORTS.contains(effort.trim());
+    }
+
+    /**
+     * The effort a non-Claude provider should receive: {@code ultracode} only means
+     * something to the Claude bridge, so everywhere else it runs as plain xhigh.
+     */
+    public static String effortForNonClaudeProvider(String effort) {
+        if (effort != null && ULTRACODE_EFFORT.equals(effort.trim())) {
+            return ULTRACODE_BASE_EFFORT;
+        }
+        return effort;
     }
 
     /**

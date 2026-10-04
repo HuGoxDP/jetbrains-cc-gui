@@ -613,6 +613,67 @@
     },
     "providers": "Provider Management",
     "providersDesc": "Manage Claude and Codex API provider configurations, switch API service providers, and check local CLI tool installation status",
+    "accounts": {
+      "title": "Claude Accounts",
+      "description": "Save several Claude logins, switch between them in one click, watch each plan's usage and switch automatically when a limit is reached.",
+      "add": "Add account",
+      "loginClaudeAi": "Sign in with Claude.ai (Pro / Max)",
+      "loginConsole": "Sign in with Anthropic Console",
+      "saveCurrent": "Save current login",
+      "saveCurrentHint": "Save the login the Claude CLI is using right now",
+      "refreshUsage": "Refresh usage",
+      "loading": "Loading accounts…",
+      "loadFailed": "Could not load accounts.",
+      "retry": "Retry",
+      "autoRotate": "Switch accounts automatically on a usage limit",
+      "autoRotateHint": "When a turn stops on a usage limit, switch to the next account in the rotation and continue the conversation there.",
+      "unsavedLive": "Signed in as {{email}}, but this login is not saved yet.",
+      "active": "Active",
+      "empty": "No saved accounts yet. Sign in with \"Add account\" or save the login the CLI already uses.",
+      "keychainNote": "On macOS the CLI keeps credentials in the Keychain, so usage can only be read for the active account.",
+      "deleteTitle": "Remove account",
+      "deleteMessage": "Remove {{email}} from saved accounts? The live login is not signed out.",
+      "loginWaiting": "Waiting for you to finish signing in in the browser…",
+      "openLink": "Open",
+      "copyLink": "Copy link",
+      "linkCopied": "Link copied",
+      "codePlaceholder": "Paste the code from the browser",
+      "submitCode": "Submit code",
+      "codeHint": "Only needed when the browser shows a code instead of returning to the IDE.",
+      "switch": "Switch",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "delete": "Remove",
+      "inRotation": "Include in automatic rotation",
+      "usageLoading": "Checking usage…",
+      "usageNotAvailable": "This login has no plan limits (API key or cloud provider).",
+      "usageKeychain": "Usage is shown once this account is active.",
+      "usageUnknown": "Usage not checked yet.",
+      "updated": "Updated {{time}}",
+      "resets": "resets {{when}}",
+      "window": {
+        "fiveHour": "5-hour",
+        "sevenDay": "Weekly",
+        "sevenDayOpus": "Weekly · Opus",
+        "sevenDaySonnet": "Weekly · Sonnet",
+        "model": "Weekly · model"
+      },
+      "usageError": {
+        "unsupported": "The installed Claude Code SDK cannot report usage. Update it in Dependencies.",
+        "sdk_missing": "Claude Code SDK is not installed.",
+        "timeout": "Usage lookup timed out.",
+        "auth": "Login expired — sign in again.",
+        "network": "Network error while checking usage.",
+        "unknown": "Could not read usage."
+      },
+      "toast": {
+        "failed": "Action failed",
+        "switched": "Switched to {{email}}",
+        "saved": "Saved {{email}}",
+        "deleted": "Account removed",
+        "loggedIn": "Signed in as {{email}}"
+      }
+    },
     "promptEnhancer": {
       "title": "Prompt Enhancer",
       "description": "Choose which provider and model should be used when enhancing prompts before sending them."
@@ -2389,6 +2450,10 @@
     "max": {
       "label": "Max",
       "description": "Maximum reasoning depth"
+    },
+    "ultracode": {
+      "label": "Ultracode",
+      "description": "XHigh reasoning plus standing workflow orchestration"
     }
   },
   "errorBoundary": {

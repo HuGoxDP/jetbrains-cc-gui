@@ -347,6 +347,67 @@
     },
     "providers": "供應商管理",
     "providersDesc": "管理 Claude 和 Codex API 供應商配置，切換不同的 API 服務提供商",
+    "accounts": {
+      "title": "Claude 帳號",
+      "description": "儲存多個 Claude 登入，一鍵切換，查看每個方案的用量，並在達到上限時自動切換。",
+      "add": "新增帳號",
+      "loginClaudeAi": "使用 Claude.ai 登入（Pro / Max）",
+      "loginConsole": "使用 Anthropic Console 登入",
+      "saveCurrent": "儲存目前登入",
+      "saveCurrentHint": "儲存 Claude CLI 目前正在使用的登入",
+      "refreshUsage": "重新整理用量",
+      "loading": "正在載入帳號…",
+      "loadFailed": "無法載入帳號。",
+      "retry": "重試",
+      "autoRotate": "達到用量上限時自動切換帳號",
+      "autoRotateHint": "當回合因用量上限而停止時，切換到輪替中的下一個帳號並繼續對話。",
+      "unsavedLive": "目前登入為 {{email}}，但尚未儲存。",
+      "active": "目前",
+      "empty": "還沒有儲存的帳號。可透過「新增帳號」登入，或儲存 CLI 已在使用的登入。",
+      "keychainNote": "在 macOS 上 CLI 將憑證保存在鑰匙圈中，因此只能讀取目前帳號的用量。",
+      "deleteTitle": "移除帳號",
+      "deleteMessage": "要從已儲存帳號中移除 {{email}} 嗎？目前登入不會被登出。",
+      "loginWaiting": "等待你在瀏覽器中完成登入…",
+      "openLink": "開啟",
+      "copyLink": "複製連結",
+      "linkCopied": "連結已複製",
+      "codePlaceholder": "貼上瀏覽器中顯示的代碼",
+      "submitCode": "提交代碼",
+      "codeHint": "僅當瀏覽器顯示代碼而沒有返回 IDE 時需要。",
+      "switch": "切換",
+      "moveUp": "上移",
+      "moveDown": "下移",
+      "delete": "移除",
+      "inRotation": "參與自動輪替",
+      "usageLoading": "正在檢查用量…",
+      "usageNotAvailable": "此登入沒有方案限額（API Key 或雲端服務商）。",
+      "usageKeychain": "帳號啟用後顯示用量。",
+      "usageUnknown": "尚未檢查用量。",
+      "updated": "更新於 {{time}}",
+      "resets": "{{when}}重置",
+      "window": {
+        "fiveHour": "5 小時",
+        "sevenDay": "每週",
+        "sevenDayOpus": "每週 · Opus",
+        "sevenDaySonnet": "每週 · Sonnet",
+        "model": "每週 · 模型"
+      },
+      "usageError": {
+        "unsupported": "已安裝的 Claude Code SDK 無法回報用量，請在「相依套件」中更新。",
+        "sdk_missing": "未安裝 Claude Code SDK。",
+        "timeout": "用量查詢逾時。",
+        "auth": "登入已過期，請重新登入。",
+        "network": "檢查用量時發生網路錯誤。",
+        "unknown": "無法讀取用量。"
+      },
+      "toast": {
+        "failed": "操作失敗",
+        "switched": "已切換到 {{email}}",
+        "saved": "已儲存 {{email}}",
+        "deleted": "帳號已移除",
+        "loggedIn": "已登入為 {{email}}"
+      }
+    },
     "providerTab": {
       "claude": "Claude Code",
       "codex": "Codex",
@@ -1907,6 +1968,14 @@
     "xhigh": {
       "label": "最多",
       "description": "最深推理，最高精度"
+    },
+    "max": {
+      "label": "最大",
+      "description": "最大推理深度"
+    },
+    "ultracode": {
+      "label": "Ultracode",
+      "description": "XHigh 推理並常駐工作流程編排"
     }
   },
   "errorBoundary": {

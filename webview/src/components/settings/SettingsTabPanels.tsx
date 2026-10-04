@@ -4,6 +4,7 @@ import BasicTab from './BasicTab';
 import ProviderTabSection from './ProviderTabSection';
 import DependencySection from './DependencySection';
 import UsageSection from './UsageSection';
+import AccountsSection from './AccountsSection';
 import PlaceholderSection from './PlaceholderSection';
 import PermissionsSection from './PermissionsSection';
 import CommunitySection from './CommunitySection';
@@ -62,6 +63,10 @@ export const ProvidersPanel = ({
     onRevokeCodexLocalConfigAuthorization={codexProviderManagement.handleRevokeCodexLocalConfigAuthorization}
     addToast={addToast}
   />
+);
+
+export const AccountsPanel = ({ addToast }: SettingsTabPanelProps) => (
+  <AccountsSection addToast={addToast} />
 );
 
 export const DependenciesPanel = ({ addToast }: SettingsTabPanelProps) => (

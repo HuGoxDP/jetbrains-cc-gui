@@ -347,6 +347,67 @@
     },
     "providers": "Gestión de proveedores",
     "providersDesc": "Gestionar configuración de proveedores de API Claude y Codex, cambiar entre diferentes proveedores de servicio API",
+    "accounts": {
+      "title": "Cuentas de Claude",
+      "description": "Guarda varios inicios de sesión de Claude, cambia entre ellos con un clic, consulta el uso de cada plan y cambia automáticamente al alcanzar un límite.",
+      "add": "Añadir cuenta",
+      "loginClaudeAi": "Iniciar sesión con Claude.ai (Pro / Max)",
+      "loginConsole": "Iniciar sesión con Anthropic Console",
+      "saveCurrent": "Guardar sesión actual",
+      "saveCurrentHint": "Guardar la sesión que usa ahora la CLI de Claude",
+      "refreshUsage": "Actualizar uso",
+      "loading": "Cargando cuentas…",
+      "loadFailed": "No se pudieron cargar las cuentas.",
+      "retry": "Reintentar",
+      "autoRotate": "Cambiar de cuenta automáticamente al alcanzar un límite",
+      "autoRotateHint": "Si un turno se detiene por un límite de uso, cambia a la siguiente cuenta de la rotación y continúa la conversación.",
+      "unsavedLive": "Sesión iniciada como {{email}}, pero aún no está guardada.",
+      "active": "Activa",
+      "empty": "Aún no hay cuentas guardadas. Inicia sesión con \"Añadir cuenta\" o guarda la sesión que ya usa la CLI.",
+      "keychainNote": "En macOS la CLI guarda las credenciales en el Llavero, por lo que solo se puede leer el uso de la cuenta activa.",
+      "deleteTitle": "Quitar cuenta",
+      "deleteMessage": "¿Quitar {{email}} de las cuentas guardadas? La sesión actual no se cerrará.",
+      "loginWaiting": "Esperando a que termines de iniciar sesión en el navegador…",
+      "openLink": "Abrir",
+      "copyLink": "Copiar enlace",
+      "linkCopied": "Enlace copiado",
+      "codePlaceholder": "Pega el código del navegador",
+      "submitCode": "Enviar código",
+      "codeHint": "Solo es necesario si el navegador muestra un código en lugar de volver al IDE.",
+      "switch": "Cambiar",
+      "moveUp": "Subir",
+      "moveDown": "Bajar",
+      "delete": "Quitar",
+      "inRotation": "Incluir en la rotación automática",
+      "usageLoading": "Comprobando uso…",
+      "usageNotAvailable": "Esta sesión no tiene límites de plan (clave API o proveedor en la nube).",
+      "usageKeychain": "El uso se mostrará cuando esta cuenta esté activa.",
+      "usageUnknown": "Uso aún no comprobado.",
+      "updated": "Actualizado {{time}}",
+      "resets": "se restablece {{when}}",
+      "window": {
+        "fiveHour": "5 horas",
+        "sevenDay": "Semanal",
+        "sevenDayOpus": "Semanal · Opus",
+        "sevenDaySonnet": "Semanal · Sonnet",
+        "model": "Semanal · modelo"
+      },
+      "usageError": {
+        "unsupported": "El SDK de Claude Code instalado no puede informar el uso. Actualízalo en Dependencias.",
+        "sdk_missing": "El SDK de Claude Code no está instalado.",
+        "timeout": "La consulta de uso agotó el tiempo.",
+        "auth": "La sesión caducó: vuelve a iniciar sesión.",
+        "network": "Error de red al comprobar el uso.",
+        "unknown": "No se pudo leer el uso."
+      },
+      "toast": {
+        "failed": "La acción falló",
+        "switched": "Cambiado a {{email}}",
+        "saved": "{{email}} guardada",
+        "deleted": "Cuenta quitada",
+        "loggedIn": "Sesión iniciada como {{email}}"
+      }
+    },
     "providerTab": {
       "claude": "Claude Code",
       "codex": "Codex",
@@ -1857,6 +1918,14 @@
     "xhigh": {
       "label": "Máximo",
       "description": "Profundidad máxima de razonamiento"
+    },
+    "max": {
+      "label": "Máx.",
+      "description": "Profundidad de razonamiento máxima"
+    },
+    "ultracode": {
+      "label": "Ultracode",
+      "description": "Razonamiento XHigh más orquestación permanente de flujos de trabajo"
     }
   },
   "errorBoundary": {

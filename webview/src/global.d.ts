@@ -950,6 +950,22 @@ interface Window {
    */
   updateDependencyStatus?: (json: string) => void;
 
+  // ============================================================================
+  // Claude accounts (Settings → Claude accounts)
+  // ============================================================================
+
+  /** Saved accounts, live login and rotation settings: { accounts, activeEmail, liveLoggedIn, liveSaved, autoRotate, isolatedUsageSupported }. */
+  updateClaudeAccounts?: (json: string) => void;
+
+  /** One account's plan usage: { accountId?, active, updatedAt, success, rateLimits?, rateLimitsAvailable?, error?, errorKind? }. */
+  onClaudeAccountUsage?: (json: string) => void;
+
+  /** Result of an account action: { action, success, error?, emailAddress? }. */
+  onClaudeAccountAction?: (json: string) => void;
+
+  /** `claude auth login` progress: { type: 'started' | 'url' | 'finished', ... }. */
+  onClaudeLoginEvent?: (json: string) => void;
+
   /**
    * CLI tools install/version detection result (Settings → CLI tab).
    * Payload is a map of tool id → { id, name, binaryName, installed, version?, path?, error? }.

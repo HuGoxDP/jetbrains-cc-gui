@@ -347,6 +347,67 @@
     },
     "providers": "प्रदाता प्रबंधन",
     "providersDesc": "Claude और Codex API प्रदाता कॉन्फ़िगरेशन प्रबंधित करें, विभिन्न API सेवा प्रदाताओं के बीच स्विच करें",
+    "accounts": {
+      "title": "Claude खाते",
+      "description": "कई Claude लॉगिन सहेजें, एक क्लिक में बदलें, हर प्लान का उपयोग देखें और सीमा पूरी होने पर अपने-आप बदलें।",
+      "add": "खाता जोड़ें",
+      "loginClaudeAi": "Claude.ai से साइन इन करें (Pro / Max)",
+      "loginConsole": "Anthropic Console से साइन इन करें",
+      "saveCurrent": "वर्तमान लॉगिन सहेजें",
+      "saveCurrentHint": "Claude CLI अभी जिस लॉगिन का उपयोग कर रहा है उसे सहेजें",
+      "refreshUsage": "उपयोग रीफ़्रेश करें",
+      "loading": "खाते लोड हो रहे हैं…",
+      "loadFailed": "खाते लोड नहीं हो सके।",
+      "retry": "फिर से प्रयास करें",
+      "autoRotate": "उपयोग सीमा पर खाता अपने-आप बदलें",
+      "autoRotateHint": "जब कोई टर्न उपयोग सीमा पर रुकता है, तो रोटेशन के अगले खाते पर जाकर बातचीत जारी रखें।",
+      "unsavedLive": "{{email}} के रूप में साइन इन है, लेकिन यह लॉगिन अभी सहेजा नहीं गया है।",
+      "active": "सक्रिय",
+      "empty": "अभी कोई सहेजा गया खाता नहीं है। \"खाता जोड़ें\" से साइन इन करें या CLI का मौजूदा लॉगिन सहेजें।",
+      "keychainNote": "macOS पर CLI क्रेडेंशियल Keychain में रखता है, इसलिए केवल सक्रिय खाते का उपयोग पढ़ा जा सकता है।",
+      "deleteTitle": "खाता हटाएं",
+      "deleteMessage": "{{email}} को सहेजे गए खातों से हटाएं? वर्तमान लॉगिन साइन आउट नहीं होगा।",
+      "loginWaiting": "ब्राउज़र में साइन इन पूरा होने की प्रतीक्षा है…",
+      "openLink": "खोलें",
+      "copyLink": "लिंक कॉपी करें",
+      "linkCopied": "लिंक कॉपी हो गया",
+      "codePlaceholder": "ब्राउज़र से कोड पेस्ट करें",
+      "submitCode": "कोड भेजें",
+      "codeHint": "केवल तब ज़रूरी है जब ब्राउज़र IDE पर लौटने के बजाय कोड दिखाए।",
+      "switch": "बदलें",
+      "moveUp": "ऊपर",
+      "moveDown": "नीचे",
+      "delete": "हटाएं",
+      "inRotation": "स्वचालित रोटेशन में शामिल करें",
+      "usageLoading": "उपयोग जाँचा जा रहा है…",
+      "usageNotAvailable": "इस लॉगिन की कोई प्लान सीमा नहीं है (API कुंजी या क्लाउड प्रदाता)।",
+      "usageKeychain": "खाता सक्रिय होने पर उपयोग दिखेगा।",
+      "usageUnknown": "उपयोग अभी जाँचा नहीं गया।",
+      "updated": "{{time}} पर अपडेट",
+      "resets": "{{when}} रीसेट",
+      "window": {
+        "fiveHour": "5 घंटे",
+        "sevenDay": "साप्ताहिक",
+        "sevenDayOpus": "साप्ताहिक · Opus",
+        "sevenDaySonnet": "साप्ताहिक · Sonnet",
+        "model": "साप्ताहिक · मॉडल"
+      },
+      "usageError": {
+        "unsupported": "इंस्टॉल किया गया Claude Code SDK उपयोग नहीं बता सकता। इसे निर्भरताएँ में अपडेट करें।",
+        "sdk_missing": "Claude Code SDK इंस्टॉल नहीं है।",
+        "timeout": "उपयोग जाँच का समय समाप्त।",
+        "auth": "लॉगिन की अवधि समाप्त — फिर से साइन इन करें।",
+        "network": "उपयोग जाँचते समय नेटवर्क त्रुटि।",
+        "unknown": "उपयोग पढ़ा नहीं जा सका।"
+      },
+      "toast": {
+        "failed": "कार्रवाई विफल",
+        "switched": "{{email}} पर बदला गया",
+        "saved": "{{email}} सहेजा गया",
+        "deleted": "खाता हटाया गया",
+        "loggedIn": "{{email}} के रूप में साइन इन किया"
+      }
+    },
     "providerTab": {
       "claude": "Claude Code",
       "codex": "Codex",
@@ -1850,6 +1911,14 @@
     "xhigh": {
       "label": "अधिकतम",
       "description": "अधिकतम तर्क गहराई"
+    },
+    "max": {
+      "label": "अधिकतम",
+      "description": "अधिकतम तर्क गहराई"
+    },
+    "ultracode": {
+      "label": "Ultracode",
+      "description": "XHigh तर्क के साथ स्थायी वर्कफ़्लो ऑर्केस्ट्रेशन"
     }
   },
   "errorBoundary": {

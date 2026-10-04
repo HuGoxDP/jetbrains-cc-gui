@@ -347,6 +347,67 @@
     },
     "providers": "Gestion des fournisseurs",
     "providersDesc": "Gérer la configuration des fournisseurs d'API Claude et Codex, basculer entre différents fournisseurs de services API",
+    "accounts": {
+      "title": "Comptes Claude",
+      "description": "Enregistrez plusieurs connexions Claude, passez de l'une à l'autre en un clic, suivez l'utilisation de chaque forfait et basculez automatiquement quand une limite est atteinte.",
+      "add": "Ajouter un compte",
+      "loginClaudeAi": "Se connecter avec Claude.ai (Pro / Max)",
+      "loginConsole": "Se connecter avec Anthropic Console",
+      "saveCurrent": "Enregistrer la connexion actuelle",
+      "saveCurrentHint": "Enregistrer la connexion utilisée en ce moment par la CLI Claude",
+      "refreshUsage": "Actualiser l'utilisation",
+      "loading": "Chargement des comptes…",
+      "loadFailed": "Impossible de charger les comptes.",
+      "retry": "Réessayer",
+      "autoRotate": "Changer de compte automatiquement à la limite d'utilisation",
+      "autoRotateHint": "Quand un tour s'arrête sur une limite d'utilisation, passer au compte suivant de la rotation et poursuivre la conversation.",
+      "unsavedLive": "Connecté en tant que {{email}}, mais cette connexion n'est pas encore enregistrée.",
+      "active": "Actif",
+      "empty": "Aucun compte enregistré. Connectez-vous avec « Ajouter un compte » ou enregistrez la connexion déjà utilisée par la CLI.",
+      "keychainNote": "Sur macOS, la CLI conserve les identifiants dans le Trousseau : l'utilisation n'est lisible que pour le compte actif.",
+      "deleteTitle": "Retirer le compte",
+      "deleteMessage": "Retirer {{email}} des comptes enregistrés ? La connexion actuelle n'est pas fermée.",
+      "loginWaiting": "En attente de la fin de la connexion dans le navigateur…",
+      "openLink": "Ouvrir",
+      "copyLink": "Copier le lien",
+      "linkCopied": "Lien copié",
+      "codePlaceholder": "Collez le code affiché par le navigateur",
+      "submitCode": "Envoyer le code",
+      "codeHint": "Nécessaire seulement si le navigateur affiche un code au lieu de revenir à l'IDE.",
+      "switch": "Basculer",
+      "moveUp": "Monter",
+      "moveDown": "Descendre",
+      "delete": "Retirer",
+      "inRotation": "Inclure dans la rotation automatique",
+      "usageLoading": "Vérification de l'utilisation…",
+      "usageNotAvailable": "Cette connexion n'a pas de limites de forfait (clé API ou fournisseur cloud).",
+      "usageKeychain": "L'utilisation s'affichera quand ce compte sera actif.",
+      "usageUnknown": "Utilisation pas encore vérifiée.",
+      "updated": "Mis à jour à {{time}}",
+      "resets": "réinitialisation {{when}}",
+      "window": {
+        "fiveHour": "5 heures",
+        "sevenDay": "Hebdomadaire",
+        "sevenDayOpus": "Hebdomadaire · Opus",
+        "sevenDaySonnet": "Hebdomadaire · Sonnet",
+        "model": "Hebdomadaire · modèle"
+      },
+      "usageError": {
+        "unsupported": "Le SDK Claude Code installé ne peut pas indiquer l'utilisation. Mettez-le à jour dans Dépendances.",
+        "sdk_missing": "Le SDK Claude Code n'est pas installé.",
+        "timeout": "La lecture de l'utilisation a expiré.",
+        "auth": "Connexion expirée : reconnectez-vous.",
+        "network": "Erreur réseau lors de la vérification de l'utilisation.",
+        "unknown": "Impossible de lire l'utilisation."
+      },
+      "toast": {
+        "failed": "Échec de l'action",
+        "switched": "Basculé vers {{email}}",
+        "saved": "{{email}} enregistré",
+        "deleted": "Compte retiré",
+        "loggedIn": "Connecté en tant que {{email}}"
+      }
+    },
     "providerTab": {
       "claude": "Claude Code",
       "codex": "Codex",
@@ -1851,6 +1912,14 @@
     "xhigh": {
       "label": "Maximum",
       "description": "Profondeur de raisonnement maximale"
+    },
+    "max": {
+      "label": "Max",
+      "description": "Profondeur de raisonnement maximale"
+    },
+    "ultracode": {
+      "label": "Ultracode",
+      "description": "Raisonnement XHigh avec orchestration permanente des workflows"
     }
   },
   "errorBoundary": {

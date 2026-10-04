@@ -10,6 +10,7 @@
 import type { UseWindowCallbacksOptions } from '../../useWindowCallbacks';
 import type { CodexFastMode, PermissionMode, ReasoningEffort } from '../../../components/ChatInputBox/types';
 import {
+  REASONING_EFFORT_VALUES,
   has1MContextSuffix,
   isValidPermissionMode,
   normalizeClaudeModelId,
@@ -148,8 +149,7 @@ export function registerUsageModeCallbacks(options: UseWindowCallbacksOptions): 
 
       updateMode(state.permissionMode as PermissionMode | undefined, provider);
 
-      const reasoningValues: ReasoningEffort[] = ['low', 'medium', 'high', 'xhigh', 'max'];
-      if (reasoningValues.includes(state.reasoningEffort as ReasoningEffort)) {
+      if ((REASONING_EFFORT_VALUES as readonly string[]).includes(state.reasoningEffort as string)) {
         setReasoningEffort(state.reasoningEffort as ReasoningEffort);
       }
       if (state.codexFastMode === 'normal' || state.codexFastMode === 'fast') {

@@ -112,4 +112,21 @@ public class SessionStateTest {
         // The initial value must never be a retired id (#1678).
         Assert.assertEquals("claude-sonnet-5", state.getModel());
     }
+
+    @Test
+    public void ultracodeIsAcceptedAsAReasoningEffort() {
+        SessionState state = new SessionState();
+        state.setReasoningEffort("ultracode");
+        Assert.assertEquals("ultracode", state.getReasoningEffort());
+        state.setReasoningEffort("bogus");
+        Assert.assertEquals("ultracode", state.getReasoningEffort());
+    }
+
+    @Test
+    public void ultracodeRunsAsXhighForNonClaudeProviders() {
+        Assert.assertEquals("xhigh", SessionState.effortForNonClaudeProvider("ultracode"));
+        Assert.assertEquals("xhigh", SessionState.effortForNonClaudeProvider(" ultracode "));
+        Assert.assertEquals("high", SessionState.effortForNonClaudeProvider("high"));
+        Assert.assertNull(SessionState.effortForNonClaudeProvider(null));
+    }
 }

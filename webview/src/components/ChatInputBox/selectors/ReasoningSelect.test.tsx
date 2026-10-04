@@ -209,4 +209,35 @@ describe('ReasoningSelect', () => {
     expect(dropdown.style.overflowY).not.toBe('auto');
     expect(dropdown.style.maxHeight).toBe('');
   });
+
+  it('offers ultracode above max for Claude Opus and selects it', () => {
+    const onChange = vi.fn();
+    render(
+      <ReasoningSelect
+        value={'xhigh'}
+        onChange={onChange}
+        currentProvider={'claude'}
+        selectedModel={'claude-opus-5-5'}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+    fireEvent.click(screen.getByText('Ultracode'));
+
+    expect(onChange).toHaveBeenCalledWith('ultracode');
+  });
+
+  it('moves a stale ultracode selection to xhigh for Codex', () => {
+    const onChange = vi.fn();
+    render(
+      <ReasoningSelect
+        value={'ultracode'}
+        onChange={onChange}
+        currentProvider={'codex'}
+        selectedModel={'gpt-5.5'}
+      />,
+    );
+
+    expect(onChange).toHaveBeenCalledWith('xhigh');
+  });
 });

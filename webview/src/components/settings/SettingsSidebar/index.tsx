@@ -1,7 +1,7 @@
 import styles from './style.module.less';
 import { useTranslation } from 'react-i18next';
 
-export type SettingsTab = 'basic' | 'providers' | 'dependencies' | 'usage' | 'permissions' | 'promptEnhancer' | 'commit' | 'mcp' | 'agents' | 'prompts' | 'skills' | 'pet' | 'other' | 'community';
+export type SettingsTab = 'basic' | 'providers' | 'accounts' | 'dependencies' | 'usage' | 'permissions' | 'promptEnhancer' | 'commit' | 'mcp' | 'agents' | 'prompts' | 'skills' | 'pet' | 'other' | 'community';
 
 interface SidebarItem {
   key: SettingsTab;
@@ -12,6 +12,7 @@ interface SidebarItem {
 const sidebarItems: SidebarItem[] = [
   { key: 'basic', icon: 'codicon-settings-gear', labelKey: 'settings.basic.title' },
   { key: 'providers', icon: 'codicon-vm-connect', labelKey: 'settings.providers' },
+  { key: 'accounts', icon: 'codicon-account', labelKey: 'settings.accounts.title' },
   { key: 'dependencies', icon: 'codicon-extensions', labelKey: 'settings.dependencies' },
   { key: 'usage', icon: 'codicon-graph', labelKey: 'settings.usage' },
   { key: 'mcp', icon: 'codicon-server', labelKey: 'settings.mcp' },
