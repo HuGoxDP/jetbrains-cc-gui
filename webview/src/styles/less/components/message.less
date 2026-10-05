@@ -606,7 +606,8 @@
 /* Message Content */
 .message-content {
     font-size: var(--idea-editor-font-size, 13.5px);
-    line-height: 1.6;
+    /* Settings > Appearance > Line spacing (utils/chatLineHeight.ts) */
+    line-height: var(--chat-line-height, 1.6);
     color: var(--text-primary);
     min-width: 0; /* Allow flex items to shrink below content size */
 }
@@ -629,7 +630,8 @@
 /* Markdown Content */
 .markdown-content {
     font-size: var(--idea-editor-font-size, 13.5px);
-    line-height: 1.6;
+    /* Settings > Appearance > Line spacing (utils/chatLineHeight.ts) */
+    line-height: var(--chat-line-height, 1.6);
     color: var(--text-primary);
     word-wrap: break-word;
     word-break: break-word;

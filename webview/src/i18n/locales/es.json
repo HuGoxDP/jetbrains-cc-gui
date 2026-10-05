@@ -268,6 +268,15 @@
         "disabled": "Visibles",
         "hint": "Deja en el chat solo tus prompts, las respuestas y los cambios. Las lecturas de archivos, búsquedas, comandos y agentes se ejecutan igual, pero sus tarjetas no se muestran; las ediciones, preguntas y aprobaciones de plan se mantienen. Solo afecta a la vista: al desactivarlo vuelven todas las tarjetas."
       },
+      "uiZoom": {
+        "label": "Zoom de la interfaz",
+        "hint": "Escala todo el chat: texto, iconos y espacios. Ctrl + \"+\" / \"-\" / \"0\" (Cmd en macOS) hace lo mismo cuando el chat tiene el foco. Se multiplica con el tamaño de fuente."
+      },
+      "lineSpacing": {
+        "label": "Interlineado",
+        "hint": "Espacio entre líneas del texto de los mensajes (0,5 a 10, por defecto 1,6). Los bloques de código mantienen el del editor.",
+        "reset": "Restablecer"
+      },
       "softWrap": {
         "label": "Ajustar líneas largas",
         "enabled": "Las líneas largas se ajustan",
@@ -2073,5 +2082,11 @@
         }
       }
     }
+  },
+  "uiZoom": {
+    "label": "Zoom de la interfaz",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar",
+    "reset": "Restablecer"
   }
 }

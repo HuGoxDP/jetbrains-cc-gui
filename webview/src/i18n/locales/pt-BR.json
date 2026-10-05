@@ -268,6 +268,15 @@
         "disabled": "Visíveis",
         "hint": "Deixa no chat só seus prompts, as respostas e as alterações. Leituras de arquivos, buscas, comandos e agentes rodam normalmente, mas seus cartões não aparecem; edições, perguntas e aprovações de plano continuam. Só afeta a exibição: ao desligar, todos os cartões voltam."
       },
+      "uiZoom": {
+        "label": "Zoom da interface",
+        "hint": "Ajusta a escala de todo o chat: texto, ícones e espaçamentos. Ctrl + \"+\" / \"-\" / \"0\" (Cmd no macOS) faz o mesmo quando o chat está em foco. Multiplica com o tamanho da fonte."
+      },
+      "lineSpacing": {
+        "label": "Espaçamento entre linhas",
+        "hint": "Espaço entre as linhas do texto das mensagens (0,5 a 10, padrão 1,6). Blocos de código mantêm o do editor.",
+        "reset": "Redefinir"
+      },
       "softWrap": {
         "label": "Quebrar linhas longas",
         "enabled": "Linhas longas quebram",
@@ -2217,5 +2226,11 @@
         }
       }
     }
+  },
+  "uiZoom": {
+    "label": "Zoom da interface",
+    "zoomIn": "Aumentar zoom",
+    "zoomOut": "Diminuir zoom",
+    "reset": "Redefinir"
   }
 }

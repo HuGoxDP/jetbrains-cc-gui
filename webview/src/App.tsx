@@ -19,6 +19,8 @@ import { createApplyHistoryModel } from './applyHistoryModel';
 import { useAppGlobalEffects } from './useAppGlobalEffects';
 import { useAppChatController } from './useAppChatController';
 import { useSoftWrapClass } from './utils/softWrap';
+import { useChatLineHeightVar } from './utils/chatLineHeight';
+import { UiZoomControls } from './components/UiZoomControls';
 
 const App = () => {
   const { t } = useTranslation();
@@ -30,6 +32,7 @@ const App = () => {
 
   // "Wrap long lines" is a class on <html> that the code and diff styles read.
   useSoftWrapClass();
+  useChatLineHeightVar();
 
   // ── Permission dialog timeout (synced with backend config) ──
   const [permissionDialogTimeoutSeconds, setPermissionDialogTimeoutSeconds] = useState(DEFAULT_PERMISSION_DIALOG_TIMEOUT_SECONDS);
@@ -92,6 +95,7 @@ const App = () => {
   return (
     <>
       <ToastContainer messages={toasts} onDismiss={dismissToast} />
+      <UiZoomControls />
       <AppHeader
         sessionTitle={sessionTitle}
         onNewSession={createNewSession}

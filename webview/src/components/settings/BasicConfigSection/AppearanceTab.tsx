@@ -5,6 +5,8 @@ import type { UiFontConfig, CodeFontConfig } from '../hooks/useSettingsBasicActi
 import ThemeSection from './ThemeSection';
 import LanguageSection from './LanguageSection';
 import FontSizeSection from './FontSizeSection';
+import UiZoomSection from './UiZoomSection';
+import LineSpacingSection from './LineSpacingSection';
 import UiFontSection from './UiFontSection';
 import CodeFontSection from './CodeFontSection';
 import DiffThemeSection from './DiffThemeSection';
@@ -159,6 +161,12 @@ const AppearanceTab = ({
 
       {/* Font size selector */}
       <FontSizeSection fontSizeLevel={fontSizeLevel} onFontSizeLevelChange={onFontSizeLevelChange} />
+
+      {/* Interface zoom (Ctrl/Cmd + "+"/"-"/"0") */}
+      <UiZoomSection />
+
+      {/* Line spacing of chat text */}
+      <LineSpacingSection />
 
       {/* UI font selector */}
       <UiFontSection

@@ -511,6 +511,15 @@
         "disabled": "Shown",
         "hint": "Keep the chat to your prompts, the answers and the edits. File reads, searches, commands and agents run as usual but their cards are not drawn; edits, questions and plan approvals stay. Display only: switching it off shows every card again."
       },
+      "uiZoom": {
+        "label": "Interface zoom",
+        "hint": "Scales the whole chat: text, icons and spacing. Ctrl + \"+\" / \"-\" / \"0\" (Cmd on macOS) does the same while the chat has focus. Multiplies with Font size."
+      },
+      "lineSpacing": {
+        "label": "Line spacing",
+        "hint": "Spacing between lines of text in messages (0.5 to 10, default 1.6). Code blocks keep the editor's spacing.",
+        "reset": "Reset"
+      },
       "softWrap": {
         "label": "Wrap long lines",
         "enabled": "Long lines wrap",
@@ -2621,5 +2630,11 @@
         }
       }
     }
+  },
+  "uiZoom": {
+    "label": "Interface zoom",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "reset": "Reset"
   }
 }

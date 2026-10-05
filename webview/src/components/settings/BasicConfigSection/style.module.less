@@ -822,3 +822,62 @@
     font-size: 12px;
   }
 }
+
+/* Interface zoom stepper (UiZoomSection) and the reset next to line spacing */
+.stepperRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.stepperButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid var(--border-secondary);
+  border-radius: 4px;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background: var(--bg-hover);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+}
+
+.stepperValue {
+  min-width: 52px;
+  text-align: center;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.stepperReset {
+  margin-left: 6px;
+  padding: 4px 8px;
+  border: none;
+  background: transparent;
+  color: var(--accent-primary);
+  font-size: 13px;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    color: var(--text-tertiary, var(--text-secondary));
+    opacity: 0.5;
+    cursor: default;
+  }
+}

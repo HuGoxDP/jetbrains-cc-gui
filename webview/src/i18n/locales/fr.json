@@ -268,6 +268,15 @@
         "disabled": "Affichés",
         "hint": "Ne garder dans le chat que vos prompts, les réponses et les modifications. Lectures de fichiers, recherches, commandes et agents s'exécutent normalement, mais leurs cartes ne sont pas affichées ; les modifications, questions et validations de plan restent. Affichage seulement : désactivé, toutes les cartes réapparaissent."
       },
+      "uiZoom": {
+        "label": "Zoom de l'interface",
+        "hint": "Agrandit tout le chat : texte, icônes et espacements. Ctrl + « + » / « - » / « 0 » (Cmd sur macOS) fait de même quand le chat a le focus. Se multiplie avec la taille de police."
+      },
+      "lineSpacing": {
+        "label": "Interligne",
+        "hint": "Espacement entre les lignes du texte des messages (0,5 à 10, 1,6 par défaut). Les blocs de code gardent celui de l'éditeur.",
+        "reset": "Réinitialiser"
+      },
       "softWrap": {
         "label": "Retour à la ligne automatique",
         "enabled": "Les lignes longues reviennent à la ligne",
@@ -2067,5 +2076,11 @@
         }
       }
     }
+  },
+  "uiZoom": {
+    "label": "Zoom de l'interface",
+    "zoomIn": "Zoom avant",
+    "zoomOut": "Zoom arrière",
+    "reset": "Réinitialiser"
   }
 }

@@ -9,10 +9,11 @@ import {
 import { forceWebviewRepaint } from '../../../utils/forceWebviewRepaint';
 import {
   FONT_SIZE_LEVEL_STORAGE_KEY,
-  fontSizeLevelToScale,
+  chatScale,
   isValidFontSizeLevel,
   parseFontSizeLevel,
 } from '../../../utils/fontScale';
+import { getUiZoom } from '../../../utils/uiZoom';
 
 // Extend window type for IDE theme injection
 declare global {
@@ -127,8 +128,8 @@ export function useSettingsThemeSync(): UseSettingsThemeSyncReturn {
 
   // Font size scaling handler
   useEffect(() => {
-    // Apply to root element
-    document.documentElement.style.setProperty('--font-scale', fontSizeLevelToScale(fontSizeLevel).toString());
+    // Apply to root element, keeping the interface zoom the user set with Ctrl/Cmd + "+"/"-"
+    document.documentElement.style.setProperty('--font-scale', chatScale(fontSizeLevel, getUiZoom()).toString());
 
     if (isFirstFontSizeSyncEffect.current) {
       isFirstFontSizeSyncEffect.current = false;
