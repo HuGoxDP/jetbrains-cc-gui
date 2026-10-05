@@ -10,6 +10,8 @@ import WaitingIndicator from './WaitingIndicator';
 import { ContextMenu } from './ContextMenu';
 import { useContextMenu, copySelection } from '../hooks/useContextMenu.js';
 import { quoteToChatInput } from '../utils/quoteUtils';
+import { ReplyFoldContext, type ReplyFoldState } from '../contexts/ReplyFoldContext';
+import { CollapsedReplyNotice } from './CollapsedReplyNotice';
 import type { MessageListRevealHandle } from './ConversationSearch/types';
 import {
   DETAILED_OUTPUT_ENABLED_EVENT,
@@ -126,6 +128,8 @@ export const MessageList = memo(forwardRef<MessageListRevealHandle, MessageListP
   currentSessionId,
 }, ref) {
   const [revealedTurnCount, setRevealedTurnCount] = useState(0);
+  // Replies the user folded away, by the key of the message that opens them.
+  const [foldedReplies, setFoldedReplies] = useState<ReadonlySet<string>>(() => new Set());
   const [historyPageInfo, setHistoryPageInfo] = useState<CodexHistoryPageInfo | null>(null);
   const [loadingEarlierHistory, setLoadingEarlierHistory] = useState(false);
   const loadingEarlierHistoryRef = useRef(false);
@@ -182,6 +186,7 @@ export const MessageList = memo(forwardRef<MessageListRevealHandle, MessageListP
   if (prevSessionIdentity !== sessionIdentity) {
     setPrevSessionIdentity(sessionIdentity);
     setRevealedTurnCount(0);
+    setFoldedReplies(new Set());
     setLoadingEarlierHistory(false);
     const cached = window.__codexHistoryPageInfo;
     const claudeCached = window.__claudeHistoryPageInfo;
@@ -311,12 +316,45 @@ export const MessageList = memo(forwardRef<MessageListRevealHandle, MessageListP
   );
   // Each message the user typed opens a turn whose box keeps it pinned while its
   // replies scroll past. With pinning off, one flat run as before.
+  // Split into turns always: a reply can be folded with pinning off too.
   const turns = useMemo(
-    () => (pinUserMessages
-      ? groupMessageTurns(visibleMessages, isHumanUserMessage)
-      : [{ start: 0, end: visibleMessages.length, pinned: false }]),
-    [pinUserMessages, visibleMessages],
+    () => groupMessageTurns(visibleMessages, isHumanUserMessage),
+    [visibleMessages],
   );
+  const headIndexOf = useCallback(
+    (turnStart: number) => (shouldCollapse ? turnStart + collapsedCount : turnStart),
+    [shouldCollapse, collapsedCount],
+  );
+  // Joined into one string first, so streaming (which changes the turns on every
+  // chunk without changing which of them can fold) does not hand the toggles a
+  // new context value each time.
+  const foldableSignature = useMemo(() => turns
+    .filter((turn) => turn.pinned && turn.end - turn.start > 1)
+    .map((turn) => messageKeys[headIndexOf(turn.start)])
+    .join('\n'), [turns, messageKeys, headIndexOf]);
+  const foldableReplies = useMemo(
+    () => new Set(foldableSignature === '' ? [] : foldableSignature.split('\n')),
+    [foldableSignature],
+  );
+  const toggleFoldedReply = useCallback((key: string) => {
+    setFoldedReplies((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }, []);
+  const replyFold = useMemo<ReplyFoldState>(() => ({
+    canFold: (key) => foldableReplies.has(key),
+    isFolded: (key) => foldedReplies.has(key),
+    toggle: toggleFoldedReply,
+  }), [foldableReplies, foldedReplies, toggleFoldedReply]);
+  /** The steps a folded reply holds: the texts and tool calls of its assistant messages. */
+  const countReplySteps = useCallback((replies: readonly ClaudeMessage[]) => replies.reduce((sum, message) => {
+    if (message.type !== 'assistant') return sum;
+    return sum + getContentBlocks(message).filter((block) => block.type === 'tool_use'
+      || (block.type === 'text' && typeof block.text === 'string' && block.text.trim() !== '')).length;
+  }, 0), [getContentBlocks]);
 
   const renderItem = (message: ClaudeMessage, visibleIndex: number) => {
     const messageIndex = shouldCollapse ? visibleIndex + collapsedCount : visibleIndex;
@@ -405,22 +443,46 @@ export const MessageList = memo(forwardRef<MessageListRevealHandle, MessageListP
         </div>
       )}
 
+      <ReplyFoldContext.Provider value={replyFold}>
       {turns.map((turn) => {
         const items = visibleMessages.slice(turn.start, turn.end);
         if (!turn.pinned) {
           return <Fragment key={`turn-${turn.start}`}>{items.map((m, i) => renderItem(m, turn.start + i))}</Fragment>;
         }
-        const headIndex = shouldCollapse ? turn.start + collapsedCount : turn.start;
+        const headKey = messageKeys[headIndexOf(turn.start)];
+        const replies = items.slice(1);
+        const folded = replies.length > 0 && foldedReplies.has(headKey);
+        // Folded replies stay mounted, only hidden, so an expanded thinking block
+        // or tool card is as the user left it when the reply is unfolded.
+        const body = (
+          <>
+            <div className="turn-replies" style={folded ? { display: 'none' } : { display: 'contents' }}>
+              {replies.map((m, i) => renderItem(m, turn.start + 1 + i))}
+            </div>
+            {folded && (
+              <CollapsedReplyNotice count={countReplySteps(replies)} onExpand={() => toggleFoldedReply(headKey)} t={t} />
+            )}
+          </>
+        );
+        if (!pinUserMessages) {
+          return (
+            <Fragment key={`turn-${headKey}`}>
+              {renderItem(items[0], turn.start)}
+              {body}
+            </Fragment>
+          );
+        }
         return (
           <MessageTurn
-            key={`turn-${messageKeys[headIndex]}`}
+            key={`turn-${headKey}`}
             head={renderItem(items[0], turn.start)}
             jumpLabel={t('chat.jumpToPinnedMessage')}
           >
-            {items.slice(1).map((m, i) => renderItem(m, turn.start + 1 + i))}
+            {body}
           </MessageTurn>
         );
       })}
+      </ReplyFoldContext.Provider>
 
       {/* Loading indicator */}
       {loading && <WaitingIndicator startTime={loadingStartTime ?? undefined} />}

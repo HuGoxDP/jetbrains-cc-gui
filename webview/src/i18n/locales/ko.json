@@ -27,6 +27,11 @@
   },
   "chat": {
     "jumpToPinnedMessage": "이 메시지가 있는 곳으로 돌아가기",
+    "collapseReply": "답변 접기",
+    "expandReply": "답변 펼치기",
+    "replyCollapsed": "답변을 접었습니다",
+    "replyCollapsedCount_one": "단계 {{count}}개를 접었습니다",
+    "replyCollapsedCount_other": "단계 {{count}}개를 접었습니다",
     "sendMessage": "{{provider}}에게 메시지 보내기",
     "createNewSession": "새 세션 만들기",
     "confirmNewSession": "현재 세션에 메시지가 있습니다. 새 세션을 만드시겠습니까?",
@@ -262,6 +267,12 @@
         "enabled": "숨김",
         "disabled": "표시",
         "hint": "채팅에는 프롬프트, 답변, 변경만 남깁니다. 파일 읽기, 검색, 명령, 에이전트는 그대로 실행되지만 카드를 그리지 않습니다. 편집, 질문, 계획 승인은 남습니다. 표시만 바꾸는 설정이라 끄면 모든 카드가 다시 보입니다."
+      },
+      "softWrap": {
+        "label": "긴 줄 자동 줄바꿈",
+        "enabled": "긴 줄을 접어서 표시",
+        "disabled": "긴 줄은 가로 스크롤",
+        "hint": "코드 블록과 편집 diff의 긴 줄을 가로로 스크롤하지 않고 채팅 가장자리에서 접어 보여 줍니다."
       },
       "pinUserMessages": {
         "label": "마지막 메시지 고정",

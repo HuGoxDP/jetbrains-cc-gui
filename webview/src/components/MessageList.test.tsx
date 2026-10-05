@@ -7,22 +7,27 @@ import { reconcileMessageKeys, type MessageKeySnapshot } from '../utils/messageU
 import { setPinUserMessages } from '../utils/pinUserMessages';
 
 // Mock MessageItem to keep this suite focused on list-level paging behaviour.
-vi.mock('./MessageItem', () => ({
-  MessageItem: ({ messageKey, message }: { messageKey: string; message: ClaudeMessage }) => {
-    const [localState, setLocalState] = useState('initial');
-    return (
-      <div
-        data-testid="message-item"
-        data-key={messageKey}
-        data-type={message.type}
-        data-local-state={localState}
-        onClick={() => setLocalState('preserved')}
-      >
-        {message.content}
-      </div>
-    );
-  },
-}));
+vi.mock('./MessageItem', async () => {
+  // The fold toggle is the real one: it is what reads the list's fold state.
+  const { ReplyFoldToggle } = await vi.importActual<typeof import('./MessageItem/ReplyFoldToggle')>('./MessageItem/ReplyFoldToggle');
+  return {
+    MessageItem: ({ messageKey, message }: { messageKey: string; message: ClaudeMessage }) => {
+      const [localState, setLocalState] = useState('initial');
+      return (
+        <div
+          data-testid="message-item"
+          data-key={messageKey}
+          data-type={message.type}
+          data-local-state={localState}
+          onClick={() => setLocalState('preserved')}
+        >
+          {message.type === 'user' && <ReplyFoldToggle messageKey={messageKey} t={((key: string) => key) as never} />}
+          {message.content}
+        </div>
+      );
+    },
+  };
+});
 
 vi.mock('./WaitingIndicator', () => ({
   default: () => <div data-testid="waiting-indicator">waiting</div>,
@@ -557,5 +562,85 @@ describe('MessageList pinned user messages', () => {
     );
 
     expect(screen.getByText('reply 1').getAttribute('data-local-state')).toBe('preserved');
+  });
+});
+
+describe('MessageList folded replies', () => {
+  afterEach(() => {
+    act(() => setPinUserMessages(true));
+    cleanup();
+  });
+
+  const turn = (n: number): ClaudeMessage[] => [
+    { type: 'user', content: `ask ${n}`, id: `ask-${n}` },
+    { type: 'assistant', content: `reply ${n}`, id: `reply-${n}` },
+    { type: 'assistant', content: `done ${n}`, id: `done-${n}` },
+  ] as unknown as ClaudeMessage[];
+
+  const repliesOf = (text: string) => screen.getByText(text).closest('.turn-replies') as HTMLElement;
+
+  it('folds a reply away and back, leaving the next turn alone', () => {
+    renderList([...turn(1), ...turn(2)]);
+
+    fireEvent.click(screen.getAllByRole('button', { name: 'chat.collapseReply' })[0]);
+
+    expect(repliesOf('reply 1').style.display).toBe('none');
+    expect(repliesOf('reply 2').style.display).toBe('contents');
+    const notice = screen.getByText('chat.replyCollapsed');
+    fireEvent.click(notice);
+    expect(repliesOf('reply 1').style.display).toBe('contents');
+    expect(screen.queryByText('chat.replyCollapsed')).toBeNull();
+  });
+
+  it('keeps a folded reply mounted, so what the user opened in it stays open', () => {
+    renderList(turn(1));
+    fireEvent.click(screen.getByText('reply 1'));
+
+    fireEvent.click(screen.getByRole('button', { name: 'chat.collapseReply' }));
+    fireEvent.click(screen.getByRole('button', { name: 'chat.expandReply' }));
+
+    expect(screen.getByText('reply 1').getAttribute('data-local-state')).toBe('preserved');
+  });
+
+  it('counts the steps a folded reply holds', () => {
+    const endRef = createRef<HTMLDivElement>();
+    const messages = turn(1);
+    render(
+      <MessageList
+        messages={messages}
+        messageKeys={keysFor(messages)}
+        streamingActive={false}
+        isThinking={false}
+        loading={false}
+        loadingStartTime={null}
+        t={((key: string, opts?: Record<string, unknown>) => (opts?.count !== undefined ? `${key}:${opts.count}` : key)) as never}
+        getMessageText={noopGetText}
+        getContentBlocks={(m: ClaudeMessage) => (m.type === 'assistant'
+          ? [{ type: 'text', text: String(m.content) }, { type: 'tool_use', id: `t-${String(m.content)}`, name: 'Read', input: {} }]
+          : [])}
+        findToolResult={noopFindToolResult}
+        extractMarkdownContent={noopExtractMd}
+        messagesEndRef={endRef}
+      />,
+    );
+
+    fireEvent.click(screen.getByRole('button', { name: 'chat.collapseReply' }));
+
+    expect(screen.getByText('chat.replyCollapsedCount:4')).toBeTruthy();
+  });
+
+  it('offers no toggle for a message with nothing below it yet', () => {
+    renderList([...turn(1), { type: 'user', content: 'ask 2', id: 'ask-2' } as unknown as ClaudeMessage]);
+
+    expect(screen.getAllByRole('button', { name: 'chat.collapseReply' })).toHaveLength(1);
+  });
+
+  it('folds with pinning off too', () => {
+    act(() => setPinUserMessages(false));
+    renderList(turn(1));
+
+    fireEvent.click(screen.getByRole('button', { name: 'chat.collapseReply' }));
+
+    expect(repliesOf('reply 1').style.display).toBe('none');
   });
 });

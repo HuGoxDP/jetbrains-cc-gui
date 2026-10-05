@@ -9,6 +9,9 @@ import UiFontSection from './UiFontSection';
 import CodeFontSection from './CodeFontSection';
 import DiffThemeSection from './DiffThemeSection';
 import ColorSettingSection from './ColorSettingSection';
+import { ToggleSettingSection } from './ToggleSettingSection';
+import { setSoftWrap, useSoftWrap } from '../../../utils/softWrap';
+import { useTranslation } from 'react-i18next';
 
 // Preset colors (module-level constants to avoid recreating on each render)
 const DARK_PRESETS = [
@@ -139,6 +142,8 @@ const AppearanceTab = ({
   diffTheme = 'follow',
   onDiffThemeChange = () => {},
 }: AppearanceTabProps) => {
+  const { t } = useTranslation();
+  const softWrap = useSoftWrap();
   const resolvedTheme = useMemo(() => {
     if (theme !== 'system') return theme;
     return (document.documentElement.getAttribute('data-theme') as 'light' | 'dark') || 'dark';
@@ -175,6 +180,16 @@ const AppearanceTab = ({
 
       {/* Diff theme */}
       <DiffThemeSection diffTheme={diffTheme} onDiffThemeChange={onDiffThemeChange} />
+
+      <ToggleSettingSection
+        icon="codicon-word-wrap"
+        label={t('settings.basic.softWrap.label')}
+        checked={softWrap}
+        onChange={setSoftWrap}
+        enabledLabel={t('settings.basic.softWrap.enabled')}
+        disabledLabel={t('settings.basic.softWrap.disabled')}
+        hint={t('settings.basic.softWrap.hint')}
+      />
 
       {/* Chat background color */}
       <ColorSettingSection

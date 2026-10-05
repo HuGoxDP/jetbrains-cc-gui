@@ -153,9 +153,9 @@ interface EditDiffViewProps {
 const EditDiffView = function EditDiffView({ diff }: EditDiffViewProps) {
   return (
     <div className="task-details" style={TASK_DETAILS_STYLE}>
-      <div className="code-font-surface" style={DIFF_CONTAINER_STYLE}>
+      <div className="code-font-surface edit-diff-scroll" style={DIFF_CONTAINER_STYLE}>
         {/* Inner wrapper stretches to scrollWidth so row backgrounds fill the full width */}
-        <div style={INNER_WRAPPER_STYLE}>
+        <div className="edit-diff-rows" style={INNER_WRAPPER_STYLE}>
         {diff.lines.map((line, index) => {
           const isDeleted = line.type === 'deleted';
           const isAdded = line.type === 'added';
@@ -169,7 +169,7 @@ const EditDiffView = function EditDiffView({ diff }: EditDiffViewProps) {
               <div style={getDiffGlyphStyle(isDeleted, isAdded, isUnchanged)}>
                 {isDeleted ? '-' : isAdded ? '+' : ' '}
               </div>
-              <pre style={DIFF_PRE_STYLE}>
+              <pre className="edit-diff-code" style={DIFF_PRE_STYLE}>
                 {line.content}
               </pre>
             </div>

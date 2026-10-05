@@ -27,6 +27,11 @@
   },
   "chat": {
     "jumpToPinnedMessage": "Volver a donde está este mensaje",
+    "collapseReply": "Contraer respuesta",
+    "expandReply": "Expandir respuesta",
+    "replyCollapsed": "Respuesta contraída",
+    "replyCollapsedCount_one": "{{count}} paso contraído",
+    "replyCollapsedCount_other": "{{count}} pasos contraídos",
     "sendMessage": "Enviar mensaje a {{provider}}",
     "createNewSession": "Crear nueva sesión",
     "confirmNewSession": "La sesión actual tiene mensajes, ¿estás seguro de que quieres crear una nueva sesión?",
@@ -262,6 +267,12 @@
         "enabled": "Ocultas",
         "disabled": "Visibles",
         "hint": "Deja en el chat solo tus prompts, las respuestas y los cambios. Las lecturas de archivos, búsquedas, comandos y agentes se ejecutan igual, pero sus tarjetas no se muestran; las ediciones, preguntas y aprobaciones de plan se mantienen. Solo afecta a la vista: al desactivarlo vuelven todas las tarjetas."
+      },
+      "softWrap": {
+        "label": "Ajustar líneas largas",
+        "enabled": "Las líneas largas se ajustan",
+        "disabled": "Las líneas largas se desplazan en horizontal",
+        "hint": "Las líneas largas de los bloques de código y de los diffs de edición se parten en el borde del chat en lugar de desplazarse en horizontal."
       },
       "pinUserMessages": {
         "label": "Fijar tu último mensaje",

@@ -1,7 +1,8 @@
 import { memo } from 'react';
 import type { TFunction } from 'i18next';
 import type { ClaudeMessage } from '../../types';
-import { formatTime } from '../../utils/helpers';
+import { MessageTime } from './MessageTime';
+import { ReplyFoldToggle } from './ReplyFoldToggle';
 
 /** Shared copy icon SVG used by both user and assistant message copy buttons */
 const CopyIcon = () => (
@@ -114,6 +115,8 @@ const ForkButton = memo(function ForkButton({ onClick, label }: ForkButtonProps)
 
 interface UserMessageHeaderProps {
   messageType: ClaudeMessage['type'];
+  /** The message's key in the list, which names the reply below it for folding. */
+  messageKey?: string;
   timestamp?: string;
   hasCopyableText: boolean;
   isQuoted: boolean;
@@ -128,6 +131,7 @@ interface UserMessageHeaderProps {
 /** Timestamp, quote, copy and fork buttons for user messages */
 export const UserMessageHeader = memo(function UserMessageHeader({
   messageType,
+  messageKey,
   timestamp,
   hasCopyableText,
   isQuoted,
@@ -140,9 +144,8 @@ export const UserMessageHeader = memo(function UserMessageHeader({
   if (messageType !== 'user' || !timestamp) return null;
   return (
     <div className="message-header-row">
-      <div className="message-timestamp-header">
-        {formatTime(timestamp)}
-      </div>
+      {messageKey && <ReplyFoldToggle messageKey={messageKey} t={t} />}
+      <MessageTime className="message-timestamp-header" timestamp={timestamp} />
       {hasCopyableText && (
         <>
           <QuoteButton

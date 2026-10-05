@@ -27,6 +27,11 @@
   },
   "chat": {
     "jumpToPinnedMessage": "Revenir à l’emplacement de ce message",
+    "collapseReply": "Replier la réponse",
+    "expandReply": "Déplier la réponse",
+    "replyCollapsed": "Réponse repliée",
+    "replyCollapsedCount_one": "{{count}} étape repliée",
+    "replyCollapsedCount_other": "{{count}} étapes repliées",
     "sendMessage": "Envoyer un message à {{provider}}",
     "createNewSession": "Créer une nouvelle session",
     "confirmNewSession": "La session actuelle contient des messages, êtes-vous sûr de vouloir créer une nouvelle session ?",
@@ -262,6 +267,12 @@
         "enabled": "Masqués",
         "disabled": "Affichés",
         "hint": "Ne garder dans le chat que vos prompts, les réponses et les modifications. Lectures de fichiers, recherches, commandes et agents s'exécutent normalement, mais leurs cartes ne sont pas affichées ; les modifications, questions et validations de plan restent. Affichage seulement : désactivé, toutes les cartes réapparaissent."
+      },
+      "softWrap": {
+        "label": "Retour à la ligne automatique",
+        "enabled": "Les lignes longues reviennent à la ligne",
+        "disabled": "Les lignes longues défilent horizontalement",
+        "hint": "Les lignes longues des blocs de code et des diffs de modification reviennent à la ligne au bord du chat au lieu de défiler horizontalement."
       },
       "pinUserMessages": {
         "label": "Épingler votre dernier message",

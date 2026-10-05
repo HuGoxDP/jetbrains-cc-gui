@@ -44,6 +44,11 @@
   },
   "chat": {
     "jumpToPinnedMessage": "回到这条消息所在的位置",
+    "collapseReply": "折叠回复",
+    "expandReply": "展开回复",
+    "replyCollapsed": "回复已折叠",
+    "replyCollapsedCount_one": "已折叠 {{count}} 个步骤",
+    "replyCollapsedCount_other": "已折叠 {{count}} 个步骤",
     "sendMessage": "给 {{provider}} 发送消息",
     "createNewSession": "创建新会话",
     "confirmNewSession": "当前会话已有消息，确定要创建新会话吗？",
@@ -505,6 +510,12 @@
         "enabled": "隐藏",
         "disabled": "显示",
         "hint": "聊天中只保留你的提示、回答和修改。读取文件、搜索、命令和子代理照常运行，但不显示其卡片；编辑、提问和计划确认仍会显示。仅影响显示：关闭后所有卡片都会重新出现。"
+      },
+      "softWrap": {
+        "label": "长行自动换行",
+        "enabled": "长行自动换行",
+        "disabled": "长行横向滚动",
+        "hint": "代码块和编辑差异中的长行在聊天边缘折行显示，无需横向滚动阅读。"
       },
       "pinUserMessages": {
         "label": "固定你的上一条消息",

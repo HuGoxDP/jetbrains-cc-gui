@@ -1662,3 +1662,74 @@
         display: flex;
     }
 }
+
+/* ============================================
+   Soft wrap ("Wrap long lines", utils/softWrap.ts)
+   ============================================
+   The setting puts `soft-wrap` on <html>. A long line then folds at the box's
+   edge instead of running behind a horizontal scroll. `break-all` because a
+   path or a JSON line has no space to break at, and would still overflow.
+   The diff rows carry inline styles, so their rules need !important. */
+html.soft-wrap {
+  .markdown-content pre,
+  .markdown-content pre code {
+    white-space: pre-wrap;
+    word-break: break-all;
+    overflow-x: hidden;
+  }
+
+  .edit-diff-scroll {
+    white-space: pre-wrap !important;
+    overflow-x: hidden !important;
+  }
+
+  /* The rows stretch to the longest line to keep its background whole while
+     scrolling; folded, they are the box's own width. */
+  .edit-diff-rows {
+    display: block !important;
+    min-width: 0 !important;
+  }
+
+  .edit-diff-code {
+    white-space: pre-wrap !important;
+    word-break: break-all;
+    min-width: 0;
+  }
+}
+
+/* ============================================
+   Folded replies (contexts/ReplyFoldContext.tsx)
+   ============================================ */
+/* Always shown, unlike the copy and quote buttons beside it: whether a reply is
+   folded has to be readable from a distance, and a fold arrow that has to be
+   found by hovering gives back the effort folding was meant to save. Dimmed
+   until hovered, so it does not compete with the message. */
+.message-copy-btn-inline.reply-fold-toggle {
+  opacity: 0.55;
+  visibility: visible;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  .codicon {
+    font-size: 12px;
+  }
+}
+
+.collapsed-reply-notice {
+  display: block;
+  margin: 4px 0 12px;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  font-size: 12px;
+  font-style: italic;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  text-align: start;
+
+  &:hover {
+    color: var(--text-secondary);
+  }
+}

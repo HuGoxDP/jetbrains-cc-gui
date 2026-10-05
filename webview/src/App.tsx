@@ -18,6 +18,7 @@ import { DEFAULT_PERMISSION_DIALOG_TIMEOUT_SECONDS } from './utils/permissionDia
 import { createApplyHistoryModel } from './applyHistoryModel';
 import { useAppGlobalEffects } from './useAppGlobalEffects';
 import { useAppChatController } from './useAppChatController';
+import { useSoftWrapClass } from './utils/softWrap';
 
 const App = () => {
   const { t } = useTranslation();
@@ -26,6 +27,9 @@ const App = () => {
   // everything else from UIStateContext is consumed inside the extracted
   // components/hooks (same convention as ChatScreen / AppDialogs).
   const { toasts, dismissToast, currentView, addToast } = useUIState();
+
+  // "Wrap long lines" is a class on <html> that the code and diff styles read.
+  useSoftWrapClass();
 
   // ── Permission dialog timeout (synced with backend config) ──
   const [permissionDialogTimeoutSeconds, setPermissionDialogTimeoutSeconds] = useState(DEFAULT_PERMISSION_DIALOG_TIMEOUT_SECONDS);

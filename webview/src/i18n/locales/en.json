@@ -44,6 +44,11 @@
   },
   "chat": {
     "jumpToPinnedMessage": "Back to where this message sits",
+    "collapseReply": "Collapse reply",
+    "expandReply": "Expand reply",
+    "replyCollapsed": "Reply collapsed",
+    "replyCollapsedCount_one": "{{count}} step collapsed",
+    "replyCollapsedCount_other": "{{count}} steps collapsed",
     "sendMessage": "Send message to {{provider}}",
     "createNewSession": "Create New Session",
     "confirmNewSession": "Current session has messages. Are you sure you want to create a new session?",
@@ -505,6 +510,12 @@
         "enabled": "Hidden",
         "disabled": "Shown",
         "hint": "Keep the chat to your prompts, the answers and the edits. File reads, searches, commands and agents run as usual but their cards are not drawn; edits, questions and plan approvals stay. Display only: switching it off shows every card again."
+      },
+      "softWrap": {
+        "label": "Wrap long lines",
+        "enabled": "Long lines wrap",
+        "disabled": "Long lines scroll sideways",
+        "hint": "Fold long lines in code blocks and edit diffs at the edge of the chat instead of scrolling sideways to read them."
       },
       "pinUserMessages": {
         "label": "Pin your last message",

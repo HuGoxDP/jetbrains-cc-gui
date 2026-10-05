@@ -27,6 +27,11 @@
   },
   "chat": {
     "jumpToPinnedMessage": "このメッセージの位置に戻る",
+    "collapseReply": "返信を折りたたむ",
+    "expandReply": "返信を展開",
+    "replyCollapsed": "返信を折りたたみました",
+    "replyCollapsedCount_one": "{{count}} 件のステップを折りたたみました",
+    "replyCollapsedCount_other": "{{count}} 件のステップを折りたたみました",
     "sendMessage": "{{provider}}にメッセージを送信",
     "createNewSession": "新規セッションを作成",
     "confirmNewSession": "現在のセッションにメッセージがあります。新規セッションを作成してもよろしいですか?",
@@ -262,6 +267,12 @@
         "enabled": "非表示",
         "disabled": "表示",
         "hint": "チャットにはプロンプト、回答、変更だけを残します。ファイルの読み取り、検索、コマンド、エージェントは通常どおり動きますがカードは表示しません。編集、質問、プランの承認は残ります。表示だけの設定で、オフにするとすべてのカードが戻ります。"
+      },
+      "softWrap": {
+        "label": "長い行を折り返す",
+        "enabled": "長い行を折り返す",
+        "disabled": "長い行は横にスクロール",
+        "hint": "コードブロックと編集差分の長い行を、横スクロールせずにチャットの端で折り返して表示します。"
       },
       "pinUserMessages": {
         "label": "最後のメッセージを固定",

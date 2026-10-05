@@ -1,4 +1,5 @@
 import { memo } from 'react';
+import { MessageTime } from './MessageTime';
 import type { TFunction } from 'i18next';
 import type { ClaudeMessage } from '../../types';
 
@@ -111,6 +112,12 @@ export const MessageDurationFooter = memo(function MessageDurationFooter({
   return (
     <div className="message-duration">
       <span className="message-duration-inner">
+        {message.timestamp && (
+          <>
+            <MessageTime className="message-duration-time" timestamp={message.timestamp} />
+            <span className="message-duration-separator">·</span>
+          </>
+        )}
         <span className="message-duration-flag codicon codicon-clock"></span>
         <span className="message-duration-cost">{t('chat.totalDuration')}</span>
         <span className="message-duration-value">{formatDurationMs(message.durationMs)}</span>

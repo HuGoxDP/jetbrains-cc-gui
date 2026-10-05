@@ -271,6 +271,7 @@ export const MessageItem = memo(function MessageItem({
     >
       <UserMessageHeader
         messageType={message.type}
+        messageKey={messageKey}
         timestamp={message.timestamp}
         hasCopyableText={hasCopyableText}
         isQuoted={quotedMessageIndex === messageIndex}

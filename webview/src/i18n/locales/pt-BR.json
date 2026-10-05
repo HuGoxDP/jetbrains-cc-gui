@@ -27,6 +27,11 @@
   },
   "chat": {
     "jumpToPinnedMessage": "Voltar para onde esta mensagem está",
+    "collapseReply": "Recolher resposta",
+    "expandReply": "Expandir resposta",
+    "replyCollapsed": "Resposta recolhida",
+    "replyCollapsedCount_one": "{{count}} etapa recolhida",
+    "replyCollapsedCount_other": "{{count}} etapas recolhidas",
     "sendMessage": "Enviar mensagem para {{provider}}",
     "createNewSession": "Criar Nova Sessão",
     "confirmNewSession": "A sessão atual possui mensagens. Tem certeza que deseja criar uma nova sessão?",
@@ -262,6 +267,12 @@
         "enabled": "Ocultas",
         "disabled": "Visíveis",
         "hint": "Deixa no chat só seus prompts, as respostas e as alterações. Leituras de arquivos, buscas, comandos e agentes rodam normalmente, mas seus cartões não aparecem; edições, perguntas e aprovações de plano continuam. Só afeta a exibição: ao desligar, todos os cartões voltam."
+      },
+      "softWrap": {
+        "label": "Quebrar linhas longas",
+        "enabled": "Linhas longas quebram",
+        "disabled": "Linhas longas rolam na horizontal",
+        "hint": "Linhas longas em blocos de código e diffs de edição quebram na borda do chat em vez de rolar na horizontal."
       },
       "pinUserMessages": {
         "label": "Fixar sua última mensagem",

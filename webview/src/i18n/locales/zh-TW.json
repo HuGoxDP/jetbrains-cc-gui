@@ -27,6 +27,11 @@
   },
   "chat": {
     "jumpToPinnedMessage": "回到這則訊息所在的位置",
+    "collapseReply": "摺疊回覆",
+    "expandReply": "展開回覆",
+    "replyCollapsed": "回覆已摺疊",
+    "replyCollapsedCount_one": "已摺疊 {{count}} 個步驟",
+    "replyCollapsedCount_other": "已摺疊 {{count}} 個步驟",
     "sendMessage": "給 {{provider}} 發送訊息",
     "createNewSession": "建立新會話",
     "confirmNewSession": "目前會話已有訊息，確定要建立新會話嗎？",
@@ -262,6 +267,12 @@
         "enabled": "隱藏",
         "disabled": "顯示",
         "hint": "聊天中只保留你的提示、回答和修改。讀取檔案、搜尋、指令和子代理照常執行，但不顯示其卡片；編輯、提問和計畫確認仍會顯示。僅影響顯示：關閉後所有卡片都會重新出現。"
+      },
+      "softWrap": {
+        "label": "長行自動換行",
+        "enabled": "長行自動換行",
+        "disabled": "長行橫向捲動",
+        "hint": "程式碼區塊與編輯差異中的長行在聊天邊緣折行顯示，不必橫向捲動閱讀。"
       },
       "pinUserMessages": {
         "label": "固定你的上一則訊息",
