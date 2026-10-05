@@ -13,13 +13,17 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.github.claudecodegui.i18n.ClaudeCodeGuiBundle;
+import com.intellij.notification.NotificationGroupManager;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.util.Computable;
+import com.intellij.util.concurrency.AppExecutorUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
@@ -102,22 +106,72 @@ public class DiffReviewService {
             // Open the interactive diff and map the result
             CompletableFuture<DiffResult> diffFuture = InteractiveDiffManager.showInteractiveDiff(project, request);
 
-            return diffFuture.thenApply(diffResult -> {
-                if (diffResult.isApplied()) {
-                    LOG.info("DiffReview: User accepted changes for " + filePath
-                            + (diffResult.isAppliedAlways() ? " (always allow)" : ""));
-                    return diffResult.isAppliedAlways()
-                            ? DiffReviewResult.acceptedAlways(diffResult.getFinalContent(), filePath)
-                            : DiffReviewResult.accepted(diffResult.getFinalContent(), filePath);
-                } else {
+            // Approving lets the CLI write its change, and the CLI checked the file before
+            // it asked, not after. A file that changed while the diff was open (an editor
+            // save, a build, another session) would be overwritten with content made from
+            // the text shown here, so it is read again before answering. Off the EDT: the
+            // read refreshes the file from disk, which must not happen under a read lock there.
+            return diffFuture.thenComposeAsync(diffResult -> {
+                if (!diffResult.isApplied()) {
                     String action = diffResult.isRejected() ? "rejected" : "dismissed";
                     LOG.info("DiffReview: User " + action + " changes for " + filePath);
-                    return DiffReviewResult.rejected(filePath);
+                    return CompletableFuture.completedFuture(DiffReviewResult.rejected(filePath));
                 }
-            });
+                if (changedSince(originalContent, readFileContent(filePath))) {
+                    return reviewAgainAfterChange(project, toolName, inputs, filePath, fileName);
+                }
+                LOG.info("DiffReview: User accepted changes for " + filePath
+                        + (diffResult.isAppliedAlways() ? " (always allow)" : ""));
+                return CompletableFuture.completedFuture(diffResult.isAppliedAlways()
+                        ? DiffReviewResult.acceptedAlways(diffResult.getFinalContent(), filePath)
+                        : DiffReviewResult.accepted(diffResult.getFinalContent(), filePath));
+            }, AppExecutorUtil.getAppExecutorService());
         } catch (Exception e) {
             LOG.error("DiffReview: Failed to set up diff review for " + filePath, e);
             return null;
+        }
+    }
+
+    /**
+     * Whether the file is no longer what the review showed. Null stands for a file that
+     * did not exist, so a file created meanwhile counts as a change.
+     */
+    static boolean changedSince(@Nullable String reviewed, @Nullable String current) {
+        return !Objects.equals(reviewed, current);
+    }
+
+    /**
+     * The file changed on disk while its review was open. Nothing is answered yet: the
+     * change is shown again against the file as it is now, and that review decides.
+     * When Claude's edit no longer applies to the new text, the request is refused, since
+     * writing it would mean guessing where it belongs.
+     */
+    @NotNull
+    private static CompletableFuture<DiffReviewResult> reviewAgainAfterChange(
+            @NotNull Project project,
+            @NotNull String toolName,
+            @NotNull JsonObject inputs,
+            @NotNull String filePath,
+            @NotNull String fileName
+    ) {
+        LOG.info("DiffReview: " + filePath + " changed on disk during the review; reviewing again");
+        CompletableFuture<DiffReviewResult> again = reviewFileChange(project, toolName, inputs);
+        if (again != null) {
+            notifyWarning(project, ClaudeCodeGuiBundle.message("diff.reviewBaseChanged", fileName));
+            return again;
+        }
+        notifyWarning(project, ClaudeCodeGuiBundle.message("diff.reviewBaseChangedNotApplied", fileName));
+        return CompletableFuture.completedFuture(DiffReviewResult.rejected(filePath));
+    }
+
+    private static void notifyWarning(@NotNull Project project, @NotNull String message) {
+        try {
+            NotificationGroupManager.getInstance()
+                    .getNotificationGroup("CC GUI Notifications")
+                    .createNotification(message, NotificationType.WARNING)
+                    .notify(project);
+        } catch (Exception e) {
+            LOG.warn("DiffReview: Could not show notification: " + message, e);
         }
     }
 
