@@ -142,6 +142,9 @@ export function buildRuntimeSignature(options, systemPromptAppend, streamingEnab
     // Ultracode rides the inline settings override, which the CLI reads once at
     // spawn. Toggling it must rebuild the runtime, exactly like an effort change.
     ultracode: options.settings?.ultracode === true,
+    // --thinking-display is a spawn flag (via extraArgs), so turning thinking
+    // summaries on or off must rebuild the runtime to take effect.
+    thinkingDisplay: options.extraArgs?.['thinking-display'] || '',
     // The [1m] suffix selects the 1M context window. The CLI subprocess locks
     // the window in at spawn from its environment, and setModel() cannot change
     // it afterwards (see shouldRecreateRuntimeForModel) — so toggling [1m] must

@@ -525,6 +525,12 @@
         "show": "查看键盘快捷键",
         "hint": "也可以在聊天中任意位置按 Ctrl+/（macOS 上为 Cmd+/）。"
       },
+      "thinkingSummaries": {
+        "label": "思考摘要",
+        "enabled": "显示",
+        "disabled": "隐藏",
+        "hint": "在思考区块中显示 Claude 思考过程的可读摘要，否则该区块常常为空。这是 Claude Code 自身的 showThinkingSummaries 设置（位于 ~/.claude/settings.json），终端也会遵循。从下一条消息起生效。"
+      },
       "softWrap": {
         "label": "长行自动换行",
         "enabled": "长行自动换行",

@@ -5,6 +5,7 @@ import { PermissionDialogTimeoutSetting } from './PermissionDialogTimeoutSetting
 import { ToggleSettingSection } from './ToggleSettingSection';
 import { SendShortcutSection } from './SendShortcutSection';
 import KeyboardShortcutsSection from './KeyboardShortcutsSection';
+import { ThinkingSummariesSection } from './ThinkingSummariesSection';
 import { NotificationSettingsGroup } from './NotificationSettingsGroup';
 import { setHideToolCalls, useHideToolCalls } from '../../../utils/hideToolCalls';
 import { setPinUserMessages, usePinUserMessages } from '../../../utils/pinUserMessages';
@@ -127,6 +128,8 @@ const BehaviorTab = ({
         disabledLabel={t('settings.basic.streaming.disabled')}
         hint={t('settings.basic.streaming.hint')}
       />
+
+      <ThinkingSummariesSection />
 
       {/* Auto open file configuration */}
       <ToggleSettingSection

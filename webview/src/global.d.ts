@@ -432,6 +432,7 @@ interface Window {
    * Update AI commit generation enabled state
    */
   updateCommitGenerationEnabled?: (json: string) => void;
+  updateShowThinkingSummaries?: (json: string) => void;
 
   /**
    * Update AI session title generation enabled state

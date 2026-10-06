@@ -282,6 +282,12 @@
         "show": "키보드 단축키 보기",
         "hint": "채팅 어디서나 Ctrl+/(macOS에서는 Cmd+/)를 눌러도 열립니다."
       },
+      "thinkingSummaries": {
+        "label": "생각 요약",
+        "enabled": "표시",
+        "disabled": "숨김",
+        "hint": "생각 블록에 Claude가 생각한 내용의 읽을 수 있는 요약을 보여 줍니다. 켜지 않으면 이 블록은 비어 있는 경우가 많습니다. ~/.claude/settings.json에 있는 Claude Code 자체의 showThinkingSummaries 설정이라 터미널에도 적용됩니다. 다음 메시지부터 적용됩니다."
+      },
       "softWrap": {
         "label": "긴 줄 자동 줄바꿈",
         "enabled": "긴 줄을 접어서 표시",

@@ -657,6 +657,20 @@ public class ProjectConfigHandler {
         }
     }
 
+    public void handleGetShowThinkingSummaries() {
+        respondWithJson("window.updateShowThinkingSummaries",
+            () -> jsonOf("showThinkingSummaries", settingsService.getShowThinkingSummaries()),
+            jsonOf("showThinkingSummaries", false),
+            "Failed to get showThinkingSummaries");
+    }
+
+    public void handleSetShowThinkingSummaries(String content) {
+        handleBooleanToggle(content, "showThinkingSummaries", false, "showThinkingSummaries",
+            settingsService::setShowThinkingSummaries,
+            "window.updateShowThinkingSummaries",
+            "Failed to save showThinkingSummaries");
+    }
+
     public void handleGetCommitGenerationEnabled() {
         respondWithJson("window.updateCommitGenerationEnabled",
             () -> jsonOf("commitGenerationEnabled", settingsService.getCommitGenerationEnabled()),

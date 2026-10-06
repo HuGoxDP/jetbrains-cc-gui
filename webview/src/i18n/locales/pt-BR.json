@@ -282,6 +282,12 @@
         "show": "Ver atalhos de teclado",
         "hint": "Ou pressione Ctrl+/ (Cmd+/ no macOS) em qualquer lugar do chat."
       },
+      "thinkingSummaries": {
+        "label": "Resumos do raciocínio",
+        "enabled": "Visíveis",
+        "disabled": "Ocultos",
+        "hint": "Mostra no bloco de raciocínio um resumo legível do que Claude pensou; sem isso, o bloco costuma ficar vazio. É a própria configuração showThinkingSummaries do Claude Code em ~/.claude/settings.json, então o terminal também a segue. Vale a partir da próxima mensagem."
+      },
       "softWrap": {
         "label": "Quebrar linhas longas",
         "enabled": "Linhas longas quebram",

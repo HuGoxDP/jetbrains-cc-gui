@@ -282,6 +282,12 @@
         "show": "キーボードショートカットを表示",
         "hint": "チャットのどこでも Ctrl+/（macOS では Cmd+/）を押しても開けます。"
       },
+      "thinkingSummaries": {
+        "label": "思考の要約",
+        "enabled": "表示",
+        "disabled": "非表示",
+        "hint": "思考ブロックに Claude の思考の読みやすい要約を表示します。オフのままだとブロックが空のことがよくあります。~/.claude/settings.json にある Claude Code 自身の showThinkingSummaries 設定なので、ターミナルにも反映されます。次のメッセージから適用されます。"
+      },
       "softWrap": {
         "label": "長い行を折り返す",
         "enabled": "長い行を折り返す",

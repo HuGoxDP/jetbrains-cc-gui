@@ -66,6 +66,7 @@ import {
 import { generateSessionTitle } from '../session-title-service.js';
 import { getClaudeCliPathOverride } from '../../utils/claude-cli-path.js';
 import { resolveEffortSelection } from './reasoning-effort.js';
+import { resolveThinkingDisplayArgs } from './thinking-display.js';
 
 function resolveReasoningEffort(params, settings = null) {
   return resolveEffortSelection(params.reasoningEffort, settings).effort ?? undefined;
@@ -125,7 +126,7 @@ function resolveRequestModelState(modelId, settingsEnv) {
   };
 }
 
-function buildQueryOptions(workingDirectory, sdkModelName, permissionMode, maxThinkingTokens, reasoningEffort, streamingEnabled, systemPromptAppend, requestedSessionId, mcpServers, modelId, ultracode = null) {
+function buildQueryOptions(workingDirectory, sdkModelName, permissionMode, maxThinkingTokens, reasoningEffort, streamingEnabled, systemPromptAppend, requestedSessionId, mcpServers, modelId, ultracode = null, extraArgs = null) {
   const claudeCliOverride = getClaudeCliPathOverride();
   return {
     cwd: workingDirectory,
@@ -138,6 +139,7 @@ function buildQueryOptions(workingDirectory, sdkModelName, permissionMode, maxTh
     ...(reasoningEffort && { effort: reasoningEffort }),
     ...(maxThinkingTokens !== undefined && { maxThinkingTokens }),
     ...(streamingEnabled && { includePartialMessages: true }),
+    ...(extraArgs && { extraArgs }),
     additionalDirectories: Array.from(
       new Set(
         [workingDirectory, process.env.IDEA_PROJECT_PATH, process.env.PROJECT_PATH].filter(Boolean)
@@ -220,7 +222,7 @@ async function buildRequestContext(params, withAttachments, overrides = {}) {
   const options = buildQueryOptions(
     workingDirectory, sdkModelName, permissionMode,
     maxThinkingTokens, reasoningEffort, streamingEnabled, systemPromptAppend, requestedSessionId,
-    mcpServers, modelId, effortSelection.ultracode
+    mcpServers, modelId, effortSelection.ultracode, resolveThinkingDisplayArgs(settings)
   );
 
   const userMessage = await buildUserMessage(params, withAttachments, requestedSessionId);

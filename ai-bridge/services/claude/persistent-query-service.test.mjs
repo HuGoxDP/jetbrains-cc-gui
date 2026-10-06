@@ -151,6 +151,16 @@ test('fixed thinking tokens remain configured when no reasoningEffort is provide
   assert.equal(context.maxThinkingTokens, 10000);
 });
 
+test('showThinkingSummaries asks the CLI for summarized thinking through extraArgs', async () => {
+  const params = { sessionId: '', runtimeSessionEpoch: 'epoch-summaries', cwd: process.cwd(), message: 'hi' };
+  const on = await __testing.buildRequestContext(params, false, { settings: { showThinkingSummaries: true } });
+  assert.deepEqual(on.options.extraArgs, { 'thinking-display': 'summarized' });
+
+  const off = await __testing.buildRequestContext(params, false, { settings: {} });
+  assert.equal(off.options.extraArgs, undefined);
+  assert.notEqual(on.runtimeSignature, off.runtimeSignature);
+});
+
 test('anonymous runtime is isolated by runtimeSessionEpoch', async () => {
   const factory = createQueryFactory();
   __testing.setQueryFn(factory.queryFn);

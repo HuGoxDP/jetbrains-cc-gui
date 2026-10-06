@@ -75,6 +75,8 @@ public class SettingsHandler extends BaseMessageHandler {
         "set_permission_dialog_timeout",
         "get_commit_generation_enabled",
         "set_commit_generation_enabled",
+        "get_show_thinking_summaries",
+        "set_show_thinking_summaries",
         "get_status_bar_widget_enabled",
         "set_status_bar_widget_enabled",
 
@@ -272,6 +274,12 @@ public class SettingsHandler extends BaseMessageHandler {
                 return true;
             case "set_permission_dialog_timeout":
                 projectConfigHandler.handleSetPermissionDialogTimeout(content);
+                return true;
+            case "get_show_thinking_summaries":
+                projectConfigHandler.handleGetShowThinkingSummaries();
+                return true;
+            case "set_show_thinking_summaries":
+                projectConfigHandler.handleSetShowThinkingSummaries(content);
                 return true;
             case "get_commit_generation_enabled":
                 projectConfigHandler.handleGetCommitGenerationEnabled();

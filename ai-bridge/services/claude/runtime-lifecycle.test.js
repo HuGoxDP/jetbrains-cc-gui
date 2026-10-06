@@ -489,6 +489,15 @@ test('buildRuntimeSignature is stable for the same [1m] state', () => {
   assert.equal(a, b);
 });
 
+test('buildRuntimeSignature differs when thinking summaries are turned on, since the flag is fixed at spawn', () => {
+  const off = { cwd: '/tmp/project', model: 'sonnet' };
+  const on = { ...off, extraArgs: { 'thinking-display': 'summarized' } };
+  assert.notEqual(
+    buildRuntimeSignature(off, '', true, 'epoch-x', 'claude-sonnet-4-6'),
+    buildRuntimeSignature(on, '', true, 'epoch-x', 'claude-sonnet-4-6'),
+  );
+});
+
 test('applyPermissionModeToRuntime keeps state unchanged when the SDK rejects a live mode change', async () => {
   const runtime = {
     closed: false,

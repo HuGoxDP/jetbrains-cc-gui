@@ -525,6 +525,12 @@
         "show": "Show keyboard shortcuts",
         "hint": "Or press Ctrl+/ (Cmd+/ on macOS) anywhere in the chat."
       },
+      "thinkingSummaries": {
+        "label": "Thinking summaries",
+        "enabled": "Shown",
+        "disabled": "Hidden",
+        "hint": "Shows a readable summary of Claude's thinking in the thinking block, which otherwise often stays empty. This is Claude Code's own showThinkingSummaries setting in ~/.claude/settings.json, so the terminal follows it too. Applies from the next message."
+      },
       "softWrap": {
         "label": "Wrap long lines",
         "enabled": "Long lines wrap",

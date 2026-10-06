@@ -726,6 +726,14 @@ public class CodemossSettingsService {
         return claudeSettingsManager.getAlwaysThinkingEnabled();
     }
 
+    public boolean getShowThinkingSummaries() throws IOException {
+        return claudeSettingsManager.getShowThinkingSummaries();
+    }
+
+    public void setShowThinkingSummaries(boolean enabled) throws IOException {
+        claudeSettingsManager.setShowThinkingSummaries(enabled);
+    }
+
     public void setAlwaysThinkingEnabledInClaudeSettings(boolean enabled) throws IOException {
         claudeSettingsManager.setAlwaysThinkingEnabled(enabled);
     }

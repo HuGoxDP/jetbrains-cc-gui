@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.intellij.openapi.diagnostic.Logger;
 
@@ -14,8 +15,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
 
@@ -24,6 +27,8 @@ import java.util.Set;
  * Manages reading, writing, and syncing of ~/.claude/settings.json.
  */
 public class ClaudeSettingsManager {
+
+    static final String SHOW_THINKING_SUMMARIES = "showThinkingSummaries";
     private static final Logger LOG = Logger.getInstance(ClaudeSettingsManager.class);
 
     /**
@@ -396,6 +401,67 @@ public class ClaudeSettingsManager {
         JsonObject claudeSettings = readClaudeSettings();
         claudeSettings.addProperty("alwaysThinkingEnabled", enabled);
         writeClaudeSettings(claudeSettings);
+    }
+
+    /**
+     * Claude Code's own {@code showThinkingSummaries}: whether thinking comes back
+     * as a readable summary. Absent means off, as in the CLI.
+     */
+    public boolean getShowThinkingSummaries() throws IOException {
+        JsonObject claudeSettings = readClaudeSettings();
+        JsonElement value = claudeSettings.get(SHOW_THINKING_SUMMARIES);
+        try {
+            return value != null && !value.isJsonNull() && value.getAsBoolean();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Turn {@code showThinkingSummaries} on, or off by removing the key, which is
+     * what "off" means to the CLI.
+     *
+     * Only that key changes: the file is read for this write rather than through
+     * {@link #readClaudeSettings()}, which answers an unreadable file with an
+     * empty default, and written back as read. A settings.json that cannot be
+     * parsed is left alone and the call fails, so a typo in the user's file
+     * never turns into a file holding nothing but this key.
+     */
+    public void setShowThinkingSummaries(boolean enabled) throws IOException {
+        Path settingsPath = pathManager.getClaudeSettingsPath();
+        JsonObject claudeSettings;
+        if (Files.exists(settingsPath)) {
+            String raw = Files.readString(settingsPath, StandardCharsets.UTF_8);
+            try {
+                JsonElement parsed = raw.isBlank() ? new JsonObject() : JsonParser.parseString(raw);
+                if (!parsed.isJsonObject()) {
+                    throw new IOException("~/.claude/settings.json is not a JSON object");
+                }
+                claudeSettings = parsed.getAsJsonObject();
+            } catch (JsonParseException e) {
+                throw new IOException("~/.claude/settings.json could not be read; left unchanged", e);
+            }
+        } else {
+            Files.createDirectories(settingsPath.getParent());
+            claudeSettings = new JsonObject();
+        }
+        if (enabled) {
+            claudeSettings.addProperty(SHOW_THINKING_SUMMARIES, true);
+        } else {
+            claudeSettings.remove(SHOW_THINKING_SUMMARIES);
+        }
+        Path temp = Files.createTempFile(settingsPath.getParent(), "settings", ".json.tmp");
+        try {
+            Files.writeString(temp, gson.toJson(claudeSettings), StandardCharsets.UTF_8);
+            hardenFilePermissions(temp);
+            try {
+                Files.move(temp, settingsPath, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+            } catch (AtomicMoveNotSupportedException e) {
+                Files.move(temp, settingsPath, StandardCopyOption.REPLACE_EXISTING);
+            }
+        } finally {
+            Files.deleteIfExists(temp);
+        }
     }
 
     /**

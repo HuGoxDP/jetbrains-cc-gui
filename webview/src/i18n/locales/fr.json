@@ -282,6 +282,12 @@
         "show": "Afficher les raccourcis clavier",
         "hint": "Ou appuyez sur Ctrl+/ (Cmd+/ sur macOS) n'importe où dans le chat."
       },
+      "thinkingSummaries": {
+        "label": "Résumés de la réflexion",
+        "enabled": "Affichés",
+        "disabled": "Masqués",
+        "hint": "Affiche dans le bloc de réflexion un résumé lisible du raisonnement de Claude ; sans cela, le bloc reste souvent vide. C'est le réglage showThinkingSummaries de Claude Code lui-même, dans ~/.claude/settings.json, que le terminal suit donc aussi. S'applique à partir du message suivant."
+      },
       "softWrap": {
         "label": "Retour à la ligne automatique",
         "enabled": "Les lignes longues reviennent à la ligne",

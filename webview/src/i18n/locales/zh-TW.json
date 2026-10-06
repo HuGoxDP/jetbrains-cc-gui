@@ -282,6 +282,12 @@
         "show": "查看鍵盤快捷鍵",
         "hint": "也可以在聊天中任意位置按 Ctrl+/（macOS 上為 Cmd+/）。"
       },
+      "thinkingSummaries": {
+        "label": "思考摘要",
+        "enabled": "顯示",
+        "disabled": "隱藏",
+        "hint": "在思考區塊中顯示 Claude 思考過程的可讀摘要，否則該區塊常常是空的。這是 Claude Code 本身的 showThinkingSummaries 設定（位於 ~/.claude/settings.json），終端機也會遵循。從下一則訊息起生效。"
+      },
       "softWrap": {
         "label": "長行自動換行",
         "enabled": "長行自動換行",
