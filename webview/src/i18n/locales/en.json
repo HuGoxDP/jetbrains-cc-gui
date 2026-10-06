@@ -520,6 +520,11 @@
         "hint": "Spacing between lines of text in messages (0.5 to 10, default 1.6). Code blocks keep the editor's spacing.",
         "reset": "Reset"
       },
+      "keyboardShortcuts": {
+        "label": "Keyboard shortcuts",
+        "show": "Show keyboard shortcuts",
+        "hint": "Or press Ctrl+/ (Cmd+/ on macOS) anywhere in the chat."
+      },
       "softWrap": {
         "label": "Wrap long lines",
         "enabled": "Long lines wrap",
@@ -2636,5 +2641,45 @@
     "zoomIn": "Zoom in",
     "zoomOut": "Zoom out",
     "reset": "Reset"
+  },
+  "shortcutsHelp": {
+    "title": "Keyboard shortcuts",
+    "close": "Close",
+    "groups": {
+      "general": "General",
+      "chatInput": "Chat input",
+      "textEditing": "Text editing",
+      "search": "Find in conversation",
+      "permission": "Permission prompt",
+      "editor": "In the code editor"
+    },
+    "notes": {
+      "textEditing": "Hold Shift as well to select instead of moving.",
+      "editor": "The IDE's default keys for the plugin's editor actions. You can change them in Settings → Keymap."
+    },
+    "rows": {
+      "openHelp": "Show keyboard shortcuts",
+      "searchConversation": "Find in the conversation",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "zoomReset": "Reset zoom",
+      "hidePanel": "Hide the chat panel",
+      "sendMessage": "Send the message",
+      "insertNewline": "New line",
+      "recallPrompt": "Previous / next prompt (in an empty input)",
+      "acceptSuggestion": "Accept the prompt suggested from history",
+      "quoteSelection": "Quote the selected reply text in the input",
+      "lineEdges": "Start / end of the line",
+      "textEdges": "Start / end of the text",
+      "deleteToLineStart": "Delete to the start of the line",
+      "searchNext": "Next match",
+      "searchPrevious": "Previous match",
+      "searchOptions": "Match case / whole word / regular expression",
+      "searchClose": "Close the find bar",
+      "permissionChoose": "Allow once / always allow / deny",
+      "permissionMove": "Move through the choices and confirm",
+      "sendSelection": "Send the selected code to the chat",
+      "quickFix": "Ask CC GUI about the selected code (Quick Fix)"
+    }
   }
 }

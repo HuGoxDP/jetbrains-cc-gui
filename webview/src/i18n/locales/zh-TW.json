@@ -277,6 +277,11 @@
         "hint": "訊息文字的行距（0.5～10，預設 1.6）。程式碼區塊沿用編輯器的行距。",
         "reset": "重設"
       },
+      "keyboardShortcuts": {
+        "label": "鍵盤快捷鍵",
+        "show": "查看鍵盤快捷鍵",
+        "hint": "也可以在聊天中任意位置按 Ctrl+/（macOS 上為 Cmd+/）。"
+      },
       "softWrap": {
         "label": "長行自動換行",
         "enabled": "長行自動換行",
@@ -2158,5 +2163,45 @@
     "zoomIn": "放大",
     "zoomOut": "縮小",
     "reset": "重設"
+  },
+  "shortcutsHelp": {
+    "title": "鍵盤快捷鍵",
+    "close": "關閉",
+    "groups": {
+      "general": "一般",
+      "chatInput": "聊天輸入框",
+      "textEditing": "文字編輯",
+      "search": "在對話中尋找",
+      "permission": "權限請求",
+      "editor": "在程式碼編輯器中"
+    },
+    "notes": {
+      "textEditing": "同時按住 Shift 可改為選取文字。",
+      "editor": "IDE 為外掛編輯器操作指定的預設按鍵，可在 Settings → Keymap 中修改。"
+    },
+    "rows": {
+      "openHelp": "查看鍵盤快捷鍵",
+      "searchConversation": "在對話中尋找",
+      "zoomIn": "放大",
+      "zoomOut": "縮小",
+      "zoomReset": "重設縮放",
+      "hidePanel": "隱藏聊天面板",
+      "sendMessage": "傳送訊息",
+      "insertNewline": "換行",
+      "recallPrompt": "上一則 / 下一則提示詞（輸入框為空時）",
+      "acceptSuggestion": "接受歷史紀錄建議的提示詞",
+      "quoteSelection": "將選取的回覆文字引用到輸入框",
+      "lineEdges": "行首 / 行尾",
+      "textEdges": "文字開頭 / 結尾",
+      "deleteToLineStart": "刪除到行首",
+      "searchNext": "下一個相符項",
+      "searchPrevious": "上一個相符項",
+      "searchOptions": "區分大小寫 / 全字相符 / 規則運算式",
+      "searchClose": "關閉尋找列",
+      "permissionChoose": "允許一次 / 永遠允許 / 拒絕",
+      "permissionMove": "在選項間移動並確認",
+      "sendSelection": "將選取的程式碼傳送到聊天",
+      "quickFix": "就選取的程式碼向 CC GUI 提問（Quick Fix）"
+    }
   }
 }

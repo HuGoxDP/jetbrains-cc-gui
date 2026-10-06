@@ -277,6 +277,11 @@
         "hint": "메시지 본문의 줄 간격(0.5~10, 기본 1.6). 코드 블록은 에디터의 간격을 따릅니다.",
         "reset": "초기화"
       },
+      "keyboardShortcuts": {
+        "label": "키보드 단축키",
+        "show": "키보드 단축키 보기",
+        "hint": "채팅 어디서나 Ctrl+/(macOS에서는 Cmd+/)를 눌러도 열립니다."
+      },
       "softWrap": {
         "label": "긴 줄 자동 줄바꿈",
         "enabled": "긴 줄을 접어서 표시",
@@ -2183,5 +2188,45 @@
     "zoomIn": "확대",
     "zoomOut": "축소",
     "reset": "초기화"
+  },
+  "shortcutsHelp": {
+    "title": "키보드 단축키",
+    "close": "닫기",
+    "groups": {
+      "general": "일반",
+      "chatInput": "채팅 입력창",
+      "textEditing": "텍스트 편집",
+      "search": "대화에서 찾기",
+      "permission": "권한 확인",
+      "editor": "코드 에디터에서"
+    },
+    "notes": {
+      "textEditing": "Shift를 함께 누르면 이동 대신 선택합니다.",
+      "editor": "플러그인의 에디터 동작에 IDE가 기본으로 지정한 키입니다. Settings → Keymap에서 바꿀 수 있습니다."
+    },
+    "rows": {
+      "openHelp": "키보드 단축키 보기",
+      "searchConversation": "대화에서 찾기",
+      "zoomIn": "확대",
+      "zoomOut": "축소",
+      "zoomReset": "배율 초기화",
+      "hidePanel": "채팅 패널 숨기기",
+      "sendMessage": "메시지 보내기",
+      "insertNewline": "줄바꿈",
+      "recallPrompt": "이전 / 다음 프롬프트(입력창이 비어 있을 때)",
+      "acceptSuggestion": "기록에서 제안된 프롬프트 받기",
+      "quoteSelection": "선택한 답변 텍스트를 입력창에 인용",
+      "lineEdges": "줄의 처음 / 끝",
+      "textEdges": "텍스트의 처음 / 끝",
+      "deleteToLineStart": "줄 처음까지 지우기",
+      "searchNext": "다음 일치 항목",
+      "searchPrevious": "이전 일치 항목",
+      "searchOptions": "대소문자 구분 / 단어 단위 / 정규식",
+      "searchClose": "찾기 막대 닫기",
+      "permissionChoose": "한 번 허용 / 항상 허용 / 거부",
+      "permissionMove": "선택지 사이를 이동하고 확정",
+      "sendSelection": "선택한 코드를 채팅으로 보내기",
+      "quickFix": "선택한 코드에 대해 CC GUI에 묻기(Quick Fix)"
+    }
   }
 }

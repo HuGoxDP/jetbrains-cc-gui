@@ -4,6 +4,7 @@ import { DEFAULT_PERMISSION_DIALOG_TIMEOUT_SECONDS } from '../../../utils/permis
 import { PermissionDialogTimeoutSetting } from './PermissionDialogTimeoutSetting';
 import { ToggleSettingSection } from './ToggleSettingSection';
 import { SendShortcutSection } from './SendShortcutSection';
+import KeyboardShortcutsSection from './KeyboardShortcutsSection';
 import { NotificationSettingsGroup } from './NotificationSettingsGroup';
 import { setHideToolCalls, useHideToolCalls } from '../../../utils/hideToolCalls';
 import { setPinUserMessages, usePinUserMessages } from '../../../utils/pinUserMessages';
@@ -108,6 +109,8 @@ const BehaviorTab = ({
         sendShortcut={sendShortcut}
         onSendShortcutChange={onSendShortcutChange}
       />
+
+      <KeyboardShortcutsSection />
 
       <PermissionDialogTimeoutSetting
         permissionDialogTimeoutSeconds={permissionDialogTimeoutSeconds}

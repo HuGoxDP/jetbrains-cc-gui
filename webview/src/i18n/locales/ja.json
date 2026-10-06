@@ -277,6 +277,11 @@
         "hint": "メッセージ本文の行間（0.5〜10、既定 1.6）。コードブロックはエディターの行間のままです。",
         "reset": "リセット"
       },
+      "keyboardShortcuts": {
+        "label": "キーボードショートカット",
+        "show": "キーボードショートカットを表示",
+        "hint": "チャットのどこでも Ctrl+/（macOS では Cmd+/）を押しても開けます。"
+      },
       "softWrap": {
         "label": "長い行を折り返す",
         "enabled": "長い行を折り返す",
@@ -2087,5 +2092,45 @@
     "zoomIn": "拡大",
     "zoomOut": "縮小",
     "reset": "リセット"
+  },
+  "shortcutsHelp": {
+    "title": "キーボードショートカット",
+    "close": "閉じる",
+    "groups": {
+      "general": "一般",
+      "chatInput": "チャット入力欄",
+      "textEditing": "テキスト編集",
+      "search": "会話内を検索",
+      "permission": "権限の確認",
+      "editor": "コードエディタ内"
+    },
+    "notes": {
+      "textEditing": "Shift も押すと、移動ではなく選択になります。",
+      "editor": "プラグインのエディタ操作に IDE が割り当てる既定のキーです。Settings → Keymap で変更できます。"
+    },
+    "rows": {
+      "openHelp": "キーボードショートカットを表示",
+      "searchConversation": "会話内を検索",
+      "zoomIn": "拡大",
+      "zoomOut": "縮小",
+      "zoomReset": "ズームをリセット",
+      "hidePanel": "チャットパネルを隠す",
+      "sendMessage": "メッセージを送信",
+      "insertNewline": "改行",
+      "recallPrompt": "前 / 次のプロンプト（入力欄が空のとき）",
+      "acceptSuggestion": "履歴から提案されたプロンプトを確定",
+      "quoteSelection": "選択した返信テキストを入力欄に引用",
+      "lineEdges": "行頭 / 行末",
+      "textEdges": "テキストの先頭 / 末尾",
+      "deleteToLineStart": "行頭まで削除",
+      "searchNext": "次の一致",
+      "searchPrevious": "前の一致",
+      "searchOptions": "大文字と小文字を区別 / 単語単位 / 正規表現",
+      "searchClose": "検索バーを閉じる",
+      "permissionChoose": "今回のみ許可 / 常に許可 / 拒否",
+      "permissionMove": "選択肢を移動して確定",
+      "sendSelection": "選択したコードをチャットに送信",
+      "quickFix": "選択したコードについて CC GUI に質問（Quick Fix）"
+    }
   }
 }

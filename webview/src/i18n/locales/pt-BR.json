@@ -277,6 +277,11 @@
         "hint": "Espaço entre as linhas do texto das mensagens (0,5 a 10, padrão 1,6). Blocos de código mantêm o do editor.",
         "reset": "Redefinir"
       },
+      "keyboardShortcuts": {
+        "label": "Atalhos de teclado",
+        "show": "Ver atalhos de teclado",
+        "hint": "Ou pressione Ctrl+/ (Cmd+/ no macOS) em qualquer lugar do chat."
+      },
       "softWrap": {
         "label": "Quebrar linhas longas",
         "enabled": "Linhas longas quebram",
@@ -2232,5 +2237,45 @@
     "zoomIn": "Aumentar zoom",
     "zoomOut": "Diminuir zoom",
     "reset": "Redefinir"
+  },
+  "shortcutsHelp": {
+    "title": "Atalhos de teclado",
+    "close": "Fechar",
+    "groups": {
+      "general": "Geral",
+      "chatInput": "Campo de entrada",
+      "textEditing": "Edição de texto",
+      "search": "Localizar na conversa",
+      "permission": "Pedido de permissão",
+      "editor": "No editor de código"
+    },
+    "notes": {
+      "textEditing": "Segure também Shift para selecionar em vez de mover.",
+      "editor": "As teclas que o IDE atribui por padrão às ações do plugin no editor. Você pode alterá-las em Settings → Keymap."
+    },
+    "rows": {
+      "openHelp": "Ver atalhos de teclado",
+      "searchConversation": "Localizar na conversa",
+      "zoomIn": "Aumentar o zoom",
+      "zoomOut": "Diminuir o zoom",
+      "zoomReset": "Redefinir o zoom",
+      "hidePanel": "Ocultar o painel do chat",
+      "sendMessage": "Enviar a mensagem",
+      "insertNewline": "Nova linha",
+      "recallPrompt": "Prompt anterior / seguinte (com o campo vazio)",
+      "acceptSuggestion": "Aceitar o prompt sugerido do histórico",
+      "quoteSelection": "Citar no campo o texto selecionado da resposta",
+      "lineEdges": "Início / fim da linha",
+      "textEdges": "Início / fim do texto",
+      "deleteToLineStart": "Apagar até o início da linha",
+      "searchNext": "Próxima ocorrência",
+      "searchPrevious": "Ocorrência anterior",
+      "searchOptions": "Diferenciar maiúsculas / palavra inteira / expressão regular",
+      "searchClose": "Fechar a barra de busca",
+      "permissionChoose": "Permitir uma vez / sempre permitir / negar",
+      "permissionMove": "Percorrer as opções e confirmar",
+      "sendSelection": "Enviar o código selecionado para o chat",
+      "quickFix": "Perguntar ao CC GUI sobre o código selecionado (Quick Fix)"
+    }
   }
 }

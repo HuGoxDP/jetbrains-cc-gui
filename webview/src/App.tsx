@@ -21,6 +21,7 @@ import { useAppChatController } from './useAppChatController';
 import { useSoftWrapClass } from './utils/softWrap';
 import { useChatLineHeightVar } from './utils/chatLineHeight';
 import { UiZoomControls } from './components/UiZoomControls';
+import { ShortcutsHelpHost } from './components/ShortcutsHelp/ShortcutsHelpHost';
 
 const App = () => {
   const { t } = useTranslation();
@@ -96,6 +97,7 @@ const App = () => {
     <>
       <ToastContainer messages={toasts} onDismiss={dismissToast} />
       <UiZoomControls />
+      <ShortcutsHelpHost sendShortcut={model.sendShortcut} />
       <AppHeader
         sessionTitle={sessionTitle}
         onNewSession={createNewSession}

@@ -277,6 +277,11 @@
         "hint": "Espacement entre les lignes du texte des messages (0,5 à 10, 1,6 par défaut). Les blocs de code gardent celui de l'éditeur.",
         "reset": "Réinitialiser"
       },
+      "keyboardShortcuts": {
+        "label": "Raccourcis clavier",
+        "show": "Afficher les raccourcis clavier",
+        "hint": "Ou appuyez sur Ctrl+/ (Cmd+/ sur macOS) n'importe où dans le chat."
+      },
       "softWrap": {
         "label": "Retour à la ligne automatique",
         "enabled": "Les lignes longues reviennent à la ligne",
@@ -2082,5 +2087,45 @@
     "zoomIn": "Zoom avant",
     "zoomOut": "Zoom arrière",
     "reset": "Réinitialiser"
+  },
+  "shortcutsHelp": {
+    "title": "Raccourcis clavier",
+    "close": "Fermer",
+    "groups": {
+      "general": "Général",
+      "chatInput": "Zone de saisie",
+      "textEditing": "Édition du texte",
+      "search": "Rechercher dans la conversation",
+      "permission": "Demande d'autorisation",
+      "editor": "Dans l'éditeur de code"
+    },
+    "notes": {
+      "textEditing": "Maintenez aussi Maj pour sélectionner au lieu de déplacer.",
+      "editor": "Les touches que l'IDE attribue par défaut aux actions du plugin dans l'éditeur. Vous pouvez les modifier dans Settings → Keymap."
+    },
+    "rows": {
+      "openHelp": "Afficher les raccourcis clavier",
+      "searchConversation": "Rechercher dans la conversation",
+      "zoomIn": "Zoom avant",
+      "zoomOut": "Zoom arrière",
+      "zoomReset": "Réinitialiser le zoom",
+      "hidePanel": "Masquer le panneau du chat",
+      "sendMessage": "Envoyer le message",
+      "insertNewline": "Nouvelle ligne",
+      "recallPrompt": "Prompt précédent / suivant (zone de saisie vide)",
+      "acceptSuggestion": "Accepter le prompt suggéré par l'historique",
+      "quoteSelection": "Citer dans la zone de saisie le texte sélectionné de la réponse",
+      "lineEdges": "Début / fin de la ligne",
+      "textEdges": "Début / fin du texte",
+      "deleteToLineStart": "Supprimer jusqu'au début de la ligne",
+      "searchNext": "Occurrence suivante",
+      "searchPrevious": "Occurrence précédente",
+      "searchOptions": "Respecter la casse / mot entier / expression régulière",
+      "searchClose": "Fermer la barre de recherche",
+      "permissionChoose": "Autoriser une fois / toujours autoriser / refuser",
+      "permissionMove": "Parcourir les choix et confirmer",
+      "sendSelection": "Envoyer le code sélectionné au chat",
+      "quickFix": "Demander à CC GUI à propos du code sélectionné (Quick Fix)"
+    }
   }
 }
