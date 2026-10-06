@@ -59,6 +59,12 @@
     "elapsedTime": "Transcurrido {{time}}",
     "minutesAndSeconds": "{{minutes}}m {{seconds}}s",
     "imagePreview": "Vista previa",
+    "imageGallery": {
+      "close": "Cerrar",
+      "previous": "Imagen anterior",
+      "next": "Imagen siguiente",
+      "counter": "{{current}} / {{total}}"
+    },
     "context": "Contexto",
     "usage": "Uso",
     "usagePercentage": "Uso: {{percentage}}",

@@ -1,5 +1,6 @@
 import type { TFunction } from 'i18next';
 import type { ClaudeContentBlock } from '../../../types';
+import { collectConversationImages, openImageGallery } from '../../../utils/imageGallery';
 
 const IMAGE_BLOCK_STYLE: React.CSSProperties = { cursor: 'pointer' };
 
@@ -19,49 +20,35 @@ interface ImageBlockProps {
 }
 
 export function ImageBlock({ block, messageType, t }: ImageBlockProps) {
-  const handleImagePreview = () => {
+  const handleImagePreview = (clicked: HTMLElement) => {
     const previewRoot = document.getElementById('image-preview-root');
     if (!previewRoot || !block.src) return;
 
-    // Clear previous content safely
-    previewRoot.innerHTML = '';
-
-    // Create overlay container
-    const overlay = document.createElement('div');
-    overlay.className = 'image-preview-overlay';
-    overlay.onclick = () => overlay.remove();
-
-    // Create image element safely (prevents XSS)
-    const img = document.createElement('img');
-    img.src = block.src;
-    img.alt = t('chat.imagePreview');
-    img.className = 'image-preview-content';
-    img.onclick = (e) => e.stopPropagation();
-
-    // Create close button
-    const closeBtn = document.createElement('div');
-    closeBtn.className = 'image-preview-close';
-    closeBtn.textContent = '×';
-    closeBtn.onclick = (e) => {
-      e.stopPropagation();
-      overlay.remove();
-    };
-
-    overlay.appendChild(img);
-    overlay.appendChild(closeBtn);
-    previewRoot.appendChild(overlay);
+    // Every image of the conversation on screen, so the viewer can step from
+    // this one to the others.
+    const images = collectConversationImages();
+    const own = clicked.querySelector('img');
+    const found = own ? images.indexOf(own) : -1;
+    const sources = found >= 0 ? images.map((img) => img.getAttribute('src') ?? '') : [block.src];
+    openImageGallery(previewRoot, sources, Math.max(found, 0), {
+      close: t('chat.imageGallery.close'),
+      previous: t('chat.imageGallery.previous'),
+      next: t('chat.imageGallery.next'),
+      image: t('chat.imagePreview'),
+      counter: (index, total) => t('chat.imageGallery.counter', { current: index + 1, total }),
+    });
   };
 
   return (
     <div
       className={`message-image-block ${messageType === 'user' ? 'user-image' : ''}`}
-      onClick={handleImagePreview}
+      onClick={(e) => handleImagePreview(e.currentTarget)}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          handleImagePreview();
+          handleImagePreview(e.currentTarget);
         }
       }}
       style={IMAGE_BLOCK_STYLE}

@@ -59,6 +59,12 @@
     "elapsedTime": "경과 시간 {{time}}",
     "minutesAndSeconds": "{{minutes}}분 {{seconds}}초",
     "imagePreview": "미리보기",
+    "imageGallery": {
+      "close": "닫기",
+      "previous": "이전 이미지",
+      "next": "다음 이미지",
+      "counter": "{{current}} / {{total}}"
+    },
     "context": "컨텍스트",
     "usage": "사용량",
     "usagePercentage": "사용량: {{percentage}}",

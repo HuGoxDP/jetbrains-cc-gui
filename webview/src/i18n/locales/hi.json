@@ -59,6 +59,12 @@
     "elapsedTime": "बीता {{time}}",
     "minutesAndSeconds": "{{minutes}} मि {{seconds}} से",
     "imagePreview": "पूर्वावलोकन",
+    "imageGallery": {
+      "close": "बंद करें",
+      "previous": "पिछली छवि",
+      "next": "अगली छवि",
+      "counter": "{{current}} / {{total}}"
+    },
     "context": "संदर्भ",
     "usage": "उपयोग",
     "usagePercentage": "उपयोग: {{percentage}}",

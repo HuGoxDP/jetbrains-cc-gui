@@ -59,6 +59,12 @@
     "elapsedTime": "経過時間 {{time}}",
     "minutesAndSeconds": "{{minutes}}分 {{seconds}}秒",
     "imagePreview": "プレビュー",
+    "imageGallery": {
+      "close": "閉じる",
+      "previous": "前の画像",
+      "next": "次の画像",
+      "counter": "{{current}} / {{total}}"
+    },
     "context": "コンテキスト",
     "usage": "使用状況",
     "usagePercentage": "使用率: {{percentage}}",

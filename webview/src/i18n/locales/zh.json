@@ -76,6 +76,12 @@
     "elapsedTime": "已用 {{time}}",
     "minutesAndSeconds": "{{minutes}} 分 {{seconds}} 秒",
     "imagePreview": "预览",
+    "imageGallery": {
+      "close": "关闭",
+      "previous": "上一张图片",
+      "next": "下一张图片",
+      "counter": "{{current}} / {{total}}"
+    },
     "context": "上下文",
     "usage": "上下文",
     "usagePercentage": "上下文: {{percentage}}",

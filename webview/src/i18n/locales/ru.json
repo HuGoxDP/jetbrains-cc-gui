@@ -61,6 +61,12 @@
     "elapsedTime": "Прошло {{time}}",
     "minutesAndSeconds": "{{minutes}}м {{seconds}}с",
     "imagePreview": "Предпросмотр",
+    "imageGallery": {
+      "close": "Закрыть",
+      "previous": "Предыдущее изображение",
+      "next": "Следующее изображение",
+      "counter": "{{current}} / {{total}}"
+    },
     "context": "Контекст",
     "usage": "Использование",
     "usagePercentage": "Использование: {{percentage}}",
