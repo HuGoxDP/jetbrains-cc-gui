@@ -30,6 +30,7 @@ import com.github.claudecodegui.settings.CodemossSettingsService;
 import com.github.claudecodegui.settings.TabStateService;
 import com.github.claudecodegui.ui.ChatWindowDelegate;
 import com.github.claudecodegui.ui.EditorContextTracker;
+import com.github.claudecodegui.ui.EmacsTextKeyShortcutGuard;
 import com.github.claudecodegui.ui.SurfaceFrameFence;
 import com.github.claudecodegui.ui.WebviewInitializer;
 import com.github.claudecodegui.ui.WebviewWatchdog;
@@ -1255,6 +1256,11 @@ public class ClaudeChatWindow {
             // macOS 27 paste fix: every browser instance carries its own CefClient,
             // so each (re)bind needs the hook installed on the new client.
             CefPasteHook.installForWindow(this);
+            // macOS Emacs text keys (Ctrl+A/E/K/Y...): under off-screen rendering the page
+            // receives every Ctrl+letter as Ctrl+A, so the IDE names the letter and the
+            // page performs the binding (utils/emacsKeys in the webview).
+            EmacsTextKeyShortcutGuard.install(nextBrowser.getComponent(),
+                    (letter, shift) -> callJavaScript("window.onEmacsTextKey", letter, String.valueOf(shift)));
             observedBrowserComponent = nextBrowser.getComponent();
             observedBrowserComponent.addComponentListener(surfaceRefreshComponentListener);
             rebindNativeSurfaceComponent(getNativeSurfaceComponent(nextBrowser));

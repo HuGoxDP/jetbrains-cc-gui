@@ -8,6 +8,7 @@ import type { ChatScreenProps } from './components/ChatScreen';
 import { useMessages } from './contexts/MessagesContext';
 import { useUIState } from './contexts/UIStateContext';
 import { useSetTaskEvents } from './contexts/SubagentContext';
+import { useEmacsTextKeys } from './hooks/useEmacsTextKeys';
 
 /** Subset of useModelProviderState's return consumed by these effects. */
 export interface AppGlobalEffectsModelSlice {
@@ -24,12 +25,14 @@ interface UseAppGlobalEffectsOptions {
 /**
  * App-level side effects extracted verbatim from App.tsx: diff-theme bootstrap,
  * external drag/drop interception, in-conversation search hotkey, slash-command
- * preloading, task-event recovery from task-notification messages, and the
- * Fable SDK-minimum warning. Context values are consumed directly here
+ * preloading, task-event recovery from task-notification messages, the
+ * Fable SDK-minimum warning, and the macOS Emacs text keys. Context values are consumed directly here
  * (same convention as ChatScreen / AppDialogs).
  */
 export const useAppGlobalEffects = ({ model }: UseAppGlobalEffectsOptions) => {
   const { t } = useTranslation();
+  // macOS Ctrl+A/E/K/Y and the other Emacs text keys in every field.
+  useEmacsTextKeys();
   const { messages } = useMessages();
   const setTaskEvents = useSetTaskEvents();
   const {

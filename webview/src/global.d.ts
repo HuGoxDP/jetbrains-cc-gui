@@ -10,6 +10,12 @@ interface Window {
   /** Legacy windowed-JCEF repaint requested after its IntelliJ content tab is activated. */
   onTabActivated?: () => void;
 
+  /**
+   * A macOS Emacs text key the IDE read and consumed (EmacsTextKeyShortcutGuard):
+   * the lowercase letter and whether Shift was held, both as strings.
+   */
+  onEmacsTextKey?: (key: string, shift?: string | boolean) => void;
+
   /** Strict two-frame OSR damage pulse, owned by a Java frame-fence attempt token. */
   __ccguiSurfaceDamagePhaseA?: (token: string) => boolean;
   __ccguiSurfaceDamagePhaseB?: (token: string) => boolean;
