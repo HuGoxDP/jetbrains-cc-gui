@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { HistoryData, HistorySessionSummary } from '../../types';
 import { sendBridgeEvent } from '../../utils/bridge';
+import { requestSessionActivity, useSessionActivity } from '../../utils/sessionActivity';
 import { copyToClipboard } from '../../utils/copyUtils';
 import { HistoryListItem } from './HistoryListItem';
 import { HistoryHeader } from './HistoryHeader';
@@ -48,7 +49,18 @@ const HistoryView = ({ historyData, currentProvider, currentSessionId, onLoadSes
   const [copiedSessionId, setCopiedSessionId] = useState<string | null>(null); // Track which session ID was copied
   const [copyFailedSessionId, setCopyFailedSessionId] = useState<string | null>(null); // Track which session ID copy failed
 
-  const { sessions, infoBar } = useHistorySessions(historyData, searchQuery, t);
+  const { sessions: allSessions, infoBar } = useHistorySessions(historyData, searchQuery, t);
+  // What the open tabs are doing (dots), and the Active filter that keeps only
+  // the sessions open in a tab. Asked for on opening, since pushes sent while
+  // the list was closed went nowhere.
+  const activity = useSessionActivity();
+  const [activeOnly, setActiveOnly] = useState(false);
+  useEffect(() => {
+    requestSessionActivity();
+  }, []);
+  const activeCount = allSessions.reduce((count, session) => (activity[session.sessionId] ? count + 1 : count), 0);
+  const sessions = activeOnly ? allSessions.filter((session) => activity[session.sessionId]) : allSessions;
+  const handleToggleActiveOnly = useCallback(() => setActiveOnly((on) => !on), []);
   const {
     isSelectionMode,
     selectedSessionIds,
@@ -228,6 +240,7 @@ const HistoryView = ({ historyData, currentProvider, currentSessionId, onLoadSes
     <HistoryListItem
       key={`${session.sessionId}-${session.lastTimestamp ?? '0'}`}
       session={session}
+      activity={activity[session.sessionId]}
       isEditing={editingSessionId === session.sessionId}
       isSelected={selectedSessionIds.has(session.sessionId)}
       isSelectionMode={isSelectionMode}
@@ -263,6 +276,9 @@ const HistoryView = ({ historyData, currentProvider, currentSessionId, onLoadSes
         visibleCount={sessions.length}
         isDeepSearching={isDeepSearching}
         inputValue={inputValue}
+        activeOnly={activeOnly}
+        activeCount={activeCount}
+        onToggleActiveOnly={handleToggleActiveOnly}
         t={t}
         onEnterSelectionMode={enterSelectionMode}
         onExitSelectionMode={exitSelectionMode}

@@ -1181,7 +1181,10 @@
       "sdk-cli": "이 세션은 SDK를 통해 플러그인에서 생성되었으며 CLI에 기본적으로 표시되지 않습니다. 터미널 CLI의 /resume 목록에 표시하려면 'CLI로 변환'을 클릭하세요",
       "claude-vscode": "이 세션은 VS Code 확장에서 생성되었으며 CLI에 기본적으로 표시되지 않습니다. 터미널 CLI의 /resume 목록에 표시하려면 'CLI로 변환'을 클릭하세요",
       "remote": "이 세션은 원격 Claude Code 인스턴스에서 생성되었습니다"
-    }
+    },
+    "activeFilter": "활성 ({{count}})",
+    "activeFilterHint": "탭에 열려 있는 세션만 표시",
+    "activity": {"running": "탭에서 Claude가 작업 중", "awaiting": "탭에서 답변을 기다리는 중", "done": "탭에서 방금 끝남", "open": "탭에 열려 있음"}
   },
   "permission": {
     "dialogTitle": "권한 요청",

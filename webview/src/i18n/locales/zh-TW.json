@@ -1116,7 +1116,10 @@
       "sdk-cli": "此會話由插件通過 SDK 創建，CLI 默認不顯示。點擊「轉為CLI」可使其出現在終端 CLI 的 /resume 列表中",
       "claude-vscode": "此會話由 VS Code 插件創建，CLI 默認不顯示。點擊「轉為CLI」可使其出現在終端 CLI 的 /resume 列表中",
       "remote": "此會話由遠程 Claude Code 實例創建"
-    }
+    },
+    "activeFilter": "活動 ({{count}})",
+    "activeFilterHint": "只顯示在分頁中開啟的工作階段",
+    "activity": {"running": "Claude 正在其分頁中工作", "awaiting": "在其分頁中等待你的回答", "done": "剛在其分頁中完成", "open": "已在分頁中開啟"}
   },
   "permission": {
     "dialogTitle": "權限請求",

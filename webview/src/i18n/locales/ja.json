@@ -1092,7 +1092,10 @@
       "sdk-cli": "このセッションはSDK経由でプラグインによって作成されており、CLIではデフォルトで表示されません。ターミナルCLIの/resumeリストに表示するには「CLIに変換」をクリックしてください",
       "claude-vscode": "このセッションはVS Code拡張機能によって作成されており、CLIではデフォルトで表示されません。ターミナルCLIの/resumeリストに表示するには「CLIに変換」をクリックしてください",
       "remote": "このセッションはリモートのClaude Codeインスタンスによって作成されました"
-    }
+    },
+    "activeFilter": "アクティブ ({{count}})",
+    "activeFilterHint": "タブで開いているセッションだけを表示",
+    "activity": {"running": "タブで Claude が作業中", "awaiting": "タブであなたの回答を待っています", "done": "タブでちょうど完了", "open": "タブで開いています"}
   },
   "permission": {
     "dialogTitle": "権限リクエスト",

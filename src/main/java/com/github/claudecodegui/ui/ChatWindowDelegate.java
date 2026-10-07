@@ -1,6 +1,10 @@
 package com.github.claudecodegui.ui;
 
 import com.github.claudecodegui.i18n.ClaudeCodeGuiBundle;
+import com.github.claudecodegui.ui.toolwindow.ActivityDotIcon;
+import com.github.claudecodegui.ui.toolwindow.SessionActivity;
+import com.intellij.openapi.wm.ToolWindow;
+import com.intellij.ui.AnimatedIcon;
 import com.github.claudecodegui.session.ClaudeSession;
 import com.github.claudecodegui.settings.CodemossSettingsService;
 import com.github.claudecodegui.handler.AccountHandler;
@@ -30,6 +34,7 @@ import com.github.claudecodegui.handler.provider.ProviderHandler;
 import com.github.claudecodegui.handler.provider.claude.ClaudePlanUsageHandler;
 import com.github.claudecodegui.handler.RewindHandler;
 import com.github.claudecodegui.handler.BackgroundTaskHandler;
+import com.github.claudecodegui.handler.SessionActivityHandler;
 import com.github.claudecodegui.handler.SessionHandler;
 import com.github.claudecodegui.handler.SettingsHandler;
 import com.github.claudecodegui.handler.SkillHandler;
@@ -78,6 +83,8 @@ public class ChatWindowDelegate {
     public enum TabAnswerStatus {
         IDLE,
         ANSWERING,
+        /** A reply is in progress, stopped on a prompt the user has to answer. */
+        WAITING,
         COMPLETED
     }
 
@@ -377,6 +384,7 @@ public class ChatWindowDelegate {
         messageDispatcher.registerHandler(new TabHandler(handlerContext));
         messageDispatcher.registerHandler(new RewindHandler(handlerContext));
         messageDispatcher.registerHandler(new BackgroundTaskHandler(handlerContext));
+        messageDispatcher.registerHandler(new SessionActivityHandler(handlerContext));
         messageDispatcher.registerHandler(new UndoFileHandler(handlerContext));
         messageDispatcher.registerHandler(new DependencyHandler(handlerContext));
         messageDispatcher.registerHandler(new CliModelsHandler(handlerContext));
@@ -393,6 +401,9 @@ public class ChatWindowDelegate {
                 switch (statusStr) {
                     case "answering":
                         status = TabAnswerStatus.ANSWERING;
+                        break;
+                    case "waiting":
+                        status = TabAnswerStatus.WAITING;
                         break;
                     case "completed":
                         status = TabAnswerStatus.COMPLETED;
@@ -517,8 +528,9 @@ public class ChatWindowDelegate {
             String displayName;
             switch (status) {
                 case ANSWERING:
+                case WAITING:
                     displayName = tabName + "...";
-                    LOG.debug("[TabStatus] Set answering state for tab: " + displayName);
+                    LOG.debug("[TabStatus] Set " + status + " state for tab: " + displayName);
                     break;
                 case COMPLETED:
                     String completedText = ClaudeCodeGuiBundle.message("tab.status.completed");
@@ -538,7 +550,32 @@ public class ChatWindowDelegate {
                     break;
             }
             parentContent.setDisplayName(displayName);
+            // The tab's icon says the same at a glance, and the history list's dots
+            // say it for every open session (SessionActivity).
+            parentContent.putUserData(ToolWindow.SHOW_CONTENT_ICON, Boolean.TRUE);
+            parentContent.setIcon(tabIconFor(status));
+            SessionActivity.broadcast(host.getProject());
         });
+    }
+
+    /** What a chat tab wears for [status]: a spinner while Claude works, a dot while it waits or has just finished. */
+    static Icon tabIconFor(TabAnswerStatus status) {
+        switch (status) {
+            case ANSWERING:
+                return AnimatedIcon.Default.INSTANCE;
+            case WAITING:
+                return ActivityDotIcon.AWAITING;
+            case COMPLETED:
+                return ActivityDotIcon.DONE;
+            case IDLE:
+            default:
+                return null;
+        }
+    }
+
+    /** The status this window's tab shows, for {@link SessionActivity}. */
+    public TabAnswerStatus getCurrentTabStatus() {
+        return currentTabStatus;
     }
 
     @Deprecated

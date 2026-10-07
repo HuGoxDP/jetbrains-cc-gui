@@ -11,6 +11,11 @@ export interface HistoryHeaderProps {
   visibleCount: number;
   isDeepSearching: boolean;
   inputValue: string;
+  /** Whether only the sessions open in a tab are listed. */
+  activeOnly: boolean;
+  /** How many listed sessions are open in a tab. */
+  activeCount: number;
+  onToggleActiveOnly: () => void;
   t: TFunction;
   onEnterSelectionMode: () => void;
   onExitSelectionMode: () => void;
@@ -28,6 +33,9 @@ export const HistoryHeader = memo(({
   visibleCount,
   isDeepSearching,
   inputValue,
+  activeOnly,
+  activeCount,
+  onToggleActiveOnly,
   t,
   onEnterSelectionMode,
   onExitSelectionMode,
@@ -64,6 +72,9 @@ export const HistoryHeader = memo(({
         <HistoryFilters
           inputValue={inputValue}
           onInputChange={onInputChange}
+          activeOnly={activeOnly}
+          activeCount={activeCount}
+          onToggleActiveOnly={onToggleActiveOnly}
           t={t}
         />
       )}

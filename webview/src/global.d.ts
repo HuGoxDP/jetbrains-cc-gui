@@ -181,6 +181,12 @@ interface Window {
   onBackgroundTaskStopResult?: (json: string) => void;
 
   /**
+   * What the open chat tabs are doing: JSON { "<sessionId>": "running" |
+   * "awaiting" | "done" | "open" }. See utils/sessionActivity.ts.
+   */
+  onSessionActivity?: (json: string) => void;
+
+  /**
    * task_* SDK system event callback (async subagent lifecycle).
    * Payload: { subtype: 'task_started'|'task_progress'|'task_notification',
    *   task_id, tool_use_id, status?, summary?, usage?, output_file? }.

@@ -1516,7 +1516,10 @@
       "hoursAgo": "小时前",
       "minutesAgo": "分钟前",
       "secondsAgo": "秒前"
-    }
+    },
+    "activeFilter": "活动 ({{count}})",
+    "activeFilterHint": "只显示在标签页中打开的会话",
+    "activity": {"running": "Claude 正在其标签页中工作", "awaiting": "在其标签页中等待你的回答", "done": "刚在其标签页中完成", "open": "已在标签页中打开"}
   },
   "permission": {
     "dialogTitle": "权限请求",

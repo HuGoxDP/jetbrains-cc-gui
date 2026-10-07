@@ -2189,6 +2189,11 @@ public class ClaudeChatWindow {
         chatWindowDelegate.updateTabStatus(status);
     }
 
+    /** The status this window's tab shows: answering, waiting for the user, completed or idle. */
+    public ChatWindowDelegate.TabAnswerStatus getTabAnswerStatus() {
+        return chatWindowDelegate.getCurrentTabStatus();
+    }
+
     @Deprecated
     public void updateTabLoadingState(boolean loading) {
         chatWindowDelegate.updateTabLoadingState(loading);

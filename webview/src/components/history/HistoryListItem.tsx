@@ -1,6 +1,7 @@
 import { memo, useCallback } from 'react';
 import type { TFunction } from 'i18next';
 import type { HistorySessionSummary } from '../../types';
+import type { SessionActivity } from '../../utils/sessionActivity';
 import { formatTimeAgo } from './historyItemUtils';
 import { HistorySelectionCheckbox } from './HistorySelectionCheckbox';
 import { HistoryItemTitle } from './HistoryItemTitle';
@@ -13,6 +14,8 @@ export { formatTimeAgo, formatFileSize, highlightText, stopPropagationHandler } 
 
 export interface HistoryListItemProps {
   session: HistorySessionSummary;
+  /** What the tab showing this session is doing; absent when it is not open in a tab. */
+  activity?: SessionActivity;
   isEditing: boolean;
   isSelected: boolean;
   isSelectionMode: boolean;
@@ -37,6 +40,7 @@ export interface HistoryListItemProps {
 
 export const HistoryListItem = memo(({
   session,
+  activity,
   isEditing,
   isSelected,
   isSelectionMode,
@@ -75,6 +79,14 @@ export const HistoryListItem = memo(({
             isSelected={isSelected}
             t={t}
             onSelectionToggle={onSelectionToggle}
+          />
+        )}
+        {activity && (
+          <span
+            className={`history-activity-dot activity-${activity}`}
+            title={t(`history.activity.${activity}`)}
+            aria-label={t(`history.activity.${activity}`)}
+            role="img"
           />
         )}
         <HistoryItemTitle

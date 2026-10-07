@@ -1087,7 +1087,10 @@
       "sdk-cli": "Esta sesión fue creada por el plugin via SDK y no se muestra en CLI por defecto. Haz clic en 'Convertir a CLI' para que aparezca en la lista /resume del CLI del terminal",
       "claude-vscode": "Esta sesión fue creada por la extensión de VS Code y no se muestra en CLI por defecto. Haz clic en 'Convertir a CLI' para que aparezca en la lista /resume del CLI del terminal",
       "remote": "Esta sesión fue creada por una instancia remota de Claude Code"
-    }
+    },
+    "activeFilter": "Activas ({{count}})",
+    "activeFilterHint": "Mostrar solo las sesiones abiertas en una pestaña",
+    "activity": {"running": "Claude está trabajando en su pestaña", "awaiting": "Esperando tu respuesta en su pestaña", "done": "Acaba de terminar en su pestaña", "open": "Abierta en una pestaña"}
   },
   "permission": {
     "dialogTitle": "Solicitud de permiso",

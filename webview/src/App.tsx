@@ -20,6 +20,7 @@ import { useAppGlobalEffects } from './useAppGlobalEffects';
 import { useAppChatController } from './useAppChatController';
 import { useSoftWrapClass } from './utils/softWrap';
 import { useChatLineHeightVar } from './utils/chatLineHeight';
+import { useReportAwaitingUser } from './hooks/useReportAwaitingUser';
 import { UiZoomControls } from './components/UiZoomControls';
 import { ShortcutsHelpHost } from './components/ShortcutsHelp/ShortcutsHelpHost';
 
@@ -34,6 +35,7 @@ const App = () => {
   // "Wrap long lines" is a class on <html> that the code and diff styles read.
   useSoftWrapClass();
   useChatLineHeightVar();
+  useReportAwaitingUser();
 
   // ── Permission dialog timeout (synced with backend config) ──
   const [permissionDialogTimeoutSeconds, setPermissionDialogTimeoutSeconds] = useState(DEFAULT_PERMISSION_DIALOG_TIMEOUT_SECONDS);

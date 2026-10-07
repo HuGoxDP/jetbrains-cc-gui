@@ -1511,7 +1511,10 @@
       "hoursAgo": "hours ago",
       "minutesAgo": "minutes ago",
       "secondsAgo": "seconds ago"
-    }
+    },
+    "activeFilter": "Active ({{count}})",
+    "activeFilterHint": "Show only the sessions open in a tab",
+    "activity": {"running": "Claude is working in its tab", "awaiting": "Waiting for your answer in its tab", "done": "Just finished in its tab", "open": "Open in a tab"}
   },
   "permission": {
     "dialogTitle": "Permission Request",

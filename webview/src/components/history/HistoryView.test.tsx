@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, within } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import type { HistoryData } from '../../types';
@@ -282,5 +282,42 @@ describe('HistoryView favorite visibility', () => {
 
     expect(favoritedButton.closest('.history-action-buttons')?.classList.contains('has-favorite')).toBe(true);
     expect(unfavoritedButton.closest('.history-action-buttons')?.classList.contains('has-favorite')).toBe(false);
+  });
+});
+
+describe('HistoryView session activity', () => {
+  const renderHistory = () => render(
+    <HistoryView
+      historyData={historyData}
+      currentProvider="claude"
+      onLoadSession={vi.fn()}
+      onDeleteSession={vi.fn()}
+      onDeleteSessions={vi.fn()}
+      onExportSession={vi.fn()}
+      onToggleFavorite={vi.fn()}
+      onUpdateTitle={vi.fn()}
+      onConvertToCliSession={vi.fn()}
+    />,
+  );
+
+  it('asks what the open tabs are doing when it opens', () => {
+    renderHistory();
+
+    expect(sendBridgeEvent).toHaveBeenCalledWith('get_session_activity');
+  });
+
+  it('marks a session open in a tab, and the Active filter keeps only those', () => {
+    renderHistory();
+    act(() => {
+      window.onSessionActivity?.(JSON.stringify({ 'session-one': 'running', 'session-elsewhere': 'open' }));
+    });
+
+    expect(screen.getByRole('img', { name: 'history.activity.running' })).toBeTruthy();
+    expect(screen.getByText('Second session')).toBeTruthy();
+
+    fireEvent.click(screen.getByRole('button', { name: 'history.activeFilter' }));
+
+    expect(screen.getByText('First session')).toBeTruthy();
+    expect(screen.queryByText('Second session')).toBeNull();
   });
 });
