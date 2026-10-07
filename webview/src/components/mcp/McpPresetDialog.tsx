@@ -52,13 +52,15 @@ export function McpPresetDialog({ onClose, onSelect }: McpPresetDialogProps) {
     },
     {
       id: 'time',
-      name: '@modelcontextprotocol/server-time',
+      // A Python package on PyPI, run with uvx like fetch above; there is no
+      // "@modelcontextprotocol/server-time" on npm for npx to start.
+      name: 'mcp-server-time',
       description: t('mcp.presets.time'),
       tags: ['stdio', 'time', 'utility'],
       server: {
         type: 'stdio',
-        command: 'npx',
-        args: ['-y', '@modelcontextprotocol/server-time'],
+        command: 'uvx',
+        args: ['mcp-server-time'],
       },
       homepage: 'https://github.com/modelcontextprotocol/servers',
       docs: 'https://github.com/modelcontextprotocol/servers/tree/main/src/time',

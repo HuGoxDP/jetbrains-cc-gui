@@ -11,7 +11,10 @@ final class BuiltInMcpMarketplaceClient {
 
     List<McpMarketplaceEntry> loadEntries(McpMarketplaceSource source) {
         List<McpMarketplaceEntry> entries = new ArrayList<>();
-        entries.add(createNpmEntry(
+        // fetch and time are Python packages, published on PyPI and run with uvx (from uv),
+        // as their READMEs say. On npm, "mcp-server-fetch" is a security holding package and
+        // "@modelcontextprotocol/server-time" does not exist, so npx could start neither.
+        entries.add(createUvxEntry(
             source,
             "fetch",
             "mcp-server-fetch",
@@ -20,12 +23,12 @@ final class BuiltInMcpMarketplaceClient {
             "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
             Arrays.asList("stdio", "web", "http")
         ));
-        entries.add(createNpmEntry(
+        entries.add(createUvxEntry(
             source,
             "time",
-            "@modelcontextprotocol/server-time",
+            "mcp-server-time",
             "Provide current time and timezone conversion utilities.",
-            "@modelcontextprotocol/server-time",
+            "mcp-server-time",
             "https://github.com/modelcontextprotocol/servers/tree/main/src/time",
             Arrays.asList("stdio", "time", "utility")
         ));
@@ -68,6 +71,52 @@ final class BuiltInMcpMarketplaceClient {
         String docsUrl,
         List<String> tags
     ) {
+        return createEntry(source, id, displayName, description, docsUrl, tags,
+            new McpInstallOption(
+                "NPX package",
+                "stdio",
+                "npx",
+                Arrays.asList("-y", packageName),
+                null,
+                null,
+                null,
+                source.getName(),
+                "local-command"
+            ));
+    }
+
+    private static McpMarketplaceEntry createUvxEntry(
+        McpMarketplaceSource source,
+        String id,
+        String displayName,
+        String description,
+        String packageName,
+        String docsUrl,
+        List<String> tags
+    ) {
+        return createEntry(source, id, displayName, description, docsUrl, tags,
+            new McpInstallOption(
+                "uvx package (Python)",
+                "stdio",
+                "uvx",
+                Arrays.asList(packageName),
+                null,
+                null,
+                null,
+                source.getName(),
+                "local-command"
+            ));
+    }
+
+    private static McpMarketplaceEntry createEntry(
+        McpMarketplaceSource source,
+        String id,
+        String displayName,
+        String description,
+        String docsUrl,
+        List<String> tags,
+        McpInstallOption installOption
+    ) {
         McpMarketplaceEntry.Builder builder = McpMarketplaceEntry.builder()
             .id(source.getId() + ":" + id)
             .name(id)
@@ -79,17 +128,7 @@ final class BuiltInMcpMarketplaceClient {
             .repositoryUrl(docsUrl)
             .docsUrl(docsUrl)
             .official(true)
-            .addInstallOption(new McpInstallOption(
-                "NPX package",
-                "stdio",
-                "npx",
-                Arrays.asList("-y", packageName),
-                null,
-                null,
-                null,
-                source.getName(),
-                "local-command"
-            ));
+            .addInstallOption(installOption);
         for (String tag : tags) {
             builder.addTag(tag);
         }
