@@ -1237,6 +1237,8 @@
     },
     "activeFilter": "Ativas ({{count}})",
     "activeFilterHint": "Mostrar só as sessões abertas em uma aba",
+    "includeNested": "Incluir aninhados",
+    "includeNestedHint": "Mostrar também as sessões dos projetos em pastas abaixo deste",
     "activity": {"running": "O Claude está trabalhando na aba dela", "awaiting": "Aguardando sua resposta na aba dela", "done": "Acabou de terminar na aba dela", "open": "Aberta em uma aba"}
   },
   "permission": {

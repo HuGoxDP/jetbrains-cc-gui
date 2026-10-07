@@ -321,3 +321,78 @@ describe('HistoryView session activity', () => {
     expect(screen.queryByText('Second session')).toBeNull();
   });
 });
+
+describe('HistoryView nested projects', () => {
+  const nestedData: HistoryData = {
+    ...historyData,
+    currentProject: '/repo',
+    includeNested: true,
+    sessions: [
+      historyData.sessions![0],
+      {
+        sessionId: 'session-api',
+        title: 'Fix the login route',
+        messageCount: 3,
+        lastTimestamp: new Date().toISOString(),
+        provider: 'claude',
+        projectPath: '/repo/packages/api',
+      },
+    ],
+  };
+  const renderHistory = (data: HistoryData, provider = 'claude', onLoadSession = vi.fn()) => render(
+    <HistoryView
+      historyData={data}
+      currentProvider={provider}
+      onLoadSession={onLoadSession}
+      onDeleteSession={vi.fn()}
+      onDeleteSessions={vi.fn()}
+      onExportSession={vi.fn()}
+      onToggleFavorite={vi.fn()}
+      onUpdateTitle={vi.fn()}
+      onConvertToCliSession={vi.fn()}
+    />,
+  );
+
+  it('asks Java to include nested projects, and to stop again', () => {
+    const { unmount } = renderHistory(historyData);
+    const off = screen.getByRole('button', { name: 'history.includeNested' });
+    expect(off.getAttribute('aria-pressed')).toBe('false');
+    fireEvent.click(off);
+    expect(sendBridgeEvent).toHaveBeenCalledWith('set_history_include_nested', 'true');
+    unmount();
+
+    renderHistory(nestedData);
+    fireEvent.click(screen.getByRole('button', { name: 'history.includeNested' }));
+    expect(sendBridgeEvent).toHaveBeenCalledWith('set_history_include_nested', 'false');
+  });
+
+  it('offers the switch only for Claude, whose project folders these are', () => {
+    renderHistory(historyData, 'codex');
+    expect(screen.queryByRole('button', { name: 'history.includeNested' })).toBeNull();
+  });
+
+  it('names the nested project above the title, relative to this one', () => {
+    renderHistory(nestedData);
+    expect(screen.getByText('packages/api')).toBeTruthy();
+    // The open project's own sessions carry no label.
+    expect(screen.getAllByText(/packages\//)).toHaveLength(1);
+  });
+
+  it('finds a session by its project, and opens it in that folder', () => {
+    vi.useFakeTimers();
+    try {
+      const onLoadSession = vi.fn();
+      renderHistory(nestedData, 'claude', onLoadSession);
+      fireEvent.change(screen.getByPlaceholderText('Search session titles...'), { target: { value: 'api' } });
+      act(() => {
+        vi.advanceTimersByTime(300);
+      });
+
+      expect(screen.queryByText('First session')).toBeNull();
+      fireEvent.click(screen.getByText('Fix the login route'));
+      expect(onLoadSession).toHaveBeenCalledWith('session-api', 'claude', undefined, undefined, '/repo/packages/api');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+});

@@ -143,6 +143,25 @@ public class ClaudeHistoryReader {
         public long firstTimestamp;
         public long fileSize;
         public String entrypoint;
+        /**
+         * The project folder the session ran in, set only for a session of a project
+         * nested below the one listed ("Include nested"); null otherwise.
+         */
+        public String projectPath;
+
+        /** A copy that names {@code path} as its project, leaving cached instances alone. */
+        SessionInfo withProjectPath(String path) {
+            SessionInfo copy = new SessionInfo();
+            copy.sessionId = sessionId;
+            copy.title = title;
+            copy.messageCount = messageCount;
+            copy.lastTimestamp = lastTimestamp;
+            copy.firstTimestamp = firstTimestamp;
+            copy.fileSize = fileSize;
+            copy.entrypoint = entrypoint;
+            copy.projectPath = path;
+            return copy;
+        }
     }
 
     /**
@@ -261,7 +280,15 @@ public class ClaudeHistoryReader {
     }
 
     public String getProjectDataAsJson(String projectPath) {
-        return searchService.getProjectDataAsJson(projectPath);
+        return searchService.getProjectDataAsJson(projectPath, false);
+    }
+
+    /**
+     * The project's sessions, and with {@code includeNested} those of every project
+     * below it too, each of those naming its own project.
+     */
+    public String getProjectDataAsJson(String projectPath, boolean includeNested) {
+        return searchService.getProjectDataAsJson(projectPath, includeNested);
     }
 
     public String getSessionMessagesAsJson(String projectPath, String sessionId) {

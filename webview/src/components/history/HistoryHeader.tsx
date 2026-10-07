@@ -16,6 +16,8 @@ export interface HistoryHeaderProps {
   /** How many listed sessions are open in a tab. */
   activeCount: number;
   onToggleActiveOnly: () => void;
+  includeNested?: boolean;
+  onToggleIncludeNested?: () => void;
   t: TFunction;
   onEnterSelectionMode: () => void;
   onExitSelectionMode: () => void;
@@ -36,6 +38,8 @@ export const HistoryHeader = memo(({
   activeOnly,
   activeCount,
   onToggleActiveOnly,
+  includeNested,
+  onToggleIncludeNested,
   t,
   onEnterSelectionMode,
   onExitSelectionMode,
@@ -75,6 +79,8 @@ export const HistoryHeader = memo(({
           activeOnly={activeOnly}
           activeCount={activeCount}
           onToggleActiveOnly={onToggleActiveOnly}
+          includeNested={includeNested}
+          onToggleIncludeNested={onToggleIncludeNested}
           t={t}
         />
       )}

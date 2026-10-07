@@ -210,6 +210,28 @@
     }
 }
 
+/* The nested project a session belongs to ("Include nested"), first on its meta line. */
+.history-item-project {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 45%;
+    min-width: 0;
+    color: var(--text-secondary);
+    overflow: hidden;
+    white-space: nowrap;
+
+    .codicon {
+        font-size: 12px;
+        flex-shrink: 0;
+    }
+
+    span:last-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
 /* What the tab showing a session is doing: the colours of the tab icons. */
 .history-activity-dot {
     flex-shrink: 0;

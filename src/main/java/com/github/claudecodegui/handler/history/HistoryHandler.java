@@ -29,7 +29,8 @@ public class HistoryHandler extends BaseMessageHandler {
             "load_subagent_session", // Load Claude Code sidechain Agent process log
             "load_subagent_statuses", // Load lightweight Codex subagent statuses
             "convert_to_cli_session", // Convert sidechain session to CLI-recognizable session
-            "fork_session" // Fork a Claude conversation at one of the user's messages
+            "fork_session", // Fork a Claude conversation at one of the user's messages
+            "set_history_include_nested" // Include the sessions of nested projects ("true"/"false")
     };
 
     // Session load callback interface
@@ -77,6 +78,10 @@ public class HistoryHandler extends BaseMessageHandler {
     @Override
     public boolean handle(String type, String content) {
         switch (type) {
+            case "set_history_include_nested":
+                HistoryNestedPreference.set("true".equals(content != null ? content.trim() : null));
+                historyLoadService.handleLoadHistoryData(currentProvider);
+                return true;
             case "load_history_data":
                 LOG.debug("[HistoryHandler] 处理: load_history_data, provider=" + content);
                 this.currentProvider = content != null && !content.isEmpty() ? content : "claude";

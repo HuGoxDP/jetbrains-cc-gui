@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import type { TFunction } from 'i18next';
 import type { HistoryData, HistorySessionSummary } from '../../types';
+import { matchesNestedProject, nestedProjectLabel } from '../../utils/nestedProjects';
 
 const getComparableTimestamp = (timestamp: string | undefined) => {
   if (!timestamp) {
@@ -39,6 +40,7 @@ const deduplicateHistorySessions = (sessions: HistorySessionSummary[]) => {
       model: preferred.model || fallback.model,
       agent: preferred.agent || fallback.agent,
       entrypoint: preferred.entrypoint || fallback.entrypoint,
+      projectPath: preferred.projectPath || fallback.projectPath,
     });
   }
 
@@ -50,10 +52,12 @@ export const useHistorySessions = (historyData: HistoryData | null, searchQuery:
   const sessions = useMemo(() => {
     const rawSessions = deduplicateHistorySessions(historyData?.sessions ?? []);
 
-    // Search filter (case-insensitive)
+    // Search filter (case-insensitive): the title, or the nested project a session belongs to
+    const query = searchQuery.toLowerCase();
     const filteredSessions = searchQuery.trim()
       ? rawSessions.filter(s =>
-          s.title?.toLowerCase().includes(searchQuery.toLowerCase())
+          s.title?.toLowerCase().includes(query)
+          || matchesNestedProject(nestedProjectLabel(s.projectPath, historyData?.currentProject), query)
         )
       : rawSessions;
 
@@ -66,7 +70,7 @@ export const useHistorySessions = (historyData: HistoryData | null, searchQuery:
 
     // Merge: favorited first, unfavorited after
     return [...favorited, ...unfavorited];
-  }, [historyData?.sessions, searchQuery]);
+  }, [historyData?.sessions, historyData?.currentProject, searchQuery]);
 
   const infoBar = !historyData
     ? ''

@@ -11,6 +11,7 @@ import { HistoryConfirmDialogs } from './HistoryConfirmDialogs';
 import { HistoryLoadingState, HistoryErrorState } from './HistoryStatusView';
 import { useHistorySessions } from './useHistorySessions';
 import { useHistorySelection } from './useHistorySelection';
+import { nestedProjectLabel } from '../../utils/nestedProjects';
 
 // Deep search timeout (milliseconds)
 const DEEP_SEARCH_TIMEOUT_MS = 30000;
@@ -25,7 +26,7 @@ interface HistoryViewProps {
   historyData: HistoryData | null;
   currentProvider?: string; // Current provider (claude or codex)
   currentSessionId?: string | null; // Active session ID; its row must not offer conversion
-  onLoadSession: (sessionId: string, provider?: string, model?: string, agent?: string) => void;
+  onLoadSession: (sessionId: string, provider?: string, model?: string, agent?: string, projectPath?: string) => void;
   onDeleteSession: (sessionId: string) => void; // Delete session callback
   onDeleteSessions: (sessionIds: string[]) => void; // Batch delete sessions callback
   onExportSession: (sessionId: string, title: string) => void; // Export session callback
@@ -61,6 +62,13 @@ const HistoryView = ({ historyData, currentProvider, currentSessionId, onLoadSes
   const activeCount = allSessions.reduce((count, session) => (activity[session.sessionId] ? count + 1 : count), 0);
   const sessions = activeOnly ? allSessions.filter((session) => activity[session.sessionId]) : allSessions;
   const handleToggleActiveOnly = useCallback(() => setActiveOnly((on) => !on), []);
+  // Sessions of projects nested below this one, Claude only (the folders are the CLI's).
+  // Java remembers the choice and answers with the list again.
+  const includeNested = historyData?.includeNested === true;
+  const offersNested = (currentProvider || 'claude') === 'claude';
+  const handleToggleIncludeNested = useCallback(() => {
+    sendBridgeEvent('set_history_include_nested', includeNested ? 'false' : 'true');
+  }, [includeNested]);
   const {
     isSelectionMode,
     selectedSessionIds,
@@ -190,7 +198,7 @@ const HistoryView = ({ historyData, currentProvider, currentSessionId, onLoadSes
       return;
     }
     if (!isEditing) {
-      onLoadSession(session.sessionId, session.provider, session.model, session.agent);
+      onLoadSession(session.sessionId, session.provider, session.model, session.agent, session.projectPath);
     }
   }, [isSelectionMode, toggleSessionSelection, onLoadSession]);
 
@@ -249,6 +257,7 @@ const HistoryView = ({ historyData, currentProvider, currentSessionId, onLoadSes
       isActiveSession={currentSessionId === session.sessionId}
       editingTitle={editingSessionId === session.sessionId ? editingTitle : ''}
       searchQuery={searchQuery}
+      projectLabel={nestedProjectLabel(session.projectPath, historyData.currentProject)}
       t={t}
       onItemClick={handleItemClick}
       onSelectionToggle={toggleSessionSelection}
@@ -279,6 +288,8 @@ const HistoryView = ({ historyData, currentProvider, currentSessionId, onLoadSes
         activeOnly={activeOnly}
         activeCount={activeCount}
         onToggleActiveOnly={handleToggleActiveOnly}
+        includeNested={includeNested}
+        onToggleIncludeNested={offersNested ? handleToggleIncludeNested : undefined}
         t={t}
         onEnterSelectionMode={enterSelectionMode}
         onExitSelectionMode={exitSelectionMode}

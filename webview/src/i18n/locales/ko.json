@@ -1184,6 +1184,8 @@
     },
     "activeFilter": "활성 ({{count}})",
     "activeFilterHint": "탭에 열려 있는 세션만 표시",
+    "includeNested": "하위 프로젝트 포함",
+    "includeNestedHint": "이 프로젝트 아래 폴더에 있는 프로젝트의 세션도 표시",
     "activity": {"running": "탭에서 Claude가 작업 중", "awaiting": "탭에서 답변을 기다리는 중", "done": "탭에서 방금 끝남", "open": "탭에 열려 있음"}
   },
   "permission": {

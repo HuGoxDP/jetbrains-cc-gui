@@ -1119,6 +1119,8 @@
     },
     "activeFilter": "活動 ({{count}})",
     "activeFilterHint": "只顯示在分頁中開啟的工作階段",
+    "includeNested": "包含子專案",
+    "includeNestedHint": "同時顯示此專案下層資料夾中專案的工作階段",
     "activity": {"running": "Claude 正在其分頁中工作", "awaiting": "在其分頁中等待你的回答", "done": "剛在其分頁中完成", "open": "已在分頁中開啟"}
   },
   "permission": {

@@ -1519,6 +1519,8 @@
     },
     "activeFilter": "活动 ({{count}})",
     "activeFilterHint": "只显示在标签页中打开的会话",
+    "includeNested": "包含子项目",
+    "includeNestedHint": "同时显示此项目下层文件夹中项目的会话",
     "activity": {"running": "Claude 正在其标签页中工作", "awaiting": "在其标签页中等待你的回答", "done": "刚在其标签页中完成", "open": "已在标签页中打开"}
   },
   "permission": {

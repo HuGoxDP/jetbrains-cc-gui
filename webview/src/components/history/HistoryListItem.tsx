@@ -24,6 +24,8 @@ export interface HistoryListItemProps {
   isActiveSession: boolean;
   editingTitle: string;
   searchQuery: string;
+  /** The nested project the session belongs to ("Include nested"), named first on its meta line. */
+  projectLabel?: string | null;
   t: TFunction;
   onItemClick: (session: HistorySessionSummary, isEditing: boolean) => void;
   onSelectionToggle: (sessionId: string) => void;
@@ -49,6 +51,7 @@ export const HistoryListItem = memo(({
   isActiveSession,
   editingTitle,
   searchQuery,
+  projectLabel,
   t,
   onItemClick,
   onSelectionToggle,
@@ -116,6 +119,8 @@ export const HistoryListItem = memo(({
         isCopied={isCopied}
         isCopyFailed={isCopyFailed}
         isActiveSession={isActiveSession}
+        projectLabel={projectLabel}
+        searchQuery={searchQuery}
         t={t}
         onCopySessionId={onCopySessionId}
         onConvertToCliSession={onConvertToCliSession}

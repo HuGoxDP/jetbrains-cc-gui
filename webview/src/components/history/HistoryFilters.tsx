@@ -9,10 +9,23 @@ export interface HistoryFiltersProps {
   /** How many listed sessions are open in a tab. */
   activeCount?: number;
   onToggleActiveOnly?: () => void;
+  /** Whether the sessions of projects nested below this one are listed too. */
+  includeNested?: boolean;
+  /** Absent where the provider keeps no nested projects, which hides the switch. */
+  onToggleIncludeNested?: () => void;
   t: TFunction;
 }
 
-export const HistoryFilters = memo(({ inputValue, onInputChange, activeOnly = false, activeCount = 0, onToggleActiveOnly, t }: HistoryFiltersProps) => {
+export const HistoryFilters = memo(({
+  inputValue,
+  onInputChange,
+  activeOnly = false,
+  activeCount = 0,
+  onToggleActiveOnly,
+  includeNested = false,
+  onToggleIncludeNested,
+  t,
+}: HistoryFiltersProps) => {
   return (
     <div className="history-filters-row">
       <div className="history-search-container">
@@ -35,6 +48,18 @@ export const HistoryFilters = memo(({ inputValue, onInputChange, activeOnly = fa
         >
           <span className="codicon codicon-pulse" />
           <span>{t('history.activeFilter', { count: activeCount })}</span>
+        </button>
+      )}
+      {onToggleIncludeNested && (
+        <button
+          type="button"
+          className={`history-active-filter ${includeNested ? 'on' : ''}`}
+          aria-pressed={includeNested}
+          title={t('history.includeNestedHint')}
+          onClick={onToggleIncludeNested}
+        >
+          <span className="codicon codicon-list-tree" />
+          <span>{t('history.includeNested')}</span>
         </button>
       )}
     </div>

@@ -5,6 +5,7 @@ import com.github.claudecodegui.handler.CodexMessageConverter;
 import com.github.claudecodegui.handler.SettingsHandler;
 import com.github.claudecodegui.handler.UsagePushService;
 import com.github.claudecodegui.handler.core.HandlerContext;
+import com.github.claudecodegui.provider.claude.NestedClaudeProjects;
 import com.github.claudecodegui.provider.codex.CodexHistoryReader;
 import com.github.claudecodegui.session.ClaudeSession;
 import com.github.claudecodegui.session.SessionState;
@@ -92,10 +93,14 @@ public class HistoryMessageInjector {
         String provider = currentProvider;
         String resolvedSessionId = sessionId;
         String model = null;
+        String sessionProjectPath = null;
 
         try {
             JsonObject payload = new Gson().fromJson(sessionId, JsonObject.class);
             if (payload != null) {
+                if (payload.has("projectPath") && !payload.get("projectPath").isJsonNull()) {
+                    sessionProjectPath = payload.get("projectPath").getAsString();
+                }
                 if (payload.has("sessionId") && !payload.get("sessionId").isJsonNull()) {
                     resolvedSessionId = payload.get("sessionId").getAsString();
                 }
@@ -120,6 +125,11 @@ public class HistoryMessageInjector {
             LOG.warn("[HistoryHandler] Project base path is null");
             notifyHistoryLoadComplete();
             return;
+        }
+        // A session of a nested project ("Include nested") resumes in its own folder, where
+        // the CLI keeps it. Only a folder inside this project is taken; anything else is ignored.
+        if (NestedClaudeProjects.isStrictlyInside(sessionProjectPath, projectPath)) {
+            projectPath = sessionProjectPath;
         }
         LOG.info("[HistoryHandler] Loading history session: " + resolvedSessionId
                 + " from project: " + projectPath + ", provider: " + provider

@@ -63,7 +63,7 @@ interface UseSessionManagementReturn {
   handleCancelNewSession: () => void;
   handleConfirmInterrupt: () => void;
   handleCancelInterrupt: () => void;
-  loadHistorySession: (sessionId: string, provider?: string, model?: string, agent?: string) => void;
+  loadHistorySession: (sessionId: string, provider?: string, model?: string, agent?: string, projectPath?: string) => void;
   deleteHistorySession: (sessionId: string) => void;
   deleteHistorySessions: (sessionIds: string[]) => void;
   exportHistorySession: (sessionId: string, title: string) => void;
@@ -284,8 +284,11 @@ export function useSessionManagement({
     provider?: string,
     model?: string,
     agent?: string,
+    projectPath?: string,
   ) => {
     const session = historyDataRef.current?.sessions?.find(s => s.sessionId === sessionId);
+    // A session of a nested project resumes in its own folder, where the CLI keeps it.
+    const sessionProjectPath = projectPath || session?.projectPath;
     const effectiveProvider = provider || session?.provider || currentProvider || 'claude';
     const effectiveModel = (model || session?.model || '').trim();
     const effectiveAgent = (agent || session?.agent || '').trim();
@@ -315,6 +318,7 @@ export function useSessionManagement({
         sessionId,
         provider: effectiveProvider,
         ...(bridgeModel ? { model: bridgeModel } : {}),
+        ...(sessionProjectPath ? { projectPath: sessionProjectPath } : {}),
       }));
       setCurrentView('chat');
       return;
@@ -330,6 +334,7 @@ export function useSessionManagement({
       sessionId,
       provider: effectiveProvider,
       ...(bridgeModel ? { model: bridgeModel } : {}),
+      ...(sessionProjectPath ? { projectPath: sessionProjectPath } : {}),
     }));
     setCurrentView('chat');
   }, [applyHistoryModel, beginSessionTransition, currentProvider, loading, setCurrentView, currentSessionId]);

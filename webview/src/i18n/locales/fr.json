@@ -1090,6 +1090,8 @@
     },
     "activeFilter": "Actives ({{count}})",
     "activeFilterHint": "Afficher seulement les sessions ouvertes dans un onglet",
+    "includeNested": "Inclure les sous-projets",
+    "includeNestedHint": "Afficher aussi les sessions des projets dans les dossiers sous celui-ci",
     "activity": {"running": "Claude travaille dans son onglet", "awaiting": "Attend votre réponse dans son onglet", "done": "Vient de terminer dans son onglet", "open": "Ouverte dans un onglet"}
   },
   "permission": {

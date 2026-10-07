@@ -130,6 +130,8 @@ export interface HistorySessionSummary {
   agent?: string;
   fileSize?: number;
   entrypoint?: string; // Session entrypoint: 'cli', 'sdk-cli', 'claude-vscode', etc.
+  /** The folder of the nested project the session ran in ("Include nested"); absent for the open project's own. */
+  projectPath?: string;
 }
 
 export interface HistoryData {
@@ -137,6 +139,10 @@ export interface HistoryData {
   error?: string;
   sessions?: HistorySessionSummary[];
   total?: number;
+  /** The open project's path, which nested sessions are named relative to. */
+  currentProject?: string;
+  /** Whether the list includes the sessions of nested projects (Claude only). */
+  includeNested?: boolean;
   favorites?: Record<string, { favoritedAt: number }>;
 }
 

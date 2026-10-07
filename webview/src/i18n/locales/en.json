@@ -1514,6 +1514,8 @@
     },
     "activeFilter": "Active ({{count}})",
     "activeFilterHint": "Show only the sessions open in a tab",
+    "includeNested": "Include nested",
+    "includeNestedHint": "Also list the sessions of projects in folders below this one",
     "activity": {"running": "Claude is working in its tab", "awaiting": "Waiting for your answer in its tab", "done": "Just finished in its tab", "open": "Open in a tab"}
   },
   "permission": {

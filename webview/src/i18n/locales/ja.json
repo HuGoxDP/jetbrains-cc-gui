@@ -1095,6 +1095,8 @@
     },
     "activeFilter": "アクティブ ({{count}})",
     "activeFilterHint": "タブで開いているセッションだけを表示",
+    "includeNested": "サブプロジェクトを含める",
+    "includeNestedHint": "このプロジェクトの下のフォルダーにあるプロジェクトのセッションも表示",
     "activity": {"running": "タブで Claude が作業中", "awaiting": "タブであなたの回答を待っています", "done": "タブでちょうど完了", "open": "タブで開いています"}
   },
   "permission": {

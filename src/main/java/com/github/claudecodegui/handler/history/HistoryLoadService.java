@@ -7,6 +7,7 @@ import com.github.claudecodegui.handler.core.HandlerContext;
 import com.github.claudecodegui.cache.SessionIndexCache;
 import com.github.claudecodegui.cache.SessionIndexManager;
 import com.github.claudecodegui.provider.claude.ClaudeHistoryReader;
+import com.github.claudecodegui.provider.claude.NestedClaudeProjects;
 import com.github.claudecodegui.provider.codex.CodexHistoryReader;
 import com.github.claudecodegui.provider.dsh.DshHistoryReader;
 import com.github.claudecodegui.provider.grok.GrokHistoryReader;
@@ -23,6 +24,8 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.diagnostic.Logger;
 
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
 
@@ -115,7 +118,7 @@ class HistoryLoadService {
                     // Default: use ClaudeHistoryReader to read Claude sessions
                     LOG.info("[HistoryHandler] 使用 ClaudeHistoryReader 读取 Claude 会话");
                     ClaudeHistoryReader historyReader = new ClaudeHistoryReader();
-                    historyJson = historyReader.getProjectDataAsJson(projectPath);
+                    historyJson = historyReader.getProjectDataAsJson(projectPath, HistoryNestedPreference.isOn());
                 }
 
                 // Load favorite data and merge into history data
@@ -200,6 +203,11 @@ class HistoryLoadService {
             } else if (projectPath != null) {
                 SessionIndexCache.getInstance().clearProject(projectPath);
                 SessionIndexManager.getInstance().clearProjectIndex("claude", projectPath);
+                Path projectsDir = Paths.get(NodeDetector.resolveHomeForFileOps(), ".claude", "projects");
+                for (String nested : NestedClaudeProjects.find(projectsDir, projectPath)) {
+                    SessionIndexCache.getInstance().clearProject(nested);
+                    SessionIndexManager.getInstance().clearProjectIndex("claude", nested);
+                }
             }
 
             LOG.info("[HistoryHandler] 缓存清理完成，开始重新加载历史数据...");

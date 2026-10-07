@@ -3,6 +3,7 @@ package com.github.claudecodegui.handler.history;
 import com.github.claudecodegui.bridge.NodeDetector;
 import com.github.claudecodegui.handler.NodeJsServiceCaller;
 import com.github.claudecodegui.handler.core.HandlerContext;
+import com.github.claudecodegui.provider.claude.NestedClaudeProjects;
 import com.github.claudecodegui.provider.dsh.DshHistoryReader;
 
 import com.github.claudecodegui.cache.SessionIndexCache;
@@ -545,7 +546,9 @@ class HistoryDeleteService {
         List<Path> sessionDirs = PathUtils.getSanitizedPathCandidates(projectPath).stream()
                 .map(projectsDir::resolve)
                 .filter(Files::isDirectory)
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(ArrayList::new));
+        // A session listed from a nested project ("Include nested") lives in that project's folder.
+        sessionDirs.addAll(NestedClaudeProjects.sessionDirs(projectsDir, projectPath));
         if (sessionDirs.isEmpty()) {
             LOG.error("[HistoryHandler] Claude project directory not found for: " + projectPath);
             return new int[]{0, 0};
@@ -613,6 +616,11 @@ class HistoryDeleteService {
             } else if (projectPath != null) {
                 SessionIndexCache.getInstance().clearProject(projectPath);
                 SessionIndexManager.getInstance().clearProjectIndex("claude", projectPath);
+                Path projectsDir = Paths.get(NodeDetector.resolveHomeForFileOps(), ".claude", "projects");
+                for (String nested : NestedClaudeProjects.find(projectsDir, projectPath)) {
+                    SessionIndexCache.getInstance().clearProject(nested);
+                    SessionIndexManager.getInstance().clearProjectIndex("claude", nested);
+                }
             }
         } catch (Exception e) {
             LOG.warn("[HistoryHandler] Failed to clean up cache (does not affect deletion): " + e.getMessage());

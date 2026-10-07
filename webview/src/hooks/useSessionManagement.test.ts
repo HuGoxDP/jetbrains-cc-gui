@@ -91,6 +91,42 @@ describe('useSessionManagement', () => {
     expect(clearQueuedMessages).toHaveBeenCalledTimes(1);
   });
 
+  it('opens a session of a nested project in its own folder', () => {
+    const historyData = {
+      success: true,
+      sessions: [
+        {
+          sessionId: 'nested-1',
+          title: 'Nested',
+          provider: 'claude',
+          messageCount: 2,
+          lastTimestamp: Date.now(),
+          projectPath: '/repo/packages/api',
+        },
+      ],
+      total: 2,
+    } as unknown as HistoryData;
+
+    const { result } = renderHook(() =>
+      useSessionManagement({
+        messages: [],
+        loading: false,
+        historyData,
+        currentSessionId: null,
+        ...createMocks(),
+        t,
+      })
+    );
+
+    act(() => {
+      result.current.loadHistorySession('nested-1');
+    });
+
+    expect(window.sendToJava).toHaveBeenCalledWith(
+      'load_session:{"sessionId":"nested-1","provider":"claude","projectPath":"/repo/packages/api"}'
+    );
+  });
+
   it('clears stale ui state before loading history', () => {
     const historyData = {
       success: true,

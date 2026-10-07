@@ -1090,6 +1090,8 @@
     },
     "activeFilter": "Activas ({{count}})",
     "activeFilterHint": "Mostrar solo las sesiones abiertas en una pestaña",
+    "includeNested": "Incluir anidados",
+    "includeNestedHint": "Mostrar también las sesiones de los proyectos en carpetas dentro de este",
     "activity": {"running": "Claude está trabajando en su pestaña", "awaiting": "Esperando tu respuesta en su pestaña", "done": "Acaba de terminar en su pestaña", "open": "Abierta en una pestaña"}
   },
   "permission": {

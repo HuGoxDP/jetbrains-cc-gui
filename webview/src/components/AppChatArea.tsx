@@ -6,7 +6,7 @@ import { useUIState } from '../contexts/UIStateContext';
 
 /** HistoryView callbacks (HistoryViewProps is not exported; mirrored here). */
 interface HistoryCallbacks {
-  onLoadSession: (sessionId: string, provider?: string, model?: string, agent?: string) => void;
+  onLoadSession: (sessionId: string, provider?: string, model?: string, agent?: string, projectPath?: string) => void;
   onDeleteSession: (sessionId: string) => void;
   onDeleteSessions: (sessionIds: string[]) => void;
   onExportSession: (sessionId: string, title: string) => void;

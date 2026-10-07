@@ -152,9 +152,12 @@ class ClaudeHistorySearchService {
     /**
      * Get project data as JSON string.
      */
-    String getProjectDataAsJson(String projectPath) {
+    String getProjectDataAsJson(String projectPath, boolean includeNested) {
         try {
             List<ClaudeHistoryReader.SessionInfo> sessions = indexService.readProjectSessions(projectPath);
+            if (includeNested) {
+                sessions = withNestedSessions(projectPath, sessions);
+            }
 
             int totalMessages = sessions.stream()
                                         .mapToInt(s -> s.messageCount)
@@ -166,11 +169,37 @@ class ClaudeHistorySearchService {
             result.put("currentProject", projectPath);
             result.put("total", totalMessages);
             result.put("sessionCount", sessions.size());
+            result.put("includeNested", includeNested);
 
             return gson.toJson(result);
         } catch (Exception e) {
             return gson.toJson(ClaudeHistoryReader.ApiResponse.error("Failed to read project data: " + e.getMessage()));
         }
+    }
+
+    /**
+     * {@code sessions} and those of every project nested below {@code projectPath},
+     * newest first. A nested session names its project; one id seen twice is kept once.
+     */
+    private List<ClaudeHistoryReader.SessionInfo> withNestedSessions(
+            String projectPath,
+            List<ClaudeHistoryReader.SessionInfo> sessions
+    ) {
+        List<ClaudeHistoryReader.SessionInfo> merged = new ArrayList<>(sessions);
+        Set<String> ids = sessions.stream().map(s -> s.sessionId).collect(Collectors.toSet());
+        for (String nested : NestedClaudeProjects.find(projectsDir, projectPath)) {
+            try {
+                for (ClaudeHistoryReader.SessionInfo session : indexService.readProjectSessions(nested)) {
+                    if (ids.add(session.sessionId)) {
+                        merged.add(session.withProjectPath(nested));
+                    }
+                }
+            } catch (IOException e) {
+                LOG.warn("[ClaudeHistoryReader] Skipping nested project " + nested + ": " + e.getMessage());
+            }
+        }
+        merged.sort(Comparator.comparingLong((ClaudeHistoryReader.SessionInfo s) -> s.lastTimestamp).reversed());
+        return merged;
     }
 
     /**
@@ -188,6 +217,16 @@ class ClaudeHistorySearchService {
                 if (Files.isRegularFile(candidate)) {
                     sessionFile = candidate;
                     break;
+                }
+            }
+            if (sessionFile == null) {
+                // A session of a nested project ("Include nested") lives in that project's folder.
+                for (Path dir : NestedClaudeProjects.sessionDirs(projectsDir, projectPath)) {
+                    Path candidate = dir.resolve(sessionId + ".jsonl");
+                    if (Files.isRegularFile(candidate)) {
+                        sessionFile = candidate;
+                        break;
+                    }
                 }
             }
             if (sessionFile == null) {
