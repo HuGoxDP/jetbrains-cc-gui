@@ -6,8 +6,16 @@ import SubagentList from './SubagentList';
 const sendBridgeEventMock = vi.hoisted(() => vi.fn());
 
 vi.mock('../../utils/bridge', () => ({ sendBridgeEvent: sendBridgeEventMock }));
+const stopBackgroundTaskMock = vi.hoisted(() => vi.fn());
+
+vi.mock('../../utils/backgroundTaskStop', () => ({
+  stopBackgroundTask: stopBackgroundTaskMock,
+  stopFailureKey: (error?: string) => `failure:${error}`,
+}));
 vi.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
+  useTranslation: () => ({
+    t: (key: string, options?: Record<string, unknown>) => (options ? `${key} ${JSON.stringify(options)}` : key),
+  }),
 }));
 
 describe('SubagentList', () => {
@@ -88,5 +96,78 @@ describe('SubagentList', () => {
         toolUseId: 'call-spawn',
       }),
     ));
+  });
+
+  describe('a running background agent of the Claude provider', () => {
+    const running: SubagentInfo = {
+      id: 'toolu_bg',
+      type: 'Explore',
+      description: 'Map the parser',
+      prompt: 'Map the parser',
+      status: 'running',
+      isAsync: true,
+      messageIndex: 0,
+      agentId: 'a1b2c3d',
+    };
+
+    it('can be stopped, and the button waits while the stop is out', async () => {
+      let settle: (result: { stopped: boolean; error?: string }) => void = () => {};
+      stopBackgroundTaskMock.mockReturnValueOnce(new Promise((resolve) => { settle = resolve; }));
+      render(<SubagentList subagents={[running]} currentSessionId="s" currentProvider="claude" />);
+
+      const stop = screen.getByLabelText(/statusPanel.stopAgentNamed/) as HTMLButtonElement;
+      fireEvent.click(stop);
+
+      expect(stopBackgroundTaskMock).toHaveBeenCalledWith('toolu_bg', 'a1b2c3d');
+      expect(stop.disabled).toBe(true);
+      settle({ stopped: true });
+    });
+
+    it('says why when the stop is refused, and offers the button again', async () => {
+      stopBackgroundTaskMock.mockResolvedValueOnce({ stopped: false, error: 'unsupported' });
+      const addToast = vi.fn();
+      window.addToast = addToast;
+      render(<SubagentList subagents={[running]} currentSessionId="s" currentProvider="claude" />);
+
+      const stop = screen.getByLabelText(/statusPanel.stopAgentNamed/) as HTMLButtonElement;
+      fireEvent.click(stop);
+
+      await waitFor(() => expect(addToast).toHaveBeenCalledWith(expect.stringContaining('failure:unsupported'), 'error'));
+      expect(stop.disabled).toBe(false);
+      delete window.addToast;
+    });
+
+    it('puts a request to the agent into the chat input for the user to finish', () => {
+      const insert = vi.fn();
+      window.insertCodeSnippetAtCursor = insert;
+      render(<SubagentList subagents={[running]} currentSessionId="s" currentProvider="claude" />);
+
+      fireEvent.click(screen.getByLabelText(/statusPanel.messageAgentNamed/));
+
+      expect(insert).toHaveBeenCalledWith(expect.stringContaining('"agentId":"a1b2c3d"'));
+      expect(insert).toHaveBeenCalledWith(expect.stringContaining('statusPanel.messageAgentPrefix'));
+      expect(sendBridgeEventMock).not.toHaveBeenCalledWith('stop_background_task', expect.anything());
+      delete window.insertCodeSnippetAtCursor;
+    });
+
+    it('offers no message button before the agent id is known', () => {
+      render(<SubagentList subagents={[{ ...running, agentId: undefined }]} currentSessionId="s" currentProvider="claude" />);
+
+      expect(screen.queryByLabelText(/statusPanel.messageAgentNamed/)).toBeNull();
+      expect(screen.getByLabelText(/statusPanel.stopAgentNamed/)).toBeTruthy();
+    });
+
+    it('offers neither once the agent has finished, nor for a foreground agent, nor for another provider', () => {
+      const { rerender } = render(
+        <SubagentList subagents={[{ ...running, status: 'completed' }]} currentSessionId="s" currentProvider="claude" />,
+      );
+      expect(screen.queryByLabelText(/statusPanel.stopAgentNamed/)).toBeNull();
+
+      rerender(<SubagentList subagents={[{ ...running, isAsync: false }]} currentSessionId="s" currentProvider="claude" />);
+      expect(screen.queryByLabelText(/statusPanel.stopAgentNamed/)).toBeNull();
+
+      rerender(<SubagentList subagents={[running]} currentSessionId="s" currentProvider="codex" />);
+      expect(screen.queryByLabelText(/statusPanel.stopAgentNamed/)).toBeNull();
+    });
   });
 });

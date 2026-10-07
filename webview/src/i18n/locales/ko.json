@@ -1646,7 +1646,17 @@
     "discardAllFailed": "버리기 실패: {{error}}",
     "keepAllSuccess": "모든 변경 사항이 유지되었으며, 추적이 초기화되었습니다",
     "multiAgentBadge": "다중 Agent",
-    "multiAgentEdited": "이 세션에서 {{count}}개 Agent가 이 파일을 수정했습니다. 주의해서 확인하세요"
+    "multiAgentEdited": "이 세션에서 {{count}}개 Agent가 이 파일을 수정했습니다. 주의해서 확인하세요",
+    "stopAgent": "이 에이전트 중지",
+    "stopAgentNamed": "{{name}} 중지",
+    "stoppingAgent": "중지하는 중…",
+    "stopAgentUnsupported": "설치된 Claude Agent SDK로는 작업 하나만 중지할 수 없습니다. SDK를 업데이트하거나 답변 전체를 중지하세요.",
+    "stopAgentNoRuntime": "이 에이전트가 속한 대화가 더 이상 실행 중이 아닙니다.",
+    "stopAgentUnknown": "이 에이전트는 이미 끝났습니다.",
+    "stopAgentFailed": "에이전트를 중지하지 못했습니다: {{error}}",
+    "messageAgent": "이 에이전트에게 메시지",
+    "messageAgentNamed": "{{name}}에게 메시지",
+    "messageAgentPrefix": "SendMessage로 백그라운드 에이전트 \"{{name}}\" ({{agentId}})에게 전해 주세요:"
   },
   "skills": {
     "title": "스킬",

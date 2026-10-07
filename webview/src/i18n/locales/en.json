@@ -1994,7 +1994,17 @@
     "discardAllFailed": "Discard failed: {{error}}",
     "keepAllSuccess": "All changes kept, tracking reset",
     "multiAgentBadge": "Multi-agent",
-    "multiAgentEdited": "{{count}} agents edited this file in this session — review carefully"
+    "multiAgentEdited": "{{count}} agents edited this file in this session — review carefully",
+    "stopAgent": "Stop this agent",
+    "stopAgentNamed": "Stop {{name}}",
+    "stoppingAgent": "Stopping…",
+    "stopAgentUnsupported": "The installed Claude Agent SDK cannot stop a single task. Update it, or stop the whole reply.",
+    "stopAgentNoRuntime": "This agent belongs to a conversation that is no longer running.",
+    "stopAgentUnknown": "This agent has already finished.",
+    "stopAgentFailed": "Could not stop the agent: {{error}}",
+    "messageAgent": "Message this agent",
+    "messageAgentNamed": "Message {{name}}",
+    "messageAgentPrefix": "Use SendMessage to tell the background agent \"{{name}}\" ({{agentId}}):"
   },
   "skills": {
     "title": "Skills",

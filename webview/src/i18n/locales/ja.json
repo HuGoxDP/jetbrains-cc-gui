@@ -1556,7 +1556,17 @@
     "discardAllFailed": "元に戻す失敗: {{error}}",
     "keepAllSuccess": "すべて保持しました。変更記録をリセットしました",
     "multiAgentBadge": "複数エージェント",
-    "multiAgentEdited": "このセッションで {{count}} 個のエージェントがこのファイルを編集しました。ご注意ください"
+    "multiAgentEdited": "このセッションで {{count}} 個のエージェントがこのファイルを編集しました。ご注意ください",
+    "stopAgent": "このエージェントを停止",
+    "stopAgentNamed": "{{name}} を停止",
+    "stoppingAgent": "停止中…",
+    "stopAgentUnsupported": "インストールされている Claude Agent SDK は個別のタスクを停止できません。更新するか、返信全体を停止してください。",
+    "stopAgentNoRuntime": "このエージェントの会話はもう実行されていません。",
+    "stopAgentUnknown": "このエージェントはすでに終了しています。",
+    "stopAgentFailed": "エージェントを停止できませんでした: {{error}}",
+    "messageAgent": "このエージェントにメッセージ",
+    "messageAgentNamed": "{{name}} にメッセージ",
+    "messageAgentPrefix": "SendMessage でバックグラウンドエージェント \"{{name}}\" ({{agentId}}) に伝えてください:"
   },
   "skills": {
     "title": "スキル",

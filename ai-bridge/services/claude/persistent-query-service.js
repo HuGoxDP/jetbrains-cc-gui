@@ -753,6 +753,73 @@ export async function setPermissionModePersistent(params = {}) {
     + ` epoch=${epoch || '(none)'} mode=${targetPermissionMode}`);
 }
 
+/**
+ * Stop one background task (an Agent or Bash call made with run_in_background)
+ * of a live runtime, through the SDK's Query.stopTask(). The rest of the
+ * conversation, and the turn in progress if there is one, go on.
+ *
+ * The webview knows a task by its tool call (`toolUseId`); the SDK wants the
+ * task id the CLI announced in task_started, which updateBackgroundTaskState
+ * keeps per tool call. `taskId` from the caller (the agent id the launch result
+ * carried) is the fallback for a task whose task_started this runtime never saw,
+ * such as one launched before a runtime rebuild.
+ *
+ * Bypasses the command queue like setPermissionModePersistent, so it logs to
+ * the original stderr writer and emits nothing on stdout; the result is the
+ * caller's done signal.
+ *
+ * @param {object} params - { sessionId?, runtimeSessionEpoch?, toolUseId?, taskId? }
+ * @returns {Promise<{ stopped: boolean, reason?: string }>}
+ */
+export async function stopTaskPersistent(params = {}) {
+  const safeParams = params || {};
+  const sessionId = safeParams.sessionId || null;
+  const epoch = safeParams.runtimeSessionEpoch || null;
+  const toolUseId = typeof safeParams.toolUseId === 'string' ? safeParams.toolUseId : null;
+
+  const log = (msg) => {
+    const w = process.stderr._originalStderrWrite;
+    if (typeof w === 'function') {
+      w(`[LIFECYCLE] ${msg}\n`, 'utf8');
+    } else {
+      process.stderr.write(`[LIFECYCLE] ${msg}\n`);
+    }
+  };
+
+  let runtime = sessionId ? getRuntimeForSession(sessionId) : null;
+  if (!runtime || runtime.closed) {
+    const active = getActiveTurnRuntime();
+    if (active && !active.closed && (!sessionId || active.sessionId === sessionId)) {
+      runtime = active;
+    }
+  }
+  if (!runtime || runtime.closed) {
+    log(`stopTaskPersistent skipped: no live runtime sessionId=${sessionId || '(none)'}`);
+    return { stopped: false, reason: 'no-runtime' };
+  }
+  if (epoch && runtime.runtimeSessionEpoch !== epoch) {
+    log(`stopTaskPersistent skipped: runtime epoch mismatch sessionId=${sessionId || '(none)'}`);
+    return { stopped: false, reason: 'no-runtime' };
+  }
+
+  const taskId = (toolUseId && runtime.taskIdByToolUseId instanceof Map
+    ? runtime.taskIdByToolUseId.get(toolUseId)
+    : null) || (typeof safeParams.taskId === 'string' && safeParams.taskId ? safeParams.taskId : null);
+  if (!taskId) {
+    log(`stopTaskPersistent skipped: no task id for toolUseId=${toolUseId || '(none)'}`);
+    return { stopped: false, reason: 'unknown-task' };
+  }
+  if (typeof runtime.query?.stopTask !== 'function') {
+    // Older SDKs have no stopTask(); the user can still interrupt the turn.
+    log('stopTaskPersistent skipped: this SDK has no Query.stopTask()');
+    return { stopped: false, reason: 'unsupported' };
+  }
+
+  await runtime.query.stopTask(taskId);
+  log(`stopTaskPersistent stopped taskId=${taskId} sessionId=${sessionId || '(none)'}`);
+  return { stopped: true };
+}
+
 export async function abortCurrentTurn() {
   // Atomic swap: clear first to prevent double-disposal from rapid abort calls.
   // JS is single-threaded so assignment is atomic — only the first caller gets

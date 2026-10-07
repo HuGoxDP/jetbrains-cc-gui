@@ -622,6 +622,95 @@ public class ClaudeSDKBridge extends BaseSDKBridge {
     }
 
     /**
+     * Stop one background task (an Agent or Bash call run in the background) of
+     * the live daemon runtime, through the SDK's Query.stopTask(). The rest of the
+     * conversation goes on.
+     *
+     * The task is named by its tool call; the daemon looks up the task id the CLI
+     * announced for it, and falls back to [taskId] (the agent id the launch result
+     * carried) for a task it never saw start.
+     *
+     * Completes with {success, error?}: error is "no-runtime", "unknown-task",
+     * "unsupported" (an SDK without stopTask) or the SDK's own message.
+     */
+    public CompletableFuture<JsonObject> stopTaskLive(
+            String sessionId, String runtimeSessionEpoch, String toolUseId, String taskId) {
+        DaemonBridge db = this.daemonCoordinator.getCurrentDaemonBridge();
+        if (db == null || !db.isAlive()) {
+            JsonObject skipped = new JsonObject();
+            skipped.addProperty("success", false);
+            skipped.addProperty("error", "no-runtime");
+            return CompletableFuture.completedFuture(skipped);
+        }
+
+        JsonObject params = new JsonObject();
+        if (sessionId != null && !sessionId.isEmpty()) {
+            params.addProperty("sessionId", sessionId);
+        }
+        if (runtimeSessionEpoch != null && !runtimeSessionEpoch.isEmpty()) {
+            params.addProperty("runtimeSessionEpoch", runtimeSessionEpoch);
+        }
+        if (toolUseId != null && !toolUseId.isEmpty()) {
+            params.addProperty("toolUseId", toolUseId);
+        }
+        if (taskId != null && !taskId.isEmpty()) {
+            params.addProperty("taskId", taskId);
+        }
+
+        CompletableFuture<JsonObject> resultFuture = new CompletableFuture<>();
+        // Like setPermissionMode, the daemon answers with a bare done signal, whose
+        // error names why nothing was stopped.
+        DaemonBridge.DaemonOutputCallback callback = new DaemonBridge.DaemonOutputCallback() {
+            @Override
+            public void onLine(String line) { }
+            @Override
+            public void onStderr(String text) { }
+            @Override
+            public void onError(String error) {
+                if (!resultFuture.isDone()) {
+                    JsonObject err = new JsonObject();
+                    err.addProperty("success", false);
+                    err.addProperty("error", error);
+                    resultFuture.complete(err);
+                }
+            }
+            @Override
+            public void onComplete(boolean success) {
+                if (!resultFuture.isDone()) {
+                    JsonObject ok = new JsonObject();
+                    ok.addProperty("success", success);
+                    resultFuture.complete(ok);
+                }
+            }
+        };
+
+        try {
+            db.sendCommand("claude.stopTask", params, callback).exceptionally(ex -> {
+                if (!resultFuture.isDone()) {
+                    JsonObject err = new JsonObject();
+                    err.addProperty("success", false);
+                    err.addProperty("error", ex.getMessage());
+                    resultFuture.complete(err);
+                }
+                return false;
+            });
+        } catch (Exception e) {
+            LOG.warn("[ClaudeSDKBridge] stopTaskLive failed: " + e.getMessage(), e);
+            JsonObject err = new JsonObject();
+            err.addProperty("success", false);
+            err.addProperty("error", e.getMessage());
+            return CompletableFuture.completedFuture(err);
+        }
+
+        return resultFuture.orTimeout(10, TimeUnit.SECONDS).exceptionally(ex -> {
+            JsonObject err = new JsonObject();
+            err.addProperty("success", false);
+            err.addProperty("error", "stopTask timed out after 10 seconds");
+            return err;
+        });
+    }
+
+    /**
      * Hot-swap the permission mode of the live daemon runtime mid-conversation.
      *
      * Pushes the new mode to the SDK query and the reactive state the PreToolUse

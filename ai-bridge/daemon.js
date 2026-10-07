@@ -40,7 +40,8 @@ import {
   resetRuntimePersistent,
   getContextUsagePersistent,
   getSnapshot as getClaudeRuntimeSnapshot,
-  setPermissionModePersistent
+  setPermissionModePersistent,
+  stopTaskPersistent
 } from './services/claude/persistent-query-service.js';
 import {
   sendMessagePersistent as grokSendPersistent,
@@ -830,6 +831,25 @@ async function runDaemonMain() {
         .catch((e) => {
           _originalStderrWrite(`[daemon] setPermissionMode error: ${e.message}\n`, 'utf8');
           writeRawLine({ id: switchId, done: true, success: false, error: e.message || String(e) });
+        });
+      return;
+    }
+
+    // Stopping one background task bypasses the queue for the same reason as the
+    // permission-mode switch: the task belongs to a live runtime, often while a
+    // turn is in progress, and waiting for that turn to end defeats the purpose.
+    if (request.method === 'claude.stopTask') {
+      const stopId = request.id || '0';
+      stopTaskPersistent(request.params || {})
+        .then((result) => writeRawLine({
+          id: stopId,
+          done: true,
+          success: result?.stopped === true,
+          ...(result?.stopped ? {} : { error: result?.reason || 'not-stopped' }),
+        }))
+        .catch((e) => {
+          _originalStderrWrite(`[daemon] stopTask error: ${e.message}\n`, 'utf8');
+          writeRawLine({ id: stopId, done: true, success: false, error: e.message || String(e) });
         });
       return;
     }

@@ -412,6 +412,11 @@ export function updateBackgroundTaskState(runtime, msg) {
   if (!(runtime.backgroundTaskIds instanceof Set)) {
     runtime.backgroundTaskIds = new Set();
   }
+  // tool_use_id -> SDK task_id, so a task the webview knows by its tool call can
+  // be stopped by the id the SDK's stopTask() wants (see stopTaskPersistent).
+  if (!(runtime.taskIdByToolUseId instanceof Map)) {
+    runtime.taskIdByToolUseId = new Map();
+  }
 
   const content = msg?.message?.content ?? msg?.content;
   if (Array.isArray(content)) {
@@ -426,9 +431,11 @@ export function updateBackgroundTaskState(runtime, msg) {
     const taskId = msg.tool_use_id || msg.task_id;
     if ((msg.subtype === 'task_started' || msg.subtype === 'task_progress') && taskId) {
       runtime.backgroundTaskIds.add(taskId);
+      if (msg.tool_use_id && msg.task_id) runtime.taskIdByToolUseId.set(msg.tool_use_id, msg.task_id);
     } else if (msg.subtype === 'task_notification') {
       if (msg.tool_use_id) runtime.backgroundTaskIds.delete(msg.tool_use_id);
       if (msg.task_id) runtime.backgroundTaskIds.delete(msg.task_id);
+      if (msg.tool_use_id) runtime.taskIdByToolUseId.delete(msg.tool_use_id);
     }
   }
 

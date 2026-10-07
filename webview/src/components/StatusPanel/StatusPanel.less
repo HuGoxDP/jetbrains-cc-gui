@@ -375,6 +375,59 @@
   border-radius: 4px;
 }
 
+// The row and, for a running background agent, its Message and Stop buttons.
+// The buttons sit beside the row rather than inside it: a button cannot hold
+// another, and a click on them must not expand the row.
+.subagent-item-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  .subagent-item {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+.subagent-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-right: 4px;
+  flex-shrink: 0;
+}
+
+.subagent-action {
+  width: 24px;
+  height: 24px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  .codicon {
+    font-size: 14px;
+  }
+
+  &:hover:not(:disabled) {
+    background: var(--bg-hover);
+    color: var(--text-primary);
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.7;
+  }
+}
+
+.subagent-action-stop:hover:not(:disabled) {
+  color: #ff6b6b;
+}
+
 .subagent-item {
   width: 100%;
   border: 0;

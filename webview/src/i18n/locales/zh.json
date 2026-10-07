@@ -1999,7 +1999,17 @@
     "discardAllFailed": "撤销失败: {{error}}",
     "keepAllSuccess": "已保存全部，改动记录已重置",
     "multiAgentBadge": "多 Agent",
-    "multiAgentEdited": "本会话有 {{count}} 个 Agent 修改过此文件，请留意合并冲突"
+    "multiAgentEdited": "本会话有 {{count}} 个 Agent 修改过此文件，请留意合并冲突",
+    "stopAgent": "停止此代理",
+    "stopAgentNamed": "停止 {{name}}",
+    "stoppingAgent": "正在停止…",
+    "stopAgentUnsupported": "已安装的 Claude Agent SDK 无法单独停止某个任务。请更新它，或停止整个回复。",
+    "stopAgentNoRuntime": "此代理所属的对话已不再运行。",
+    "stopAgentUnknown": "此代理已经结束。",
+    "stopAgentFailed": "无法停止代理：{{error}}",
+    "messageAgent": "给此代理发消息",
+    "messageAgentNamed": "给 {{name}} 发消息",
+    "messageAgentPrefix": "请用 SendMessage 告诉后台代理 \"{{name}}\" ({{agentId}})："
   },
   "skills": {
     "title": "Skills",

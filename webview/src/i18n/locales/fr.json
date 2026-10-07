@@ -1551,7 +1551,17 @@
     "discardAllFailed": "Échec de l'annulation: {{error}}",
     "keepAllSuccess": "Tous les changements conservés, suivi réinitialisé",
     "multiAgentBadge": "Multi-agents",
-    "multiAgentEdited": "{{count}} agents ont modifié ce fichier dans cette session — vérifiez attentivement"
+    "multiAgentEdited": "{{count}} agents ont modifié ce fichier dans cette session — vérifiez attentivement",
+    "stopAgent": "Arrêter cet agent",
+    "stopAgentNamed": "Arrêter {{name}}",
+    "stoppingAgent": "Arrêt…",
+    "stopAgentUnsupported": "Le Claude Agent SDK installé ne peut pas arrêter une seule tâche. Mettez-le à jour, ou arrêtez toute la réponse.",
+    "stopAgentNoRuntime": "Cet agent appartient à une conversation qui ne tourne plus.",
+    "stopAgentUnknown": "Cet agent a déjà terminé.",
+    "stopAgentFailed": "Impossible d'arrêter l'agent : {{error}}",
+    "messageAgent": "Écrire à cet agent",
+    "messageAgentNamed": "Écrire à {{name}}",
+    "messageAgentPrefix": "Utilise SendMessage pour dire à l'agent en arrière-plan « {{name}} » ({{agentId}}) :"
   },
   "skills": {
     "title": "Skills",

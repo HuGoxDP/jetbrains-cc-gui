@@ -1701,7 +1701,17 @@
     "discardAllFailed": "Falha ao descartar: {{error}}",
     "keepAllSuccess": "Todas as alterações mantidas, rastreamento redefinido",
     "multiAgentBadge": "Multi-agente",
-    "multiAgentEdited": "{{count}} agentes editaram este arquivo nesta sessão — revise com cuidado"
+    "multiAgentEdited": "{{count}} agentes editaram este arquivo nesta sessão — revise com cuidado",
+    "stopAgent": "Parar este agente",
+    "stopAgentNamed": "Parar {{name}}",
+    "stoppingAgent": "Parando…",
+    "stopAgentUnsupported": "O Claude Agent SDK instalado não consegue parar uma única tarefa. Atualize-o ou pare a resposta inteira.",
+    "stopAgentNoRuntime": "Este agente pertence a uma conversa que não está mais em execução.",
+    "stopAgentUnknown": "Este agente já terminou.",
+    "stopAgentFailed": "Não foi possível parar o agente: {{error}}",
+    "messageAgent": "Enviar mensagem a este agente",
+    "messageAgentNamed": "Enviar mensagem a {{name}}",
+    "messageAgentPrefix": "Use SendMessage para dizer ao agente em segundo plano \"{{name}}\" ({{agentId}}):"
   },
   "skills": {
     "title": "Skills",

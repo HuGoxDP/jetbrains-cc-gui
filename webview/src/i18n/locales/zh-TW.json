@@ -1580,7 +1580,17 @@
     "discardAllFailed": "撤銷失敗: {{error}}",
     "keepAllSuccess": "已保存全部，改動記錄已重置",
     "multiAgentBadge": "多 Agent",
-    "multiAgentEdited": "本會話有 {{count}} 個 Agent 修改過此檔案，請留意合併衝突"
+    "multiAgentEdited": "本會話有 {{count}} 個 Agent 修改過此檔案，請留意合併衝突",
+    "stopAgent": "停止此代理",
+    "stopAgentNamed": "停止 {{name}}",
+    "stoppingAgent": "正在停止…",
+    "stopAgentUnsupported": "已安裝的 Claude Agent SDK 無法單獨停止某個任務。請更新它，或停止整個回覆。",
+    "stopAgentNoRuntime": "此代理所屬的對話已不再執行。",
+    "stopAgentUnknown": "此代理已經結束。",
+    "stopAgentFailed": "無法停止代理：{{error}}",
+    "messageAgent": "傳訊息給此代理",
+    "messageAgentNamed": "傳訊息給 {{name}}",
+    "messageAgentPrefix": "請用 SendMessage 告訴背景代理 \"{{name}}\" ({{agentId}})："
   },
   "skills": {
     "title": "Skills",

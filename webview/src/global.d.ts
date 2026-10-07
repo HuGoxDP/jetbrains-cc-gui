@@ -174,6 +174,13 @@ interface Window {
   onSubagentStatusesLoaded?: (json: string) => void;
 
   /**
+   * Answer to a stop_background_task request: JSON { toolUseId, stopped, error? }.
+   * error is 'unsupported' (an SDK without Query.stopTask), 'no-runtime',
+   * 'unknown-task' or the SDK's own message. See utils/backgroundTaskStop.ts.
+   */
+  onBackgroundTaskStopResult?: (json: string) => void;
+
+  /**
    * task_* SDK system event callback (async subagent lifecycle).
    * Payload: { subtype: 'task_started'|'task_progress'|'task_notification',
    *   task_id, tool_use_id, status?, summary?, usage?, output_file? }.

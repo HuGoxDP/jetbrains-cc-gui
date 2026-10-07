@@ -1550,7 +1550,17 @@
     "discardAllFailed": "हटाना विफल: {{error}}",
     "keepAllSuccess": "सभी परिवर्तन रखे गए, ट्रैकिंग रीसेट",
     "multiAgentBadge": "मल्टी-एजेंट",
-    "multiAgentEdited": "इस सत्र में {{count}} एजेंटों ने इस फ़ाइल को संपादित किया — सावधानी से देखें"
+    "multiAgentEdited": "इस सत्र में {{count}} एजेंटों ने इस फ़ाइल को संपादित किया — सावधानी से देखें",
+    "stopAgent": "इस एजेंट को रोकें",
+    "stopAgentNamed": "{{name}} को रोकें",
+    "stoppingAgent": "रोका जा रहा है…",
+    "stopAgentUnsupported": "इंस्टॉल किया गया Claude Agent SDK अकेला टास्क नहीं रोक सकता। इसे अपडेट करें, या पूरा जवाब रोकें।",
+    "stopAgentNoRuntime": "यह एजेंट जिस बातचीत का है, वह अब नहीं चल रही।",
+    "stopAgentUnknown": "यह एजेंट पहले ही पूरा हो चुका है।",
+    "stopAgentFailed": "एजेंट को रोका नहीं जा सका: {{error}}",
+    "messageAgent": "इस एजेंट को संदेश भेजें",
+    "messageAgentNamed": "{{name}} को संदेश भेजें",
+    "messageAgentPrefix": "SendMessage से बैकग्राउंड एजेंट \"{{name}}\" ({{agentId}}) को बताएं:"
   },
   "skills": {
     "title": "Skills",

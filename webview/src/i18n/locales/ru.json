@@ -1579,7 +1579,17 @@
     "discardAllFailed": "Ошибка отмены: {{error}}",
     "keepAllSuccess": "Все изменения сохранены, отслеживание сброшено",
     "multiAgentBadge": "Несколько агентов",
-    "multiAgentEdited": "{{count}} агентов изменили этот файл в сессии — проверьте внимательно"
+    "multiAgentEdited": "{{count}} агентов изменили этот файл в сессии — проверьте внимательно",
+    "stopAgent": "Остановить этого агента",
+    "stopAgentNamed": "Остановить {{name}}",
+    "stoppingAgent": "Останавливаем…",
+    "stopAgentUnsupported": "Установленный Claude Agent SDK не умеет останавливать отдельную задачу. Обновите его или остановите весь ответ.",
+    "stopAgentNoRuntime": "Беседа этого агента больше не выполняется.",
+    "stopAgentUnknown": "Этот агент уже завершился.",
+    "stopAgentFailed": "Не удалось остановить агента: {{error}}",
+    "messageAgent": "Написать этому агенту",
+    "messageAgentNamed": "Написать {{name}}",
+    "messageAgentPrefix": "Через SendMessage передай фоновому агенту «{{name}}» ({{agentId}}):"
   },
   "skills": {
     "title": "Навыки",
