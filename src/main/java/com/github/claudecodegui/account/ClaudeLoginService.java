@@ -206,7 +206,7 @@ public final class ClaudeLoginService {
      * Find a Claude Code CLI: the user's configured path, then the native binary shipped
      * with the installed Agent SDK, then {@code claude} on PATH.
      */
-    static String resolveClaudeBinary() {
+    public static String resolveClaudeBinary() {
         try {
             String configured = PropertiesComponent.getInstance().getValue(CLI_PATH_PROPERTY_KEY);
             if (configured != null && !configured.isBlank() && new File(configured.trim()).canExecute()) {

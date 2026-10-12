@@ -30,6 +30,19 @@
       "waiting": "已達用量上限，將於 {{time}} 繼續。",
       "cancel": "取消"
     },
+    "sessionMention": {
+      "none": "這台電腦上沒有其他正在執行的 Claude 工作階段。",
+      "noMatch": "沒有符合的工作階段。",
+      "errors": {
+        "wsl": "Claude 在 WSL 中執行時無法列出工作階段。",
+        "cli_not_found": "找不到 Claude Code CLI，無法列出執行中的工作階段。",
+        "timeout": "Claude Code 未及時回應，請再試一次。",
+        "failed": "無法列出執行中的工作階段。"
+      }
+    },
+    "peerMessage": {
+      "title": "來自其他工作階段的訊息"
+    },
     "scheduled": {
       "openTooltip": "排程訊息",
       "openTooltipCount": "排程訊息（{{n}}）",

@@ -90,6 +90,20 @@
   text-overflow: ellipsis;
 }
 
+/* "@@" sessions: the title gives way, the name (the address) always shows in full. */
+.dropdown-item--session .dropdown-item-label {
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropdown-item--session .dropdown-item-description {
+  flex: 0 0 auto;
+  direction: ltr;
+  overflow: visible;
+}
+
 /* Codex uses one picker for commands and skills; keep only a small content gap. */
 .dropdown-item-type {
   flex: 0 0 auto;

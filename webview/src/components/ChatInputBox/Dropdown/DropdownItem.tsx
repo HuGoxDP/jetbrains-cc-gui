@@ -187,7 +187,7 @@ export const DropdownItem = ({
     <>
       <div
         ref={itemRef}
-        className={`dropdown-item ${isActive ? 'active' : ''} ${isDisabled ? 'disabled' : ''}`}
+        className={`dropdown-item ${isActive ? 'active' : ''} ${isDisabled ? 'disabled' : ''}${item.type === 'session' ? ' dropdown-item--session' : ''}`}
         role={isDisabled ? undefined : 'button'}
         tabIndex={isDisabled ? undefined : 0}
         onClick={isDisabled ? undefined : onClick}

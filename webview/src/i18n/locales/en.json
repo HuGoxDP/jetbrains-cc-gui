@@ -47,6 +47,19 @@
       "waiting": "Usage limit reached. Continuing at {{time}}.",
       "cancel": "Cancel"
     },
+    "sessionMention": {
+      "none": "No other Claude session is running on this computer.",
+      "noMatch": "No running session matches.",
+      "errors": {
+        "wsl": "Listing sessions is not available when Claude runs inside WSL.",
+        "cli_not_found": "Claude Code CLI not found, so running sessions cannot be listed.",
+        "timeout": "Claude Code did not answer in time; try again.",
+        "failed": "Could not list the running sessions."
+      }
+    },
+    "peerMessage": {
+      "title": "Message from another session"
+    },
     "scheduled": {
       "openTooltip": "Scheduled messages",
       "openTooltipCount": "Scheduled messages ({{n}})",

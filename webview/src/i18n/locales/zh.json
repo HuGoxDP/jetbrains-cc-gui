@@ -47,6 +47,19 @@
       "waiting": "已达用量上限，将于 {{time}} 继续。",
       "cancel": "取消"
     },
+    "sessionMention": {
+      "none": "这台电脑上没有其他正在运行的 Claude 会话。",
+      "noMatch": "没有匹配的会话。",
+      "errors": {
+        "wsl": "Claude 在 WSL 中运行时无法列出会话。",
+        "cli_not_found": "找不到 Claude Code CLI，无法列出正在运行的会话。",
+        "timeout": "Claude Code 没有及时响应，请重试。",
+        "failed": "无法列出正在运行的会话。"
+      }
+    },
+    "peerMessage": {
+      "title": "来自其他会话的消息"
+    },
     "scheduled": {
       "openTooltip": "定时消息",
       "openTooltipCount": "定时消息（{{n}}）",

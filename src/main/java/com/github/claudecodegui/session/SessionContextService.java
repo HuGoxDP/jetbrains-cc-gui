@@ -36,7 +36,9 @@ public class SessionContextService {
 
         try {
             JsonArray contentArr = new JsonArray();
-            String userDisplayText = normalizedInput;
+            // An @@ mention's delivery reminder is for the model, not part of what the user wrote.
+            String shownInput = SessionMentions.withoutReminder(normalizedInput);
+            String userDisplayText = shownInput;
 
             if (attachments != null && !attachments.isEmpty()) {
                 for (ClaudeSession.Attachment att : attachments) {
@@ -50,7 +52,7 @@ public class SessionContextService {
                 }
             }
 
-            userDisplayText = processReferences(normalizedInput, "terminal", "Terminal Output", this::resolveTerminalContent);
+            userDisplayText = processReferences(shownInput, "terminal", "Terminal Output", this::resolveTerminalContent);
             userDisplayText = processReferences(userDisplayText, "service", "Service Output", this::resolveServiceContent);
 
             contentArr.add(createTextBlock(userDisplayText));

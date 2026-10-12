@@ -302,6 +302,18 @@ function detectAtTrigger(text: string, cursorPosition: number, element?: HTMLEle
         continue;
       }
 
+      // "@@" at the start of a line or after a space mentions another running session:
+      // the query then starts with "@" (the @ completion lists sessions for it).
+      const before = start > 0 ? text[start - 1] : '';
+      if (before === '@' && (isLineStart(text, start - 1) || isVisibleWhitespace(text[start - 2] ?? ''))) {
+        return {
+          trigger: '@',
+          query: `@${text.slice(start + 1, cursorPosition)}`,
+          start: start - 1,
+          end: cursorPosition,
+        };
+      }
+
       const query = text.slice(start + 1, cursorPosition);
       return {
         trigger: '@',

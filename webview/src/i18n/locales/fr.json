@@ -30,6 +30,19 @@
       "waiting": "Limite d’utilisation atteinte. Reprise à {{time}}.",
       "cancel": "Annuler"
     },
+    "sessionMention": {
+      "none": "Aucune autre session Claude ne tourne sur cet ordinateur.",
+      "noMatch": "Aucune session ne correspond.",
+      "errors": {
+        "wsl": "Impossible de lister les sessions quand Claude tourne dans WSL.",
+        "cli_not_found": "CLI Claude Code introuvable : impossible de lister les sessions.",
+        "timeout": "Claude Code n’a pas répondu à temps ; réessayez.",
+        "failed": "Impossible de lister les sessions en cours."
+      }
+    },
+    "peerMessage": {
+      "title": "Message d’une autre session"
+    },
     "scheduled": {
       "openTooltip": "Messages programmés",
       "openTooltipCount": "Messages programmés ({{n}})",

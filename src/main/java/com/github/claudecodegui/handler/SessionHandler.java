@@ -135,6 +135,11 @@ public class SessionHandler extends BaseMessageHandler {
             prompt = payload != null && payload.has("text") && !payload.get("text").isJsonNull()
                              ? payload.get("text").getAsString()
                              : content; // Fallback to raw content if not JSON
+            // An @@ mention: ask the model to pass the message on to that session.
+            if (payload != null && payload.has("sessionMention")) {
+                prompt = com.github.claudecodegui.session.SessionMentions.withReminder(
+                        prompt, payload.get("sessionMention"));
+            }
 
             // Extract agent prompt from the message
             if (payload != null && payload.has("agent") && !payload.get("agent").isJsonNull()) {

@@ -10,6 +10,7 @@ import {
 import type { Attachment, ChatInputBoxHandle, PermissionMode, ReasoningEffort, SelectedAgent, CodexFastMode } from '../components/ChatInputBox/types';
 import { expandQuoteTokens } from '../components/ChatInputBox/utils/quoteRegistry';
 import type { ViewMode } from './useModelProviderState';
+import { findSessionMention } from '../components/ChatInputBox/providers/sessionMentionProvider';
 
 /**
  * Command sets for local handling (shared with App.tsx to avoid duplication)
@@ -306,6 +307,8 @@ export function useMessageSender({
         sendBridgeEvent('send_message', fallbackPayload);
       }
     } else {
+      // "@@name" addressed another running Claude session: the IDE asks the model to pass it on.
+      const sessionMention = currentProvider === 'claude' ? findSessionMention(text) : null;
       const payload = JSON.stringify({
         text,
         agent: agentInfo,
@@ -313,6 +316,7 @@ export function useMessageSender({
         permissionMode: effectivePermissionMode,
         ...reasoningEffortPayload,
         ...(currentProvider === 'dsh' ? { dshPreset: dshPreset || '' } : {}),
+        ...(sessionMention ? { sessionMention } : {}),
         codexFastMode,
       });
       sendBridgeEvent('send_message', payload);

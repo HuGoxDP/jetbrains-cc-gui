@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import type { Attachment } from '../types.js';
+import { findSessionMention } from '../providers/sessionMentionProvider.js';
 import type { Dispatch, SetStateAction } from 'react';
 
 interface CompletionLike {
@@ -99,12 +100,15 @@ export function useSubmitHandler({
     // Record input history
     recordInputHistory(content);
 
-    const attachmentsToSend = attachments.length > 0 ? [...attachments] : undefined;
+    // A message to another session ("@@name") carries text only: attachments stay here for
+    // the next message to this session instead of being lost.
+    const toOtherSession = currentProvider === 'claude' && findSessionMention(cleanContent) !== null;
+    const attachmentsToSend = attachments.length > 0 && !toOtherSession ? [...attachments] : undefined;
 
     // clearInput also drops any queued draft notification, so a stale debounced
     // value cannot refill the input after submit.
     clearInput();
-    if (externalAttachments === undefined) {
+    if (externalAttachments === undefined && !toOtherSession) {
       setInternalAttachments([]);
       // Clear attachments draft from localStorage
       clearAttachmentsDraft?.();

@@ -30,6 +30,19 @@
       "waiting": "使用量の上限に達しました。{{time}} に再開します。",
       "cancel": "キャンセル"
     },
+    "sessionMention": {
+      "none": "このコンピューターで動いているほかの Claude セッションはありません。",
+      "noMatch": "一致するセッションはありません。",
+      "errors": {
+        "wsl": "Claude が WSL 内で動いている場合はセッションを一覧できません。",
+        "cli_not_found": "Claude Code CLI が見つからないため、セッションを一覧できません。",
+        "timeout": "Claude Code が時間内に応答しませんでした。もう一度お試しください。",
+        "failed": "動いているセッションを一覧できませんでした。"
+      }
+    },
+    "peerMessage": {
+      "title": "ほかのセッションからのメッセージ"
+    },
     "scheduled": {
       "openTooltip": "予約メッセージ",
       "openTooltipCount": "予約メッセージ（{{n}}）",

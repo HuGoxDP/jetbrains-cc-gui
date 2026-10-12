@@ -14,6 +14,7 @@ import { isHiddenToolCall, useHideToolCalls } from '../../utils/hideToolCalls';
 import { groupBlocks } from './groupBlocks';
 import { useForkMessage } from '../../contexts/ForkMessageContext';
 import { messageUuid } from '../../hooks/useForkSession';
+import { PeerMessageCard, peerOrigin } from './PeerMessageCard';
 
 export interface MessageItemProps {
   message: ClaudeMessage;
@@ -249,6 +250,15 @@ export const MessageItem = memo(function MessageItem({
 
   if (isEmptyStreamingPlaceholder && !showStreamingConnectHint) {
     return <></>;
+  }
+
+  const peer = peerOrigin(message);
+  if (peer) {
+    return (
+      <div className={`message peer${isLast ? ' is-last-message' : ''}`}>
+        <PeerMessageCard origin={peer} t={t} />
+      </div>
+    );
   }
 
   // A reply made only of hidden tool calls has nothing left to show; drawing it

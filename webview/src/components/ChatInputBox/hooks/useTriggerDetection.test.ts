@@ -64,3 +64,17 @@ describe('useTriggerDetection', () => {
     });
   });
 });
+
+describe('@@ session mention trigger', () => {
+  it('turns "@@" at the start or after a space into a session query', () => {
+    expect(detect('@@')).toEqual({ trigger: '@', query: '@', start: 0, end: 2 });
+    expect(detect('@@rev')).toEqual({ trigger: '@', query: '@rev', start: 0, end: 5 });
+    expect(detect('ask @@docs')).toEqual({ trigger: '@', query: '@docs', start: 4, end: 10 });
+    expect(detect('line\n@@x')).toEqual({ trigger: '@', query: '@x', start: 5, end: 8 });
+  });
+
+  it('leaves a single @ and an @@ inside a word to the file references', () => {
+    expect(detect('@src')).toEqual({ trigger: '@', query: 'src', start: 0, end: 4 });
+    expect(detect('a@@x')).toEqual({ trigger: '@', query: 'x', start: 2, end: 4 });
+  });
+});

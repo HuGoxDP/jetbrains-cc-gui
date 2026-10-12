@@ -269,7 +269,15 @@ export function useCompletionDropdown<T>({
         return { ...prev, triggerQuery };
       }
 
-      const q = nextQuery.trim().toLowerCase();
+      // "@@" lists running sessions instead of files: rows of the other list never match,
+      // so wait for the provider rather than filter them.
+      const wantsSessions = nextQuery.startsWith('@');
+      const hasSessions = (source[0] as { kind?: unknown } | undefined)?.kind === 'session';
+      if (wantsSessions !== hasSessions) {
+        return { ...prev, triggerQuery, items: [], rawItems: [], sourceRawItems: [], activeIndex: 0 };
+      }
+
+      const q = (wantsSessions ? nextQuery.slice(1) : nextQuery).trim().toLowerCase();
 
       if (!q) {
         return {

@@ -20,6 +20,15 @@ import {
   type PromptItem,
 } from '../providers/index.js';
 import {
+  SESSION_EMPTY_ID,
+  SESSION_LOADING_ID,
+  isSessionMentionItem,
+  rememberSessionName,
+  sessionMentionProvider,
+  sessionToDropdownItem,
+  type SessionMentionItem,
+} from '../providers/sessionMentionProvider.js';
+import {
   getCommandInsertionText,
   isCommandPlaceholder,
 } from '../utils/commandCompletionUtils.js';
@@ -38,6 +47,20 @@ interface UseChatInputCompletionsCoordinatorOptions {
   onAgentSelect?: (agent: { id: string; name: string; prompt?: string } | null) => void;
   onOpenAgentSettings?: () => void;
   onOpenPromptSettings?: () => void;
+}
+
+function atProvider(
+  query: string,
+  signal: AbortSignal,
+  isClaude: boolean,
+): Promise<(FileItem | SessionMentionItem)[]> {
+  if (!query.startsWith('@')) return fileReferenceProvider(query, signal);
+  // Only a Claude conversation can pass a message on (SendMessage is Claude's tool).
+  return isClaude ? sessionMentionProvider(query.slice(1), signal) : fileReferenceProvider(query.slice(1), signal);
+}
+
+function atToDropdownItem(item: FileItem | SessionMentionItem) {
+  return isSessionMentionItem(item) ? sessionToDropdownItem(item) : fileToDropdownItem(item);
 }
 
 function replaceTextAndSync(
@@ -77,12 +100,33 @@ export function useChatInputCompletionsCoordinator({
   const dollarProvider = isCodexProvider ? codexCommandProvider : dollarCommandProvider;
   const dollarItemConverter = isCodexProvider ? codexCommandToDropdownItem : dollarCommandToDropdownItem;
 
-  const fileCompletion = useCompletionDropdown<FileItem>({
+  const isClaudeProvider = currentProvider === 'claude';
+  const atDataProvider = useCallback(
+    (query: string, signal: AbortSignal) => atProvider(query, signal, isClaudeProvider),
+    [isClaudeProvider],
+  );
+
+  const fileCompletion = useCompletionDropdown<FileItem | SessionMentionItem>({
     trigger: '@',
-    provider: fileReferenceProvider,
-    toDropdownItem: fileToDropdownItem,
-    onSelect: (file, query) => {
+    // "@@" (a query starting with "@") lists the other running Claude sessions instead of files.
+    provider: atDataProvider,
+    toDropdownItem: atToDropdownItem,
+    onSelect: (item, query) => {
       if (!editableRef.current || !query) return;
+      if (isSessionMentionItem(item)) {
+        if (item.sessionId === SESSION_EMPTY_ID || item.sessionId === SESSION_LOADING_ID) return;
+        rememberSessionName(item.name);
+        replaceTextAndSync(
+          editableRef,
+          getTextContent(),
+          `@@${item.name} `,
+          query,
+          fileCompletion.replaceText,
+          () => handleInputRef.current()
+        );
+        return;
+      }
+      const file = item;
 
       const text = getTextContent();
       const path = file.absolutePath || file.path;

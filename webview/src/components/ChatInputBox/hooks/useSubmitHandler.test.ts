@@ -184,4 +184,41 @@ describe('useSubmitHandler', () => {
     expect(onSubmit).toHaveBeenCalledWith('hello', [createAttachment('a1')]);
     vi.useRealTimers();
   });
+
+  it('keeps attachments here when the message goes to another session', async () => {
+    const { rememberSessionName, resetSessionMentions } = await import('../providers/sessionMentionProvider.js');
+    resetSessionMentions();
+    rememberSessionName('docs-7');
+    vi.useFakeTimers();
+    const setInternalAttachments = vi.fn();
+    const onSubmit = vi.fn();
+    const close = vi.fn();
+    const { result } = renderHook(() =>
+      useSubmitHandler({
+        getTextContent: () => '@@docs-7 what did you verify?',
+        invalidateCache: vi.fn(),
+        attachments: [createAttachment('a1')],
+        sdkStatusLoading: false,
+        sdkInstalled: true,
+        currentProvider: 'claude',
+        clearInput: vi.fn(),
+        externalAttachments: undefined,
+        setInternalAttachments,
+        fileCompletion: { close },
+        commandCompletion: { close },
+        agentCompletion: { close },
+        promptCompletion: { close },
+        dollarCommandCompletion: { close },
+        recordInputHistory: vi.fn(),
+        onSubmit,
+        t: (key) => key,
+      })
+    );
+    result.current();
+    vi.advanceTimersByTime(20);
+    expect(onSubmit).toHaveBeenCalledWith('@@docs-7 what did you verify?', undefined);
+    expect(setInternalAttachments).not.toHaveBeenCalled();
+    vi.useRealTimers();
+    resetSessionMentions();
+  });
 });

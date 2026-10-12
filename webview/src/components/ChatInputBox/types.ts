@@ -77,6 +77,7 @@ export type CompletionType =
   | 'directory'
   | 'command'
   | 'agent'
+  | 'session'
   | 'prompt'
   | 'terminal'
   | 'service'
