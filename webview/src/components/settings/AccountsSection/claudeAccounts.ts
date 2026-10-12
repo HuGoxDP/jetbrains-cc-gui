@@ -50,6 +50,8 @@ export interface ClaudeAccountsState {
   liveLoggedIn: boolean;
   liveSaved: boolean;
   autoRotate: boolean;
+  /** Continue a conversation by itself when the usage limit that stopped it resets. */
+  autoContinue: boolean;
   isolatedUsageSupported: boolean;
 }
 
@@ -112,6 +114,7 @@ export function parseAccountsPayload(input: unknown): ClaudeAccountsState | null
     liveLoggedIn: data.liveLoggedIn === true,
     liveSaved: data.liveSaved === true,
     autoRotate: data.autoRotate === true,
+    autoContinue: data.autoContinue === true,
     isolatedUsageSupported: data.isolatedUsageSupported !== false,
   };
 }

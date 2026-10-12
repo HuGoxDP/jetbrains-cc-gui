@@ -314,6 +314,11 @@ public class ClaudeSession {
         return state.consumeUsageLimitReached();
     }
 
+    /** When the limit that stopped the last turn resets (epoch ms), if the CLI said; clears it. */
+    public Long consumeUsageLimitResetsAt() {
+        return state.consumeUsageLimitResetsAt();
+    }
+
     public boolean isManuallyInterrupted() {
         return manuallyInterrupted;
     }

@@ -1,0 +1,42 @@
+.limit-resume-notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 12px 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(33, 150, 243, 0.1);
+  border: 1px solid rgba(33, 150, 243, 0.25);
+  color: #64b5f6;
+  font-size: 12px;
+}
+
+.limit-resume-notice .codicon {
+  font-size: 14px;
+}
+
+.limit-resume-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.limit-resume-cancel {
+  flex-shrink: 0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(33, 150, 243, 0.4);
+  background: rgba(33, 150, 243, 0.18);
+  color: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.limit-resume-cancel:hover {
+  background: rgba(33, 150, 243, 0.3);
+}
+
+[data-theme="light"] .limit-resume-notice {
+  background: rgba(33, 150, 243, 0.08);
+  border-color: rgba(33, 150, 243, 0.2);
+  color: #1976d2;
+}

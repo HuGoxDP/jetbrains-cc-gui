@@ -43,6 +43,10 @@
     "optional": "可选"
   },
   "chat": {
+    "limitResume": {
+      "waiting": "已达用量上限，将于 {{time}} 继续。",
+      "cancel": "取消"
+    },
     "jumpToPinnedMessage": "回到这条消息所在的位置",
     "collapseReply": "折叠回复",
     "expandReply": "展开回复",
@@ -693,6 +697,8 @@
       "retry": "重试",
       "autoRotate": "达到用量上限时自动切换账号",
       "autoRotateHint": "当回合因用量上限而停止时，切换到轮换中的下一个账号并继续对话。",
+      "autoContinue": "上限重置后继续",
+      "autoContinueHint": "当用量上限停止回合且没有切换到其他账号时，在上限重置后发送“Continue exactly where you stopped.”。",
       "unsavedLive": "当前登录为 {{email}}，但尚未保存。",
       "active": "当前",
       "empty": "还没有保存的账号。可通过“添加账号”登录，或保存 CLI 已在使用的登录。",

@@ -104,6 +104,20 @@ const AccountsSection = ({ addToast }: AccountsSectionProps) => {
             </span>
           </label>
 
+          <label className={styles.rotateCard}>
+            <input
+              type="checkbox"
+              className={styles.toggleInput}
+              checked={state.autoContinue}
+              onChange={(e) => accounts.setAutoContinue(e.target.checked)}
+            />
+            <span className={styles.toggleSlider} />
+            <span className={styles.rotateText}>
+              <span className={styles.rotateTitle}>{t('settings.accounts.autoContinue')}</span>
+              <span className={styles.rotateHint}>{t('settings.accounts.autoContinueHint')}</span>
+            </span>
+          </label>
+
           {unsavedLive && (
             <div className={styles.notice}>
               <span className="codicon codicon-info" />

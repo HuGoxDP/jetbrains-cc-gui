@@ -164,6 +164,8 @@ public class SessionState {
     private volatile String reasoningEffort = null;
     /** Set when the current turn stopped on a plan usage limit; consumed at stream end. */
     private volatile boolean usageLimitReached = false;
+    /** When the limit that stopped the turn resets (epoch ms), when the CLI said; consumed at stream end. */
+    private volatile Long usageLimitResetsAtMs = null;
     // Codex service tier: null = use Codex defaults, "fast" = Codex /fast.
     private volatile String codexServiceTier = null;
     private volatile String dshPreset = "";
@@ -275,6 +277,21 @@ public class SessionState {
 
     public void markUsageLimitReached() {
         this.usageLimitReached = true;
+    }
+
+    /** A usage limit stopped the turn, and the CLI said when it resets. */
+    public void markUsageLimitReached(Long resetsAtMs) {
+        this.usageLimitReached = true;
+        if (resetsAtMs != null) {
+            this.usageLimitResetsAtMs = resetsAtMs;
+        }
+    }
+
+    /** When the limit that stopped the last turn resets (epoch ms) or null, and clears it. */
+    public Long consumeUsageLimitResetsAt() {
+        Long at = usageLimitResetsAtMs;
+        usageLimitResetsAtMs = null;
+        return at;
     }
 
     /** Returns whether the turn hit a usage limit, and clears the flag. */

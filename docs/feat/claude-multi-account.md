@@ -22,7 +22,8 @@ stops a turn. Also expose the `ultracode` effort step.
 
 Inbound (webview → Java): `get_claude_accounts`, `save_current_claude_account`,
 `switch_claude_account`, `delete_claude_account`, `reorder_claude_accounts`,
-`set_claude_account_rotation`, `set_claude_auto_rotate`, `refresh_claude_account_usage`,
+`set_claude_account_rotation`, `set_claude_auto_rotate`, `set_claude_auto_continue`,
+`refresh_claude_account_usage`,
 `start_claude_login`, `submit_claude_login_code`, `cancel_claude_login`.
 
 Outbound (Java → webview): `updateClaudeAccounts`, `onClaudeAccountUsage`,
@@ -50,6 +51,9 @@ every window the CLI reports.
 - **Automatic rotation**: when a turn stops on a usage limit and rotation is on, the next
   account in the user's order that qualifies is activated and the conversation continues
   with "Continue exactly where you stopped." Accounts can be excluded from the rotation.
+- **Continue when the limit resets**: when no other account takes over, the conversation
+  can wait for the limit to reset and continue then. See
+  [limit-resume.md](./limit-resume.md).
 - **Ultracode** is the top reasoning step for Claude models that support `xhigh`: `xhigh`
   effort plus the session-scoped `ultracode` setting. Other providers never see it; a stale
   value is sent to them as `xhigh`.

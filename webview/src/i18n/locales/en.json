@@ -43,6 +43,10 @@
     "optional": "Optional"
   },
   "chat": {
+    "limitResume": {
+      "waiting": "Usage limit reached. Continuing at {{time}}.",
+      "cancel": "Cancel"
+    },
     "jumpToPinnedMessage": "Back to where this message sits",
     "collapseReply": "Collapse reply",
     "expandReply": "Expand reply",
@@ -693,6 +697,8 @@
       "retry": "Retry",
       "autoRotate": "Switch accounts automatically on a usage limit",
       "autoRotateHint": "When a turn stops on a usage limit, switch to the next account in the rotation and continue the conversation there.",
+      "autoContinue": "Continue when the limit resets",
+      "autoContinueHint": "When a usage limit stops a turn and no other account takes over, send “Continue exactly where you stopped.” once the limit resets.",
       "unsavedLive": "Signed in as {{email}}, but this login is not saved yet.",
       "active": "Active",
       "empty": "No saved accounts yet. Sign in with \"Add account\" or save the login the CLI already uses.",

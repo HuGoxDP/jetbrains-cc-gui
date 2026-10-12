@@ -360,6 +360,10 @@ public class ClaudeChatWindow {
 
             @Override
             public void setSession(ClaudeSession s) {
+                // A continuation waiting for the old conversation's limit must not reach the new one.
+                if (session != s) {
+                    com.github.claudecodegui.account.LimitResume.cancel(session);
+                }
                 session = s;
                 persistTabSessionState();
             }
@@ -2730,11 +2734,14 @@ public class ClaudeChatWindow {
         }
         if ("claude".equals(session.getProvider())) {
             boolean limitReached = session.consumeUsageLimitReached();
+            Long limitResetsAt = session.consumeUsageLimitResetsAt();
             if (limitReached && !session.isManuallyInterrupted()) {
                 if (ClaudeAccountCoordinator.onUsageLimitReached(this, consecutiveAccountRotations.get())) {
                     consecutiveAccountRotations.incrementAndGet();
                     return;
                 }
+                // No other account took over: wait for the limit to reset, when that is turned on.
+                ClaudeAccountCoordinator.continueWhenLimitResets(this, limitResetsAt);
             } else if (!limitReached) {
                 consecutiveAccountRotations.set(0);
             }
@@ -2784,7 +2791,14 @@ public class ClaudeChatWindow {
         }
     }
 
-    /** Continue the interrupted request after an automatic account switch. */
+    /** Show when the conversation will continue after its usage limit resets, or take the notice down (null). */
+    void pushLimitResume(Long atMs) {
+        if (!disposed) {
+            callJavaScript("updateLimitResume", JsUtils.escapeJs(com.github.claudecodegui.account.LimitResume.noticeJson(atMs)));
+        }
+    }
+
+    /** Continue the interrupted request after an automatic account switch or a usage limit reset. */
     void sendAutomaticContinuation(String prompt) {
         ClaudeSession current = session;
         if (disposed || current == null || current.isBusy()) {
@@ -2933,6 +2947,7 @@ public class ClaudeChatWindow {
             return;
         }
         this.disposed = true;
+        com.github.claudecodegui.account.LimitResume.cancel(this.session);
         this.webviewEventQueue.dispose();
         JBCefBrowser targetBrowser = this.browser;
         cancelScheduledOsrSurfaceRefresh();

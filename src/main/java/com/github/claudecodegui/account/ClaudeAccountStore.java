@@ -71,6 +71,8 @@ public class ClaudeAccountStore {
         public List<String> order = new ArrayList<>();
         /** Switch to the next account automatically when a usage limit is reached. */
         public boolean autoRotate;
+        /** Continue the conversation by itself when the usage limit that stopped it resets. */
+        public boolean autoContinue;
     }
 
     /** One account's stored credentials. */

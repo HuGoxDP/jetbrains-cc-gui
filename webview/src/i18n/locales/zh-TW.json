@@ -26,6 +26,10 @@
     "optional": "Optional"
   },
   "chat": {
+    "limitResume": {
+      "waiting": "已達用量上限，將於 {{time}} 繼續。",
+      "cancel": "取消"
+    },
     "jumpToPinnedMessage": "回到這則訊息所在的位置",
     "collapseReply": "摺疊回覆",
     "expandReply": "展開回覆",
@@ -427,6 +431,8 @@
       "retry": "重試",
       "autoRotate": "達到用量上限時自動切換帳號",
       "autoRotateHint": "當回合因用量上限而停止時，切換到輪替中的下一個帳號並繼續對話。",
+      "autoContinue": "上限重置後繼續",
+      "autoContinueHint": "當用量上限停止回合且沒有切換到其他帳號時，在上限重置後送出「Continue exactly where you stopped.」。",
       "unsavedLive": "目前登入為 {{email}}，但尚未儲存。",
       "active": "目前",
       "empty": "還沒有儲存的帳號。可透過「新增帳號」登入，或儲存 CLI 已在使用的登入。",

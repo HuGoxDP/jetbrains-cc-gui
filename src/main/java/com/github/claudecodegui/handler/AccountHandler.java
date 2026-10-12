@@ -3,6 +3,7 @@ package com.github.claudecodegui.handler;
 import com.github.claudecodegui.account.ClaudeAccountManager;
 import com.github.claudecodegui.account.ClaudeAccountStore;
 import com.github.claudecodegui.account.ClaudeLoginService;
+import com.github.claudecodegui.account.LimitResume;
 import com.github.claudecodegui.handler.core.BaseMessageHandler;
 import com.github.claudecodegui.handler.core.HandlerContext;
 import com.github.claudecodegui.provider.claude.ClaudePlanUsageService;
@@ -27,12 +28,13 @@ import java.util.concurrent.atomic.AtomicLong;
  *
  * <p>Inbound: {@code get_claude_accounts}, {@code save_current_claude_account},
  * {@code switch_claude_account}, {@code delete_claude_account}, {@code reorder_claude_accounts},
- * {@code set_claude_account_rotation}, {@code set_claude_auto_rotate},
+ * {@code set_claude_account_rotation}, {@code set_claude_auto_rotate}, {@code set_claude_auto_continue},
+ * {@code get_limit_resume}, {@code cancel_limit_resume},
  * {@code refresh_claude_account_usage}, {@code start_claude_login},
  * {@code submit_claude_login_code}, {@code cancel_claude_login}.
  *
  * <p>Outbound: {@code updateClaudeAccounts}, {@code onClaudeAccountUsage},
- * {@code onClaudeAccountAction}, {@code onClaudeLoginEvent}.
+ * {@code onClaudeAccountAction}, {@code onClaudeLoginEvent}, {@code updateLimitResume}.
  */
 public class AccountHandler extends BaseMessageHandler {
 
@@ -46,6 +48,9 @@ public class AccountHandler extends BaseMessageHandler {
             "reorder_claude_accounts",
             "set_claude_account_rotation",
             "set_claude_auto_rotate",
+            "set_claude_auto_continue",
+            "get_limit_resume",
+            "cancel_limit_resume",
             "refresh_claude_account_usage",
             "start_claude_login",
             "submit_claude_login_code",
@@ -127,6 +132,19 @@ public class AccountHandler extends BaseMessageHandler {
             case "set_claude_auto_rotate":
                 manager.setAutoRotate(bool(payload, "enabled", false));
                 ClaudeAccountCoordinator.broadcastAccounts();
+                break;
+            case "set_claude_auto_continue":
+                manager.setAutoContinue(bool(payload, "enabled", false));
+                ClaudeAccountCoordinator.broadcastAccounts();
+                break;
+            case "get_limit_resume": {
+                Long at = LimitResume.pendingAt(context.getSession());
+                callJavaScript("updateLimitResume", escapeJs(LimitResume.noticeJson(at)));
+                break;
+            }
+            case "cancel_limit_resume":
+                // Cancelling tells the notice through the listener the chat window gave.
+                LimitResume.cancel(context.getSession());
                 break;
             case "refresh_claude_account_usage": {
                 List<String> ids = new ArrayList<>();

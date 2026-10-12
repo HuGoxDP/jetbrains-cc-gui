@@ -237,6 +237,16 @@ export function useClaudeAccounts(addToast?: (message: string, type?: ToastType)
     sendToJava('set_claude_auto_rotate', { enabled });
   }, []);
 
+  const setAutoContinue = useCallback((enabled: boolean) => {
+    setState((prev) => {
+      if (!prev) return prev;
+      const next = { ...prev, autoContinue: enabled };
+      stateRef.current = next;
+      return next;
+    });
+    sendToJava('set_claude_auto_continue', { enabled });
+  }, []);
+
   const startLogin = useCallback((method: LoginMethod) => {
     setLogin({ phase: 'running', url: null, error: null });
     sendToJava('start_claude_login', { method });
@@ -271,6 +281,7 @@ export function useClaudeAccounts(addToast?: (message: string, type?: ToastType)
     reorder,
     setRotation,
     setAutoRotate,
+    setAutoContinue,
     startLogin,
     submitLoginCode,
     cancelLogin,

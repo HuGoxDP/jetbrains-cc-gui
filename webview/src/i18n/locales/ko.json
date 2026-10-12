@@ -26,6 +26,10 @@
     "optional": "선택사항"
   },
   "chat": {
+    "limitResume": {
+      "waiting": "사용량 한도에 도달했습니다. {{time}}에 이어갑니다.",
+      "cancel": "취소"
+    },
     "jumpToPinnedMessage": "이 메시지가 있는 곳으로 돌아가기",
     "collapseReply": "답변 접기",
     "expandReply": "답변 펼치기",
@@ -427,6 +431,8 @@
       "retry": "다시 시도",
       "autoRotate": "사용량 한도 도달 시 계정 자동 전환",
       "autoRotateHint": "사용량 한도로 턴이 멈추면 로테이션의 다음 계정으로 전환해 대화를 이어갑니다.",
+      "autoContinue": "한도가 초기화되면 이어가기",
+      "autoContinueHint": "사용량 한도로 턴이 멈추고 다른 계정으로 전환되지 않았을 때, 한도가 초기화되면 “Continue exactly where you stopped.”를 보냅니다.",
       "unsavedLive": "{{email}}(으)로 로그인되어 있지만 이 로그인은 아직 저장되지 않았습니다.",
       "active": "사용 중",
       "empty": "저장된 계정이 없습니다. \"계정 추가\"로 로그인하거나 CLI가 이미 쓰는 로그인을 저장하세요.",

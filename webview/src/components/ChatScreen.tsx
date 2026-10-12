@@ -9,6 +9,7 @@ import { MessageAnchorRail } from './MessageAnchorRail';
 import { MessageList } from './MessageList';
 import { ScrollControl } from './ScrollControl';
 import { StatusPanel, StatusPanelErrorBoundary } from './StatusPanel';
+import { LimitResumeNotice } from './LimitResumeNotice';
 import { WelcomeScreen } from './WelcomeScreen';
 import { ConversationSearch } from './ConversationSearch';
 import type { MessageListRevealHandle } from './ConversationSearch/types';
@@ -334,6 +335,8 @@ export const ChatScreen = ({
           onKeepAll={onKeepAll}
         />
       </StatusPanelErrorBoundary>
+
+      <LimitResumeNotice />
 
       <div className="input-area" ref={inputAreaRef}>
         <ChatInputBox

@@ -26,6 +26,10 @@
     "optional": "Optional"
   },
   "chat": {
+    "limitResume": {
+      "waiting": "Limite d’utilisation atteinte. Reprise à {{time}}.",
+      "cancel": "Annuler"
+    },
     "jumpToPinnedMessage": "Revenir à l’emplacement de ce message",
     "collapseReply": "Replier la réponse",
     "expandReply": "Déplier la réponse",
@@ -427,6 +431,8 @@
       "retry": "Réessayer",
       "autoRotate": "Changer de compte automatiquement à la limite d'utilisation",
       "autoRotateHint": "Quand un tour s'arrête sur une limite d'utilisation, passer au compte suivant de la rotation et poursuivre la conversation.",
+      "autoContinue": "Reprendre quand la limite se réinitialise",
+      "autoContinueHint": "Quand une limite d’utilisation arrête un tour et qu’aucun autre compte ne prend le relais, envoyer « Continue exactly where you stopped. » dès que la limite se réinitialise.",
       "unsavedLive": "Connecté en tant que {{email}}, mais cette connexion n'est pas encore enregistrée.",
       "active": "Actif",
       "empty": "Aucun compte enregistré. Connectez-vous avec « Ajouter un compte » ou enregistrez la connexion déjà utilisée par la CLI.",

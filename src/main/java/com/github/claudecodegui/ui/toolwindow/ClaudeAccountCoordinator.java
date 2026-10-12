@@ -2,6 +2,7 @@ package com.github.claudecodegui.ui.toolwindow;
 
 import com.github.claudecodegui.account.ClaudeAccountManager;
 import com.github.claudecodegui.account.ClaudeAccountStore;
+import com.github.claudecodegui.account.LimitResume;
 import com.github.claudecodegui.provider.claude.ClaudePlanUsageService;
 import com.github.claudecodegui.session.ClaudeSession;
 import com.intellij.openapi.application.ApplicationManager;
@@ -47,6 +48,33 @@ public final class ClaudeAccountCoordinator {
         String accountsJson = ClaudeAccountManager.getInstance().list(false).toString();
         for (ClaudeChatWindow window : ClaudeSDKToolWindow.getAllChatWindows()) {
             window.pushClaudeAccounts(accountsJson);
+        }
+    }
+
+    /**
+     * A usage limit stopped a turn in {@code window} and no other account took over. When
+     * "continue when the limit resets" is on, send the continuation then, unless the
+     * conversation moves on first (see {@link LimitResume}).
+     *
+     * @param resetsAtMs when the limit resets, as the CLI's rate_limit_event said; null if it did not
+     */
+    static void continueWhenLimitResets(ClaudeChatWindow window, Long resetsAtMs) {
+        if (!ClaudeAccountManager.getInstance().isAutoContinueEnabled()) {
+            return;
+        }
+        ClaudeSession session = window.getSession();
+        if (session == null) {
+            return;
+        }
+        Long at = LimitResume.schedule(session, resetsAtMs,
+                () -> ApplicationManager.getApplication().invokeLater(() -> {
+                    if (window.getSession() == session) {
+                        window.sendAutomaticContinuation(CONTINUE_PROMPT);
+                    }
+                }),
+                window::pushLimitResume);
+        if (at == null) {
+            window.showToast(com.github.claudecodegui.i18n.ClaudeCodeGuiBundle.message("accounts.resume.unknownReset"), "warning");
         }
     }
 

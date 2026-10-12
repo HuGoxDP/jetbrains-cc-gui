@@ -140,6 +140,13 @@ describe('AccountsSection', () => {
 
     fireEvent.click(screen.getByText('settings.accounts.autoRotate'));
     expect(mocks.sendToJava).toHaveBeenCalledWith('set_claude_auto_rotate', { enabled: true });
+
+    // Continuing after a reset is its own switch, off until turned on.
+    const autoContinue = screen.getByText('settings.accounts.autoContinue').closest('label')!.querySelector('input')!;
+    expect(autoContinue.checked).toBe(false);
+    fireEvent.click(screen.getByText('settings.accounts.autoContinue'));
+    expect(mocks.sendToJava).toHaveBeenCalledWith('set_claude_auto_continue', { enabled: true });
+    expect(autoContinue.checked).toBe(true);
   });
 
   it('confirms before removing an account', () => {

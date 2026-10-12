@@ -26,6 +26,10 @@
     "optional": "Optional"
   },
   "chat": {
+    "limitResume": {
+      "waiting": "Se alcanzó el límite de uso. Continuará a las {{time}}.",
+      "cancel": "Cancelar"
+    },
     "jumpToPinnedMessage": "Volver a donde está este mensaje",
     "collapseReply": "Contraer respuesta",
     "expandReply": "Expandir respuesta",
@@ -427,6 +431,8 @@
       "retry": "Reintentar",
       "autoRotate": "Cambiar de cuenta automáticamente al alcanzar un límite",
       "autoRotateHint": "Si un turno se detiene por un límite de uso, cambia a la siguiente cuenta de la rotación y continúa la conversación.",
+      "autoContinue": "Continuar cuando se restablezca el límite",
+      "autoContinueHint": "Si un límite de uso detiene un turno y ninguna otra cuenta toma el relevo, envía «Continue exactly where you stopped.» cuando se restablezca el límite.",
       "unsavedLive": "Sesión iniciada como {{email}}, pero aún no está guardada.",
       "active": "Activa",
       "empty": "Aún no hay cuentas guardadas. Inicia sesión con \"Añadir cuenta\" o guarda la sesión que ya usa la CLI.",

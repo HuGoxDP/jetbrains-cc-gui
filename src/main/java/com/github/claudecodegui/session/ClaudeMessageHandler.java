@@ -838,7 +838,8 @@ public class ClaudeMessageHandler implements MessageCallback {
             JsonObject info = msg.getAsJsonObject("rate_limit_info");
             ClaudePlanUsageService.cacheRateLimitInfo(info);
             if (isHardLimitRejection(info)) {
-                state.markUsageLimitReached();
+                state.markUsageLimitReached(com.github.claudecodegui.provider.claude.usage.RelayUsageJson.asEpochMs(
+                        info, "resetsAt", "resets_at", "resetAt"));
                 LOG.info("Claude usage limit reached (" + (info.has("rateLimitType") ? info.get("rateLimitType").getAsString() : "unknown") + ")");
             }
             LOG.debug("Cached Claude rate_limit_event");

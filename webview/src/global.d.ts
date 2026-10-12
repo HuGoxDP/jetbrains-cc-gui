@@ -226,6 +226,8 @@ interface Window {
    * Add toast notification (called from backend)
    */
   addToast?: (message: string, type: 'success' | 'error' | 'warning' | 'info') => void;
+  /** When this conversation continues after its usage limit resets: {"at": <epoch ms>} or {"at": null}. */
+  updateLimitResume?: (json: string) => void;
 
   /**
    * Toast deferred until a session transition finishes, because backend

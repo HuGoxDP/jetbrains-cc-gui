@@ -140,6 +140,7 @@ public class ClaudeAccountManager {
         result.addProperty("liveLoggedIn", login.loggedIn);
         result.addProperty("liveSaved", liveSaved);
         result.addProperty("autoRotate", registry.autoRotate);
+        result.addProperty("autoContinue", registry.autoContinue);
         result.addProperty("isolatedUsageSupported", isIsolatedUsageSupported());
         return result;
     }
@@ -333,6 +334,18 @@ public class ClaudeAccountManager {
 
     public boolean isAutoRotateEnabled() {
         return store.readRegistry().autoRotate;
+    }
+
+    public void setAutoContinue(boolean enabled) throws IOException {
+        synchronized (LOCK) {
+            Registry registry = store.readRegistryOrThrow();
+            registry.autoContinue = enabled;
+            store.writeRegistry(registry);
+        }
+    }
+
+    public boolean isAutoContinueEnabled() {
+        return store.readRegistry().autoContinue;
     }
 
     // ==================== Usage cache ====================

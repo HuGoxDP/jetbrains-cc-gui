@@ -26,6 +26,10 @@
     "optional": "Optional"
   },
   "chat": {
+    "limitResume": {
+      "waiting": "使用量の上限に達しました。{{time}} に再開します。",
+      "cancel": "キャンセル"
+    },
     "jumpToPinnedMessage": "このメッセージの位置に戻る",
     "collapseReply": "返信を折りたたむ",
     "expandReply": "返信を展開",
@@ -427,6 +431,8 @@
       "retry": "再試行",
       "autoRotate": "使用量の上限でアカウントを自動切り替え",
       "autoRotateHint": "使用量の上限でターンが止まったら、ローテーション内の次のアカウントに切り替えて会話を続けます。",
+      "autoContinue": "上限がリセットされたら続ける",
+      "autoContinueHint": "使用量の上限でターンが止まり、ほかのアカウントに切り替わらなかったとき、上限がリセットされたら「Continue exactly where you stopped.」を送ります。",
       "unsavedLive": "{{email}} でログイン中ですが、このログインはまだ保存されていません。",
       "active": "使用中",
       "empty": "保存済みのアカウントはありません。「アカウントを追加」でサインインするか、CLI が使用中のログインを保存してください。",

@@ -52,10 +52,13 @@ public class SessionHandler extends BaseMessageHandler {
         switch (type) {
             case "send_message":
                 LOG.debug("[SessionHandler] 处理: send_message");
+                // The user is continuing themselves: drop a continuation waiting for a limit reset.
+                com.github.claudecodegui.account.LimitResume.cancel(context.getSession());
                 handleSendMessage(content);
                 return true;
             case "send_message_with_attachments":
                 LOG.debug("[SessionHandler] 处理: send_message_with_attachments");
+                com.github.claudecodegui.account.LimitResume.cancel(context.getSession());
                 handleSendMessageWithAttachments(content);
                 return true;
             case "interrupt_session":
@@ -64,6 +67,7 @@ public class SessionHandler extends BaseMessageHandler {
                 return true;
             case "restart_session":
                 LOG.debug("[SessionHandler] 处理: restart_session");
+                com.github.claudecodegui.account.LimitResume.cancel(context.getSession());
                 handleRestartSession();
                 return true;
             default:
