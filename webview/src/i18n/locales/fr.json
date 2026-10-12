@@ -30,6 +30,58 @@
       "waiting": "Limite d’utilisation atteinte. Reprise à {{time}}.",
       "cancel": "Annuler"
     },
+    "scheduled": {
+      "openTooltip": "Messages programmés",
+      "openTooltipCount": "Messages programmés ({{n}})",
+      "title": "Messages programmés",
+      "createTitle": "Programmer un message",
+      "editTitle": "Modifier le message programmé",
+      "close": "Fermer",
+      "empty": "Aucun message programmé.",
+      "new": "Programmer un message",
+      "edit": "Modifier",
+      "cancel": "Annuler",
+      "expand": "Afficher tout le message",
+      "collapse": "Afficher moins",
+      "message": "Message",
+      "messagePlaceholder": "Message à envoyer plus tard",
+      "when": "Quand",
+      "customLabel": "Date et heure personnalisées",
+      "schedule": "Programmer",
+      "save": "Enregistrer",
+      "back": "Retour",
+      "discard": "Annuler",
+      "submitHint": "Cmd/Ctrl+Entrée pour valider",
+      "presets": {
+        "in5min": "Dans 5 min",
+        "in30min": "Dans 30 min",
+        "in1hour": "Dans 1 heure",
+        "tomorrowMorning": "Demain à 9 h",
+        "afterDuration": "Après une durée…",
+        "custom": "Personnalisé"
+      },
+      "duration": {
+        "days": "jours",
+        "hours": "heures",
+        "minutes": "min",
+        "seconds": "s"
+      },
+      "relative": {
+        "now": "à envoyer maintenant",
+        "day": "dans {{n}} j",
+        "hour": "dans {{n}} h",
+        "minute": "dans {{n}} min",
+        "second": "dans {{n}} s"
+      },
+      "errors": {
+        "session_required": "Envoyez le premier message avant d’en programmer un.",
+        "time_invalid": "Cette heure n’est pas valide.",
+        "message_required": "Écrivez un message à programmer.",
+        "message_too_long": "Le message est trop long pour être programmé.",
+        "not_found": "Ce message programmé n’existe plus : il a été envoyé ou annulé.",
+        "failed": "Impossible d’enregistrer le message programmé."
+      }
+    },
     "jumpToPinnedMessage": "Revenir à l’emplacement de ce message",
     "collapseReply": "Replier la réponse",
     "expandReply": "Déplier la réponse",

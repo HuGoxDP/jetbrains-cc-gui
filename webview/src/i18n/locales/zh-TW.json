@@ -30,6 +30,58 @@
       "waiting": "已達用量上限，將於 {{time}} 繼續。",
       "cancel": "取消"
     },
+    "scheduled": {
+      "openTooltip": "排程訊息",
+      "openTooltipCount": "排程訊息（{{n}}）",
+      "title": "排程訊息",
+      "createTitle": "排程一則訊息",
+      "editTitle": "編輯排程訊息",
+      "close": "關閉",
+      "empty": "沒有排程訊息。",
+      "new": "排程一則訊息",
+      "edit": "編輯",
+      "cancel": "取消",
+      "expand": "顯示完整訊息",
+      "collapse": "收合",
+      "message": "訊息",
+      "messagePlaceholder": "稍後傳送的訊息",
+      "when": "時間",
+      "customLabel": "自訂日期與時間",
+      "schedule": "排程",
+      "save": "儲存",
+      "back": "返回",
+      "discard": "取消",
+      "submitHint": "Cmd/Ctrl+Enter 確認",
+      "presets": {
+        "in5min": "5 分鐘後",
+        "in30min": "30 分鐘後",
+        "in1hour": "1 小時後",
+        "tomorrowMorning": "明天上午 9 點",
+        "afterDuration": "一段時間後…",
+        "custom": "自訂"
+      },
+      "duration": {
+        "days": "天",
+        "hours": "小時",
+        "minutes": "分",
+        "seconds": "秒"
+      },
+      "relative": {
+        "now": "即將傳送",
+        "day": "{{n}} 天後",
+        "hour": "{{n}} 小時後",
+        "minute": "{{n}} 分鐘後",
+        "second": "{{n}} 秒後"
+      },
+      "errors": {
+        "session_required": "請先傳送第一則訊息再排程。",
+        "time_invalid": "這個時間無效。",
+        "message_required": "請輸入要排程的訊息。",
+        "message_too_long": "訊息太長，無法排程。",
+        "not_found": "該排程訊息已不存在：已傳送或已取消。",
+        "failed": "無法儲存排程訊息。"
+      }
+    },
     "jumpToPinnedMessage": "回到這則訊息所在的位置",
     "collapseReply": "摺疊回覆",
     "expandReply": "展開回覆",

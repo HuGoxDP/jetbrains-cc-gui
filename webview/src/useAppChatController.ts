@@ -29,6 +29,7 @@ import { useSession } from './contexts/SessionContext';
 import { useUIState } from './contexts/UIStateContext';
 import { useDialogs } from './contexts/DialogContext';
 import type { ApplyHistoryModel } from './applyHistoryModel';
+import { useScheduledMessages } from './components/ScheduledMessages/useScheduledMessages';
 
 /**
  * Subset of useModelProviderState's return consumed by this controller.
@@ -338,6 +339,14 @@ export const useAppChatController = ({
     hookHandleSubmit(content, attachments);
   }, [loading, enqueueMessage, hookHandleSubmit, forceCreateNewSession, currentProvider, handleModeSelect, setCurrentView, addToast, t]);
 
+  // ── Scheduled messages (send later): a due one goes through handleSubmit, as if typed ──
+  const sendScheduled = useCallback((message: string) => handleSubmit(message), [handleSubmit]);
+  const onScheduleRefused = useCallback((code: string) => {
+    addToast(t(`chat.scheduled.errors.${code}`, { defaultValue: t('chat.scheduled.errors.failed') }), 'error');
+  }, [addToast, t]);
+  const scheduled = useScheduledMessages({ currentSessionId, send: sendScheduled, onError: onScheduleRefused });
+  const getDraft = useCallback(() => chatInputRef.current?.getValue() ?? '', [chatInputRef]);
+
   // ── Chat-view computations (stage 5 of TASK-P1-01) ──
   const {
     findToolResult, getToolResultRaw,
@@ -405,5 +414,7 @@ export const useAppChatController = ({
     handleRewindSelect, handleRewindSelectCancel, handleRewindConfirm, handleRewindCancel,
     // Fork
     forkFromMessage,
+    // Scheduled messages
+    scheduled, getDraft,
   };
 };

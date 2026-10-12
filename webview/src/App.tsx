@@ -90,6 +90,7 @@ const App = () => {
     showInterruptConfirm, handleConfirmInterrupt, handleCancelInterrupt,
     handleRewindSelect, handleRewindSelectCancel, handleRewindConfirm, handleRewindCancel,
     forkFromMessage,
+    scheduled, getDraft,
   } = useAppChatController({ model, applyHistoryModel, setPermissionDialogTimeoutSeconds });
 
   const statusPanelExpanded = !userCollapsedRef.current;
@@ -104,6 +105,8 @@ const App = () => {
         sessionTitle={sessionTitle}
         onNewSession={createNewSession}
         onUpdateHistoryTitle={updateHistoryTitle}
+        scheduled={scheduled}
+        getDraft={getDraft}
       />
 
       {currentView === 'settings' ? (

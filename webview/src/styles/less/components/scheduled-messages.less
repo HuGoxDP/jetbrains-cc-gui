@@ -1,0 +1,299 @@
+/* Scheduled messages (components/ScheduledMessages): the clock button in the header and
+   its dialog. Drawn like the keyboard shortcuts window. */
+.icon-button .scheduled-badge {
+    position: absolute;
+    top: 3px;
+    right: 2px;
+    min-width: 14px;
+    height: 14px;
+    padding: 0 3px;
+    box-sizing: border-box;
+    border-radius: 7px;
+    background: var(--accent-primary);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 14px;
+    text-align: center;
+    pointer-events: none;
+}
+
+.scheduled-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 20000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.scheduled-dialog {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 520px;
+    max-height: 80vh;
+    overflow: hidden;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-secondary);
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    outline: none;
+}
+
+.scheduled-header {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-dialog-border);
+    color: var(--text-secondary);
+}
+
+.scheduled-title {
+    flex: 1;
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.scheduled-close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+
+    &:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+    }
+}
+
+.scheduled-form {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.scheduled-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px 16px;
+}
+
+.scheduled-empty {
+    margin: 0;
+    color: var(--text-tertiary);
+    font-size: 13px;
+}
+
+.scheduled-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.scheduled-row {
+    padding: 9px 12px;
+    border: 1px solid var(--border-secondary);
+    border-radius: 6px;
+    background: var(--bg-primary);
+}
+
+.scheduled-row-top,
+.scheduled-row-bottom {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.scheduled-row-bottom {
+    align-items: center;
+    margin-top: 6px;
+}
+
+.scheduled-row-message {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 13px;
+    text-align: start;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    cursor: pointer;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    &.expanded {
+        display: block;
+        overflow: visible;
+    }
+}
+
+.scheduled-row-relative,
+.scheduled-row-time {
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+    font-size: 11px;
+    font-variant-numeric: tabular-nums;
+}
+
+.scheduled-row-time {
+    font-size: 12px;
+}
+
+.scheduled-row-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.scheduled-link {
+    padding: 2px 6px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+
+    &:hover {
+        background: var(--bg-hover);
+        color: var(--text-primary);
+    }
+
+    &.danger:hover {
+        color: var(--color-error, #f14c4c);
+    }
+}
+
+.scheduled-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.scheduled-label {
+    color: var(--text-tertiary);
+    font-size: 12px;
+}
+
+.scheduled-input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 6px 9px;
+    border: 1px solid var(--border-secondary);
+    border-radius: 5px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font: inherit;
+    font-size: 13px;
+    color-scheme: inherit;
+
+    &:focus {
+        outline: none;
+        border-color: var(--accent-primary);
+    }
+}
+
+.scheduled-message-input {
+    min-height: 84px;
+    max-height: 40vh;
+    resize: vertical;
+    line-height: 1.5;
+}
+
+.scheduled-duration {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.scheduled-duration-field {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.scheduled-number {
+    width: 64px;
+}
+
+.scheduled-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--color-dialog-border);
+}
+
+.scheduled-hint {
+    flex: 1;
+    min-width: 0;
+    color: var(--text-tertiary);
+    font-size: 11px;
+}
+
+.scheduled-primary,
+.scheduled-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.scheduled-primary {
+    border: none;
+    background: var(--color-dialog-button-primary, var(--accent-primary));
+    color: var(--color-button-text, #fff);
+
+    &:hover:not(:disabled) {
+        background: var(--color-dialog-button-primary-hover, var(--accent-primary-hover));
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+}
+
+.scheduled-secondary {
+    border: 1px solid var(--border-secondary);
+    background: transparent;
+    color: var(--text-primary);
+
+    &:hover {
+        background: var(--bg-hover);
+    }
+}

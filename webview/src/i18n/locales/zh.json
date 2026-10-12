@@ -47,6 +47,58 @@
       "waiting": "已达用量上限，将于 {{time}} 继续。",
       "cancel": "取消"
     },
+    "scheduled": {
+      "openTooltip": "定时消息",
+      "openTooltipCount": "定时消息（{{n}}）",
+      "title": "定时消息",
+      "createTitle": "定时发送消息",
+      "editTitle": "编辑定时消息",
+      "close": "关闭",
+      "empty": "没有定时消息。",
+      "new": "定时发送消息",
+      "edit": "编辑",
+      "cancel": "取消",
+      "expand": "显示完整消息",
+      "collapse": "收起",
+      "message": "消息",
+      "messagePlaceholder": "稍后发送的消息",
+      "when": "时间",
+      "customLabel": "自定义日期和时间",
+      "schedule": "定时",
+      "save": "保存",
+      "back": "返回",
+      "discard": "取消",
+      "submitHint": "Cmd/Ctrl+Enter 确认",
+      "presets": {
+        "in5min": "5 分钟后",
+        "in30min": "30 分钟后",
+        "in1hour": "1 小时后",
+        "tomorrowMorning": "明天上午 9 点",
+        "afterDuration": "一段时间后…",
+        "custom": "自定义"
+      },
+      "duration": {
+        "days": "天",
+        "hours": "小时",
+        "minutes": "分",
+        "seconds": "秒"
+      },
+      "relative": {
+        "now": "即将发送",
+        "day": "{{n}} 天后",
+        "hour": "{{n}} 小时后",
+        "minute": "{{n}} 分钟后",
+        "second": "{{n}} 秒后"
+      },
+      "errors": {
+        "session_required": "请先发送第一条消息再定时。",
+        "time_invalid": "这个时间无效。",
+        "message_required": "请输入要定时发送的消息。",
+        "message_too_long": "消息太长，无法定时发送。",
+        "not_found": "该定时消息已不存在：已发送或已取消。",
+        "failed": "无法保存定时消息。"
+      }
+    },
     "jumpToPinnedMessage": "回到这条消息所在的位置",
     "collapseReply": "折叠回复",
     "expandReply": "展开回复",

@@ -30,6 +30,58 @@
       "waiting": "Limite de uso atingido. Continua às {{time}}.",
       "cancel": "Cancelar"
     },
+    "scheduled": {
+      "openTooltip": "Mensagens agendadas",
+      "openTooltipCount": "Mensagens agendadas ({{n}})",
+      "title": "Mensagens agendadas",
+      "createTitle": "Agendar uma mensagem",
+      "editTitle": "Editar mensagem agendada",
+      "close": "Fechar",
+      "empty": "Nenhuma mensagem agendada.",
+      "new": "Agendar uma mensagem",
+      "edit": "Editar",
+      "cancel": "Cancelar",
+      "expand": "Mostrar a mensagem inteira",
+      "collapse": "Mostrar menos",
+      "message": "Mensagem",
+      "messagePlaceholder": "Mensagem para enviar depois",
+      "when": "Quando",
+      "customLabel": "Data e hora personalizadas",
+      "schedule": "Agendar",
+      "save": "Salvar",
+      "back": "Voltar",
+      "discard": "Cancelar",
+      "submitHint": "Cmd/Ctrl+Enter para confirmar",
+      "presets": {
+        "in5min": "Em 5 min",
+        "in30min": "Em 30 min",
+        "in1hour": "Em 1 hora",
+        "tomorrowMorning": "Amanhã às 9h",
+        "afterDuration": "Depois de um intervalo…",
+        "custom": "Personalizado"
+      },
+      "duration": {
+        "days": "dias",
+        "hours": "horas",
+        "minutes": "min",
+        "seconds": "s"
+      },
+      "relative": {
+        "now": "para enviar agora",
+        "day": "em {{n}} d",
+        "hour": "em {{n}} h",
+        "minute": "em {{n}} min",
+        "second": "em {{n}} s"
+      },
+      "errors": {
+        "session_required": "Envie a primeira mensagem antes de agendar uma.",
+        "time_invalid": "Esse horário não é válido.",
+        "message_required": "Escreva uma mensagem para agendar.",
+        "message_too_long": "A mensagem é longa demais para agendar.",
+        "not_found": "Essa mensagem agendada não existe mais: foi enviada ou cancelada.",
+        "failed": "Não foi possível salvar a mensagem agendada."
+      }
+    },
     "jumpToPinnedMessage": "Voltar para onde esta mensagem está",
     "collapseReply": "Recolher resposta",
     "expandReply": "Expandir resposta",

@@ -47,6 +47,58 @@
       "waiting": "Usage limit reached. Continuing at {{time}}.",
       "cancel": "Cancel"
     },
+    "scheduled": {
+      "openTooltip": "Scheduled messages",
+      "openTooltipCount": "Scheduled messages ({{n}})",
+      "title": "Scheduled messages",
+      "createTitle": "Schedule a message",
+      "editTitle": "Edit scheduled message",
+      "close": "Close",
+      "empty": "No scheduled messages.",
+      "new": "Schedule a message",
+      "edit": "Edit",
+      "cancel": "Cancel",
+      "expand": "Show the whole message",
+      "collapse": "Show less",
+      "message": "Message",
+      "messagePlaceholder": "Message to send later",
+      "when": "When",
+      "customLabel": "Custom date and time",
+      "schedule": "Schedule",
+      "save": "Save",
+      "back": "Back",
+      "discard": "Cancel",
+      "submitHint": "Cmd/Ctrl+Enter to confirm",
+      "presets": {
+        "in5min": "In 5 min",
+        "in30min": "In 30 min",
+        "in1hour": "In 1 hour",
+        "tomorrowMorning": "Tomorrow 9 AM",
+        "afterDuration": "After a duration…",
+        "custom": "Custom"
+      },
+      "duration": {
+        "days": "days",
+        "hours": "hours",
+        "minutes": "min",
+        "seconds": "sec"
+      },
+      "relative": {
+        "now": "due now",
+        "day": "in {{n}} d",
+        "hour": "in {{n}} h",
+        "minute": "in {{n}} min",
+        "second": "in {{n}} s"
+      },
+      "errors": {
+        "session_required": "Send the first message before scheduling one.",
+        "time_invalid": "That time is not valid.",
+        "message_required": "Write a message to schedule.",
+        "message_too_long": "The message is too long to schedule.",
+        "not_found": "That scheduled message is gone: it was sent or cancelled.",
+        "failed": "Could not save the scheduled message."
+      }
+    },
     "jumpToPinnedMessage": "Back to where this message sits",
     "collapseReply": "Collapse reply",
     "expandReply": "Expand reply",

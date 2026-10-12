@@ -10,6 +10,7 @@ import com.github.claudecodegui.cache.SessionIndexCache;
 import com.github.claudecodegui.cache.SessionIndexManager;
 import com.github.claudecodegui.session.ClaudeSession;
 import com.github.claudecodegui.settings.ClaudeConfigDir;
+import com.github.claudecodegui.ui.toolwindow.ScheduledMessageCoordinator;
 import com.github.claudecodegui.util.PathUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -598,6 +599,7 @@ class HistoryDeleteService {
         try {
             nodeJsServiceCaller.callNodeJsFavoritesService("removeFavorite", sessionId);
             nodeJsServiceCaller.callNodeJsDeleteTitle(sessionId);
+            ScheduledMessageCoordinator.service().removeSession(sessionId);
             LOG.info("[HistoryHandler] Cleaned up session metadata");
         } catch (Exception e) {
             LOG.warn("[HistoryHandler] Failed to clean up metadata (does not affect deletion): " + e.getMessage());

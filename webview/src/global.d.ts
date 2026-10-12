@@ -228,6 +228,10 @@ interface Window {
   addToast?: (message: string, type: 'success' | 'error' | 'warning' | 'info') => void;
   /** When this conversation continues after its usage limit resets: {"at": <epoch ms>} or {"at": null}. */
   updateLimitResume?: (json: string) => void;
+  /** The open conversation's scheduled messages: {"sessionId", "schedules": [...], "error"?}. */
+  updateScheduledMessages?: (json: string) => void;
+  /** A scheduled message that is due: send it as if typed, then confirm. */
+  deliverScheduledMessage?: (json: string) => void;
 
   /**
    * Toast deferred until a session transition finishes, because backend

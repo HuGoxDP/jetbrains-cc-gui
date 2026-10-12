@@ -17,6 +17,10 @@ export interface ChatHeaderProps {
    * Wired up by App.tsx via UIStateContext.setSearchOpen.
    */
   onOpenSearch?: () => void;
+  /** Opens the conversation's scheduled messages. Only rendered when provided (the conversation has started). */
+  onOpenScheduled?: () => void;
+  /** How many messages wait to be sent in this conversation; shown on the clock button. */
+  scheduledCount?: number;
   onTitleChange?: (newTitle: string) => void;
   titleEditable?: boolean;
 }
@@ -31,6 +35,8 @@ export function ChatHeader({
   onHistory,
   onSettings,
   onOpenSearch,
+  onOpenScheduled,
+  scheduledCount = 0,
   onTitleChange,
   titleEditable = false,
 }: ChatHeaderProps): React.ReactElement | null {
@@ -155,6 +161,21 @@ export function ChatHeader({
                 aria-label={t('chat.search.openTooltip', { defaultValue: 'Search in conversation' })}
               >
                 <span className="codicon codicon-search" />
+              </button>
+            )}
+            {onOpenScheduled && (
+              <button
+                className="icon-button"
+                onClick={onOpenScheduled}
+                data-tooltip={t('chat.scheduled.openTooltip')}
+                aria-label={scheduledCount > 0
+                  ? t('chat.scheduled.openTooltipCount', { n: scheduledCount })
+                  : t('chat.scheduled.openTooltip')}
+              >
+                <span className="codicon codicon-watch" />
+                {scheduledCount > 0 && (
+                  <span className="scheduled-badge" data-testid="scheduled-badge">{scheduledCount}</span>
+                )}
               </button>
             )}
             <button

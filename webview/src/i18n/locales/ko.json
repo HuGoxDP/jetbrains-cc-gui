@@ -30,6 +30,58 @@
       "waiting": "사용량 한도에 도달했습니다. {{time}}에 이어갑니다.",
       "cancel": "취소"
     },
+    "scheduled": {
+      "openTooltip": "예약 메시지",
+      "openTooltipCount": "예약 메시지 ({{n}})",
+      "title": "예약 메시지",
+      "createTitle": "메시지 예약",
+      "editTitle": "예약 메시지 편집",
+      "close": "닫기",
+      "empty": "예약된 메시지가 없습니다.",
+      "new": "메시지 예약",
+      "edit": "편집",
+      "cancel": "취소",
+      "expand": "메시지 전체 보기",
+      "collapse": "접기",
+      "message": "메시지",
+      "messagePlaceholder": "나중에 보낼 메시지",
+      "when": "언제",
+      "customLabel": "날짜와 시간 지정",
+      "schedule": "예약",
+      "save": "저장",
+      "back": "뒤로",
+      "discard": "취소",
+      "submitHint": "Cmd/Ctrl+Enter로 확인",
+      "presets": {
+        "in5min": "5분 후",
+        "in30min": "30분 후",
+        "in1hour": "1시간 후",
+        "tomorrowMorning": "내일 오전 9시",
+        "afterDuration": "일정 시간 후…",
+        "custom": "직접 지정"
+      },
+      "duration": {
+        "days": "일",
+        "hours": "시간",
+        "minutes": "분",
+        "seconds": "초"
+      },
+      "relative": {
+        "now": "곧 전송",
+        "day": "{{n}}일 후",
+        "hour": "{{n}}시간 후",
+        "minute": "{{n}}분 후",
+        "second": "{{n}}초 후"
+      },
+      "errors": {
+        "session_required": "예약하기 전에 첫 메시지를 먼저 보내세요.",
+        "time_invalid": "올바른 시간이 아닙니다.",
+        "message_required": "예약할 메시지를 입력하세요.",
+        "message_too_long": "메시지가 너무 길어 예약할 수 없습니다.",
+        "not_found": "그 예약 메시지는 이미 없습니다. 전송되었거나 취소되었습니다.",
+        "failed": "예약 메시지를 저장하지 못했습니다."
+      }
+    },
     "jumpToPinnedMessage": "이 메시지가 있는 곳으로 돌아가기",
     "collapseReply": "답변 접기",
     "expandReply": "답변 펼치기",

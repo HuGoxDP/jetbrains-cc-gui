@@ -30,6 +30,58 @@
       "waiting": "使用量の上限に達しました。{{time}} に再開します。",
       "cancel": "キャンセル"
     },
+    "scheduled": {
+      "openTooltip": "予約メッセージ",
+      "openTooltipCount": "予約メッセージ（{{n}}）",
+      "title": "予約メッセージ",
+      "createTitle": "メッセージを予約",
+      "editTitle": "予約メッセージを編集",
+      "close": "閉じる",
+      "empty": "予約メッセージはありません。",
+      "new": "メッセージを予約",
+      "edit": "編集",
+      "cancel": "取り消す",
+      "expand": "メッセージ全体を表示",
+      "collapse": "折りたたむ",
+      "message": "メッセージ",
+      "messagePlaceholder": "あとで送るメッセージ",
+      "when": "送信日時",
+      "customLabel": "日時を指定",
+      "schedule": "予約",
+      "save": "保存",
+      "back": "戻る",
+      "discard": "キャンセル",
+      "submitHint": "Cmd/Ctrl+Enter で確定",
+      "presets": {
+        "in5min": "5分後",
+        "in30min": "30分後",
+        "in1hour": "1時間後",
+        "tomorrowMorning": "明日の9時",
+        "afterDuration": "時間を指定…",
+        "custom": "日時を指定"
+      },
+      "duration": {
+        "days": "日",
+        "hours": "時間",
+        "minutes": "分",
+        "seconds": "秒"
+      },
+      "relative": {
+        "now": "まもなく送信",
+        "day": "{{n}}日後",
+        "hour": "{{n}}時間後",
+        "minute": "{{n}}分後",
+        "second": "{{n}}秒後"
+      },
+      "errors": {
+        "session_required": "予約する前に最初のメッセージを送ってください。",
+        "time_invalid": "その日時は無効です。",
+        "message_required": "予約するメッセージを入力してください。",
+        "message_too_long": "メッセージが長すぎて予約できません。",
+        "not_found": "その予約メッセージはもうありません。送信済みか取り消し済みです。",
+        "failed": "予約メッセージを保存できませんでした。"
+      }
+    },
     "jumpToPinnedMessage": "このメッセージの位置に戻る",
     "collapseReply": "返信を折りたたむ",
     "expandReply": "返信を展開",
