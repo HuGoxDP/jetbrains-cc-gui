@@ -1,4 +1,5 @@
 import styles from './style.module.less';
+import { ClaudeConfigDirSection } from './ClaudeConfigDirSection';
 import { useTranslation } from 'react-i18next';
 
 export interface EnvironmentTabProps {
@@ -130,6 +131,9 @@ const EnvironmentTab = ({
           <span>{t('settings.basic.claudeCliPath.hint')}</span>
         </small>
       </div>
+
+      {/* Claude's folder (CLAUDE_CONFIG_DIR), for all projects and this one */}
+      <ClaudeConfigDirSection />
 
       {/* Working directory configuration */}
       <div className={styles.workingDirSection}>

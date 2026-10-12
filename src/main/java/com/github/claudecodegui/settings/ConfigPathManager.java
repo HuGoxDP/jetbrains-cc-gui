@@ -21,7 +21,6 @@ public class ConfigPathManager {
     private static final String BACKUP_FILE_NAME = "config.json.bak";
     private static final String AGENT_FILE_NAME = "agent.json";
     private static final String PROMPT_FILE_NAME = "prompt.json";
-    private static final String CLAUDE_DIR_NAME = ".claude";
     private static final String CLAUDE_SETTINGS_FILE_NAME = "settings.json";
     private static final String MANAGED_SETTINGS_FILE_NAME = "managed-settings.json";
 
@@ -71,11 +70,11 @@ public class ConfigPathManager {
     }
 
     /**
-     * Get the Claude settings.json path.
+     * Get the Claude user settings.json path: in Claude's folder for all projects
+     * (~/.claude unless moved in Settings → CLAUDE_CONFIG_DIR).
      */
     public Path getClaudeSettingsPath() {
-        String homeDir = NodeDetector.resolveHomeForFileOps();
-        return Paths.get(homeDir, CLAUDE_DIR_NAME, CLAUDE_SETTINGS_FILE_NAME);
+        return ClaudeConfigDir.dir(null).resolve(CLAUDE_SETTINGS_FILE_NAME);
     }
 
     /**

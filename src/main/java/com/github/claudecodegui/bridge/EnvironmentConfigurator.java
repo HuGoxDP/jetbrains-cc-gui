@@ -1,6 +1,7 @@
 // TODO: consider extracting WSL env propagation into a dedicated helper class
 package com.github.claudecodegui.bridge;
 
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.github.claudecodegui.settings.CodemossSettingsService;
 import com.github.claudecodegui.util.PlatformUtils;
 import com.github.claudecodegui.util.ShellExecutor;
@@ -186,6 +187,10 @@ public class EnvironmentConfigurator {
         }
 
         configurePermissionEnv(env, nodeExecutable);
+
+        // 6. Claude's folder chosen in Settings for all projects. Spawns that know their
+        // project override it with that project's value (ClaudeConfigDir.applyTo).
+        ClaudeConfigDir.applyTo(env, null, nodeExecutable);
     }
 
     static String resolveHomeForNodeEnvironment(String nodeExecutable, String currentHome) {

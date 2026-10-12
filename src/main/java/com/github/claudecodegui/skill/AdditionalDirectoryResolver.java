@@ -1,5 +1,6 @@
 package com.github.claudecodegui.skill;
 
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.github.claudecodegui.util.PlatformUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -147,7 +148,7 @@ final class AdditionalDirectoryResolver {
 
         if (userHome != null && !userHome.isEmpty()) {
             try {
-                Path userSettings = Paths.get(userHome, ".claude", "settings.json").toAbsolutePath().normalize();
+                Path userSettings = ClaudeConfigDir.dirIn(userHome, cwd).resolve("settings.json").toAbsolutePath().normalize();
                 JsonObject user = SlashCommandJsonReader.readJsonObject(userSettings);
                 if (user != null) {
                     settings.add(user);

@@ -1,6 +1,5 @@
 package com.github.claudecodegui.settings;
 
-import com.github.claudecodegui.bridge.NodeDetector;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -17,7 +16,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.AtomicMoveNotSupportedException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
@@ -161,10 +159,8 @@ public class ClaudeSettingsManager {
      */
     public void syncMcpToClaudeSettings() throws IOException {
         try {
-            String homeDir = NodeDetector.resolveHomeForFileOps();
-
-            // Read ~/.claude.json
-            Path claudeJsonPath = Paths.get(homeDir, ".claude.json");
+            // Read ~/.claude.json (inside Claude's folder when moved in Settings)
+            Path claudeJsonPath = ClaudeConfigDir.globalConfigFile(null);
             File claudeJsonFile = claudeJsonPath.toFile();
 
             if (!claudeJsonFile.exists()) {
@@ -242,8 +238,7 @@ public class ClaudeSettingsManager {
      */
     public JsonObject readCliLoginAccountInfo() {
         try {
-            String homeDir = NodeDetector.resolveHomeForFileOps();
-            Path claudeJsonPath = Paths.get(homeDir, ".claude.json");
+            Path claudeJsonPath = ClaudeConfigDir.globalConfigFile(null);
             File claudeJsonFile = claudeJsonPath.toFile();
 
             if (!claudeJsonFile.exists()) {

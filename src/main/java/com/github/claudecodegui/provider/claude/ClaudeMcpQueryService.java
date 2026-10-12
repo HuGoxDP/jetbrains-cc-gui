@@ -3,6 +3,7 @@ package com.github.claudecodegui.provider.claude;
 import com.github.claudecodegui.bridge.EnvironmentConfigurator;
 import com.github.claudecodegui.bridge.NodeDetector;
 import com.github.claudecodegui.bridge.ProcessManager;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.github.claudecodegui.util.PlatformUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -207,6 +208,9 @@ class ClaudeMcpQueryService {
             pb.directory(bridgeDir);
             pb.redirectErrorStream(true);
             envConfigurator.updateProcessEnvironment(pb, node);
+            ClaudeConfigDir.applyTo(pb.environment(),
+                    stdinInput.has("cwd") && stdinInput.get("cwd").isJsonPrimitive() ? stdinInput.get("cwd").getAsString() : null,
+                    node);
             pb.environment().put("CLAUDE_USE_STDIN", "true");
 
             process = pb.start();

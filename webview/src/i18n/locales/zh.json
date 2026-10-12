@@ -434,6 +434,22 @@
         "placeholder": "例如 project1 或留空使用项目根目录",
         "hint": "指定 Claude 工作的目录。可以使用相对路径（相对于项目根目录）或绝对路径。留空则使用项目根目录。"
       },
+      "claudeConfigDir": {
+        "allProjects": "所有项目",
+        "thisProject": "此项目",
+        "placeholderAll": "默认 (~/.claude)",
+        "placeholderProject": "与所有项目相同",
+        "noProject": "此项目没有文件夹，因此使用所有项目的值。",
+        "inUse": "此处使用：",
+        "source": {
+          "project": "为此项目设置",
+          "parentProject": "为包含此项目的 {{project}} 设置",
+          "global": "为所有项目设置",
+          "environment": "来自 IDE 环境的 CLAUDE_CONFIG_DIR",
+          "default": "默认"
+        },
+        "hint": "Claude 存放设置、登录信息和会话历史的文件夹，与在终端中设置 CLAUDE_CONFIG_DIR 环境变量相同。从下一条消息起生效；留空则使用默认值。"
+      },
       "fontSize": {
         "label": "字体大小",
         "level1": "小（80%）",

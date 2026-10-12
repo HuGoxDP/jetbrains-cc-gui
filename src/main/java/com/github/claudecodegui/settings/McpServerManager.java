@@ -1,6 +1,5 @@
 package com.github.claudecodegui.settings;
 
-import com.github.claudecodegui.bridge.NodeDetector;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -14,7 +13,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -66,10 +64,10 @@ public class McpServerManager {
     public List<JsonObject> getMcpServersWithProjectPath(String projectPath) throws IOException {
         List<JsonObject> result = new ArrayList<>();
 
-        // 1. Try to read from ~/.claude.json (standard Claude CLI location)
+        // 1. Try to read from ~/.claude.json (standard Claude CLI location; inside Claude's
+        // folder for this project when moved in Settings → CLAUDE_CONFIG_DIR)
         try {
-            String homeDir = NodeDetector.resolveHomeForFileOps();
-            Path claudeJsonPath = Paths.get(homeDir, ".claude.json");
+            Path claudeJsonPath = ClaudeConfigDir.globalConfigFile(projectPath);
             File claudeJsonFile = claudeJsonPath.toFile();
 
             if (claudeJsonFile.exists()) {
@@ -214,6 +212,15 @@ public class McpServerManager {
      * @param projectPath the project path, used to update project-level disabledMcpServers (Claude CLI merges global and project-level disabled lists)
      */
     public void upsertMcpServer(JsonObject server, String projectPath) throws IOException {
+        upsertMcpServer(server, projectPath, projectPath);
+    }
+
+    /**
+     * Upsert an MCP server in the .claude.json Claude reads for [locationPath] (Claude's
+     * folder can be moved per project), updating [projectPath]'s project-level entries
+     * only when [projectPath] is given.
+     */
+    public void upsertMcpServer(JsonObject server, String projectPath, String locationPath) throws IOException {
         if (!server.has("id")) {
             throw new IllegalArgumentException("Server must have an id");
         }
@@ -223,8 +230,7 @@ public class McpServerManager {
 
         // 1. Try to update ~/.claude.json
         try {
-            String homeDir = NodeDetector.resolveHomeForFileOps();
-            Path claudeJsonPath = Paths.get(homeDir, ".claude.json");
+            Path claudeJsonPath = ClaudeConfigDir.globalConfigFile(locationPath);
             File claudeJsonFile = claudeJsonPath.toFile();
 
             if (claudeJsonFile.exists()) {
@@ -372,12 +378,16 @@ public class McpServerManager {
      * falling back to ~/.codemoss/config.json.
      */
     public boolean deleteMcpServer(String serverId) throws IOException {
+        return deleteMcpServer(serverId, null);
+    }
+
+    /** Delete an MCP server from the .claude.json Claude reads for [locationPath]. */
+    public boolean deleteMcpServer(String serverId, String locationPath) throws IOException {
         boolean removed = false;
 
         // 1. Try to delete from ~/.claude.json
         try {
-            String homeDir = NodeDetector.resolveHomeForFileOps();
-            Path claudeJsonPath = Paths.get(homeDir, ".claude.json");
+            Path claudeJsonPath = ClaudeConfigDir.globalConfigFile(locationPath);
             File claudeJsonFile = claudeJsonPath.toFile();
 
             if (claudeJsonFile.exists()) {

@@ -191,6 +191,22 @@
         "placeholder": "e.g. project1 or leave empty to use project root",
         "hint": "Specify the directory where Claude works. Can use relative path (relative to project root) or absolute path. Leave empty to use project root."
       },
+      "claudeConfigDir": {
+        "allProjects": "सभी प्रोजेक्ट",
+        "thisProject": "यह प्रोजेक्ट",
+        "placeholderAll": "डिफ़ॉल्ट (~/.claude)",
+        "placeholderProject": "सभी प्रोजेक्ट जैसा",
+        "noProject": "इस प्रोजेक्ट का कोई फ़ोल्डर नहीं है, इसलिए यह सभी प्रोजेक्ट का मान इस्तेमाल करता है।",
+        "inUse": "यहाँ उपयोग में:",
+        "source": {
+          "project": "इस प्रोजेक्ट के लिए सेट",
+          "parentProject": "{{project}} के लिए सेट, जिसके अंदर यह प्रोजेक्ट है",
+          "global": "सभी प्रोजेक्ट के लिए सेट",
+          "environment": "IDE के परिवेश से CLAUDE_CONFIG_DIR",
+          "default": "डिफ़ॉल्ट"
+        },
+        "hint": "वह फ़ोल्डर जिसमें Claude अपनी सेटिंग्स, लॉगिन और सेशन इतिहास रखता है, वैसे ही जैसे टर्मिनल में CLAUDE_CONFIG_DIR एनवायरनमेंट वेरिएबल तय करता है। अगले संदेश से लागू होता है; डिफ़ॉल्ट के लिए खाली छोड़ें।"
+      },
       "fontSize": {
         "label": "फ़ॉन्ट आकार",
         "level1": "छोटा (80%)",

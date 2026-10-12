@@ -3,6 +3,7 @@ package com.github.claudecodegui.handler.history;
 import com.github.claudecodegui.bridge.NodeDetector;
 import com.github.claudecodegui.handler.core.HandlerContext;
 import com.github.claudecodegui.provider.claude.NestedClaudeProjects;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.github.claudecodegui.util.PathUtils;
 import com.github.claudecodegui.util.JsUtils;
 import com.google.gson.Gson;
@@ -304,7 +305,7 @@ class SubagentHistoryService {
         validateId("agentId", agentId);
         List<String> projectKeys = projectKeys();
         for (String projectKey : projectKeys) {
-            Path file = Path.of(NodeDetector.resolveHomeForFileOps(), ".claude", "projects", projectKey)
+            Path file = projectsDir().resolve(projectKey)
                     .resolve(sessionId)
                     .resolve("subagents")
                     .resolve("agent-" + agentId + ".jsonl")
@@ -323,7 +324,7 @@ class SubagentHistoryService {
                 return file;
             }
         }
-        return Path.of(NodeDetector.resolveHomeForFileOps(), ".claude", "projects", projectKeys.get(0))
+        return projectsDir().resolve(projectKeys.get(0))
                 .resolve(sessionId)
                 .resolve("subagents")
                 .resolve("agent-" + agentId + ".jsonl")
@@ -337,7 +338,7 @@ class SubagentHistoryService {
 
         List<Path> subagentsDirs = new ArrayList<>();
         for (String projectKey : projectKeys()) {
-            Path subagentsDir = Path.of(NodeDetector.resolveHomeForFileOps(), ".claude", "projects", projectKey)
+            Path subagentsDir = projectsDir().resolve(projectKey)
                     .resolve(sessionId)
                     .resolve("subagents")
                     .normalize();
@@ -355,7 +356,7 @@ class SubagentHistoryService {
             }
         }
         if (subagentsDirs.isEmpty()) {
-            return Path.of(NodeDetector.resolveHomeForFileOps(), ".claude", "projects", projectKeys().get(0))
+            return projectsDir().resolve(projectKeys().get(0))
                     .resolve(sessionId)
                     .resolve("subagents")
                     .resolve("missing.jsonl");
@@ -421,8 +422,12 @@ class SubagentHistoryService {
 
     /** The session folders of the projects nested below this one, looked in only after its own. */
     private List<Path> nestedSessionFolders() {
-        Path projectsDir = Path.of(NodeDetector.resolveHomeForFileOps(), ".claude", "projects");
-        return NestedClaudeProjects.sessionDirs(projectsDir, basePath());
+        return NestedClaudeProjects.sessionDirs(projectsDir(), basePath());
+    }
+
+    /** The session transcripts of Claude's folder for this project (Settings → CLAUDE_CONFIG_DIR). */
+    private Path projectsDir() {
+        return ClaudeConfigDir.projectsDir(basePath());
     }
 
     /**

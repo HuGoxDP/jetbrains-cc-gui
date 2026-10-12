@@ -191,6 +191,22 @@
         "placeholder": "e.g. project1 or leave empty to use project root",
         "hint": "Specify the directory where Claude works. Can use relative path (relative to project root) or absolute path. Leave empty to use project root."
       },
+      "claudeConfigDir": {
+        "allProjects": "所有專案",
+        "thisProject": "此專案",
+        "placeholderAll": "預設 (~/.claude)",
+        "placeholderProject": "與所有專案相同",
+        "noProject": "此專案沒有資料夾，因此使用所有專案的值。",
+        "inUse": "此處使用：",
+        "source": {
+          "project": "為此專案設定",
+          "parentProject": "為包含此專案的 {{project}} 設定",
+          "global": "為所有專案設定",
+          "environment": "來自 IDE 環境的 CLAUDE_CONFIG_DIR",
+          "default": "預設"
+        },
+        "hint": "Claude 存放設定、登入資訊和工作階段紀錄的資料夾，與在終端機中設定 CLAUDE_CONFIG_DIR 環境變數相同。從下一則訊息起生效；留空則使用預設值。"
+      },
       "fontSize": {
         "label": "字體大小",
         "level1": "小（80%）",

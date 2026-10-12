@@ -519,6 +519,11 @@ interface Window {
   updateWorkingDirectory?: (json: string) => void;
 
   /**
+   * Update Claude's folder (CLAUDE_CONFIG_DIR) for all projects and this one
+   */
+  updateClaudeConfigDir?: (json: string) => void;
+
+  /**
    * Update linkify/navigation capabilities used by Markdown rendering.
    */
   updateLinkifyCapabilities?: (json: string) => void;

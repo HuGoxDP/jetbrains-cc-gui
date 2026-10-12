@@ -484,6 +484,14 @@ async function processRequest(request) {
           console.warn(`[SECURITY] Ignoring dangerous env var from request: ${key}`);
           continue;
         }
+        if (key === 'CLAUDE_CONFIG_DIR' && value === '') {
+          // The host sends "" when Settings chose no folder for this project: unset it
+          // for this request (an empty value would make the CLI use a relative path),
+          // whatever the daemon was started with.
+          if (!(key in savedEnv)) savedEnv[key] = process.env[key];
+          delete process.env[key];
+          continue;
+        }
         if (value !== undefined && value !== null) {
           // Save original value (undefined means key didn't exist)
           savedEnv[key] = process.env[key];

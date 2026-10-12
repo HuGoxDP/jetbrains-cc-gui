@@ -17,6 +17,7 @@ import com.github.claudecodegui.provider.opencode.OpenCodeHistoryReader;
 import com.github.claudecodegui.provider.pi.PiHistoryReader;
 import com.github.claudecodegui.provider.omp.OmpHistoryReader;
 import com.github.claudecodegui.provider.zcode.ZcodeHistoryReader;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -25,7 +26,6 @@ import com.intellij.openapi.diagnostic.Logger;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.concurrent.CompletableFuture;
 
@@ -117,7 +117,7 @@ class HistoryLoadService {
                 } else {
                     // Default: use ClaudeHistoryReader to read Claude sessions
                     LOG.info("[HistoryHandler] 使用 ClaudeHistoryReader 读取 Claude 会话");
-                    ClaudeHistoryReader historyReader = new ClaudeHistoryReader();
+                    ClaudeHistoryReader historyReader = new ClaudeHistoryReader(projectPath);
                     historyJson = historyReader.getProjectDataAsJson(projectPath, HistoryNestedPreference.isOn());
                 }
 
@@ -203,7 +203,7 @@ class HistoryLoadService {
             } else if (projectPath != null) {
                 SessionIndexCache.getInstance().clearProject(projectPath);
                 SessionIndexManager.getInstance().clearProjectIndex("claude", projectPath);
-                Path projectsDir = Paths.get(NodeDetector.resolveHomeForFileOps(), ".claude", "projects");
+                Path projectsDir = ClaudeConfigDir.projectsDir(projectPath);
                 for (String nested : NestedClaudeProjects.find(projectsDir, projectPath)) {
                     SessionIndexCache.getInstance().clearProject(nested);
                     SessionIndexManager.getInstance().clearProjectIndex("claude", nested);

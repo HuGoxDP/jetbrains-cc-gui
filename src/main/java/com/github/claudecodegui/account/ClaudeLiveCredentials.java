@@ -1,6 +1,7 @@
 package com.github.claudecodegui.account;
 
 import com.github.claudecodegui.bridge.NodeDetector;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.github.claudecodegui.util.PlatformUtils;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -65,14 +66,17 @@ public class ClaudeLiveCredentials {
      * Resolve the slot the CLI started by this plugin will read.
      *
      * <p>The home directory follows the Node runtime (a WSL Node keeps its login in the
-     * WSL home), and {@code CLAUDE_CONFIG_DIR} is honoured only for a native runtime: a
-     * WSL distro has its own environment, which the IDE cannot see.
+     * WSL home). Claude's folder is the one for all projects ({@link ClaudeConfigDir}):
+     * the value chosen in Settings, else {@code CLAUDE_CONFIG_DIR} inherited by the IDE
+     * (native runtime only: a WSL distro has its own environment, which the IDE cannot
+     * see), else {@code ~/.claude}.
      */
     public static ClaudeLiveCredentials forCurrentEnvironment() {
         String home = NodeDetector.resolveHomeForFileOps();
         String nodePath = NodeDetector.getInstance().getCachedNodePath();
         boolean wsl = nodePath != null && NodeDetector.isWslPath(nodePath);
-        String customConfigDir = wsl ? null : trimToNull(System.getenv("CLAUDE_CONFIG_DIR"));
+        String resolved = ClaudeConfigDir.resolveFor(null).value();
+        String customConfigDir = resolved != null ? trimToNull(ClaudeConfigDir.expandHome(resolved)) : null;
 
         Path configDir = customConfigDir != null ? Paths.get(customConfigDir) : Paths.get(home, ".claude");
         Path globalConfig = customConfigDir != null

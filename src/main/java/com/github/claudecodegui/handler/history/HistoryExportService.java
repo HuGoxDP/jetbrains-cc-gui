@@ -163,7 +163,7 @@ class HistoryExportService {
             return toJsonArray(new OmpHistoryReader().getSessionMessages(sessionId, projectPath));
         }
         LOG.info("[HistoryHandler] 使用 ClaudeHistoryReader 读取 Claude 会话消息");
-        ClaudeHistoryReader historyReader = new ClaudeHistoryReader();
+        ClaudeHistoryReader historyReader = new ClaudeHistoryReader(projectPath);
         String messagesJson = historyReader.getSessionMessagesAsJson(projectPath, sessionId);
         return JsonParser.parseString(messagesJson != null ? messagesJson : "[]");
     }

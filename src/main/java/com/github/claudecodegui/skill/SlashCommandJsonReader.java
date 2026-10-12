@@ -12,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,18 +86,14 @@ final class SlashCommandJsonReader {
         return null;
     }
 
-    static Map<String, String> readKnownMarketplaces(String userHome) {
+    /** The marketplaces in [pluginsDir] (Claude's {@code plugins} folder): id to install location. */
+    static Map<String, String> readKnownMarketplaces(Path pluginsDir) {
         Map<String, String> result = new HashMap<>();
-        if (userHome == null || userHome.isEmpty()) {
+        if (pluginsDir == null) {
             return result;
         }
 
-        Path knownPath;
-        try {
-            knownPath = Paths.get(userHome, ".claude", "plugins", "known_marketplaces.json");
-        } catch (Exception e) {
-            return result;
-        }
+        Path knownPath = pluginsDir.resolve("known_marketplaces.json");
 
         JsonObject root = readJsonObject(knownPath);
         if (root == null) {

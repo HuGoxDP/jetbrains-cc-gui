@@ -158,7 +158,10 @@ export function buildRuntimeSignature(options, systemPromptAppend, streamingEnab
     // Full Auto rebuilds the runtime with the correct launch flag. The other modes
     // (default/plan/acceptEdits/auto) need no launch flag and keep applying live via
     // setPermissionMode, so they intentionally do NOT change the signature.
-    bypassPermissions: options.permissionMode === 'bypassPermissions'
+    bypassPermissions: options.permissionMode === 'bypassPermissions',
+    // CLAUDE_CONFIG_DIR is read by the CLI once at spawn: a different folder for this
+    // project (Settings) must rebuild the runtime, or the chat keeps the old one.
+    claudeConfigDir: options.env?.CLAUDE_CONFIG_DIR || ''
   };
   return JSON.stringify(material);
 }

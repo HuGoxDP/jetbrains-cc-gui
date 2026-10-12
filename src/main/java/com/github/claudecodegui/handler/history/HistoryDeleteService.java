@@ -9,6 +9,7 @@ import com.github.claudecodegui.provider.dsh.DshHistoryReader;
 import com.github.claudecodegui.cache.SessionIndexCache;
 import com.github.claudecodegui.cache.SessionIndexManager;
 import com.github.claudecodegui.session.ClaudeSession;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.github.claudecodegui.util.PathUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -540,9 +541,7 @@ class HistoryDeleteService {
      * @return int[2]: [mainDeleted(0/1), agentFilesDeleted]
      */
     private int[] deleteClaudeSession(String sessionId, String projectPath) throws java.io.IOException {
-        String homeDir = NodeDetector.resolveHomeForFileOps();
-        Path claudeDir = Paths.get(homeDir, ".claude");
-        Path projectsDir = claudeDir.resolve("projects");
+        Path projectsDir = ClaudeConfigDir.projectsDir(projectPath);
         List<Path> sessionDirs = PathUtils.getSanitizedPathCandidates(projectPath).stream()
                 .map(projectsDir::resolve)
                 .filter(Files::isDirectory)
@@ -616,7 +615,7 @@ class HistoryDeleteService {
             } else if (projectPath != null) {
                 SessionIndexCache.getInstance().clearProject(projectPath);
                 SessionIndexManager.getInstance().clearProjectIndex("claude", projectPath);
-                Path projectsDir = Paths.get(NodeDetector.resolveHomeForFileOps(), ".claude", "projects");
+                Path projectsDir = ClaudeConfigDir.projectsDir(projectPath);
                 for (String nested : NestedClaudeProjects.find(projectsDir, projectPath)) {
                     SessionIndexCache.getInstance().clearProject(nested);
                     SessionIndexManager.getInstance().clearProjectIndex("claude", nested);

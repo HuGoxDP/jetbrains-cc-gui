@@ -1,6 +1,7 @@
 package com.github.claudecodegui.skill;
 
 import com.github.claudecodegui.bridge.NodeDetector;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -55,11 +56,19 @@ public class SkillService {
     // ==================== Active Directories (read by Claude) ====================
 
     /**
-     * Gets the global active skills directory (~/.claude/skills).
+     * Gets the global active skills directory ({@code skills} in Claude's folder for all
+     * projects, ~/.claude/skills unless moved in Settings).
      */
     public static String getGlobalSkillsDir() {
-        String homeDir = NodeDetector.resolveHomeForFileOps();
-        return Paths.get(homeDir, ".claude", "skills").toString();
+        return getGlobalSkillsDir(null);
+    }
+
+    /**
+     * Gets the personal skills directory Claude reads for [workspaceRoot]: {@code skills}
+     * in Claude's folder for that project (Settings → CLAUDE_CONFIG_DIR).
+     */
+    public static String getGlobalSkillsDir(String workspaceRoot) {
+        return ClaudeConfigDir.dir(workspaceRoot).resolve("skills").toString();
     }
 
     /**
@@ -137,7 +146,7 @@ public class SkillService {
         JsonObject allSkills = new JsonObject();
 
         // 1. Scan the active directory (enabled = true)
-        String activeDir = "global".equals(scope) ? getGlobalSkillsDir() : getLocalSkillsDir(workspaceRoot);
+        String activeDir = "global".equals(scope) ? getGlobalSkillsDir(workspaceRoot) : getLocalSkillsDir(workspaceRoot);
         if (activeDir != null) {
             JsonObject activeSkills = scanSkillsDirectory(activeDir, scope, true);
             // Merge into results
@@ -163,7 +172,7 @@ public class SkillService {
      * Gets skills for a given scope (active only, for backward compatibility).
      */
     public static JsonObject getSkillsByScope(String scope, String workspaceRoot) {
-        String dir = "global".equals(scope) ? getGlobalSkillsDir() : getLocalSkillsDir(workspaceRoot);
+        String dir = "global".equals(scope) ? getGlobalSkillsDir(workspaceRoot) : getLocalSkillsDir(workspaceRoot);
         if (dir == null) {
             LOG.warn("[Skills] 无法获取 " + scope + " Skills 目录");
             return new JsonObject();
@@ -264,7 +273,7 @@ public class SkillService {
         JsonArray imported = new JsonArray();
         JsonArray errors = new JsonArray();
 
-        String targetDir = "global".equals(scope) ? getGlobalSkillsDir() : getLocalSkillsDir(workspaceRoot);
+        String targetDir = "global".equals(scope) ? getGlobalSkillsDir(workspaceRoot) : getLocalSkillsDir(workspaceRoot);
         if (targetDir == null) {
             result.addProperty("success", false);
             result.addProperty("error", "无法获取 " + scope + " Skills 目录");
@@ -370,7 +379,7 @@ public class SkillService {
         // Select the appropriate directory based on the enabled state
         String dir;
         if (enabled) {
-            dir = "global".equals(scope) ? getGlobalSkillsDir() : getLocalSkillsDir(workspaceRoot);
+            dir = "global".equals(scope) ? getGlobalSkillsDir(workspaceRoot) : getLocalSkillsDir(workspaceRoot);
         } else {
             dir = "global".equals(scope) ? getGlobalManagementDir() : getLocalManagementDir(workspaceRoot);
         }
@@ -439,7 +448,7 @@ public class SkillService {
         // Source directory: management directory (disabled skills)
         String sourceDir = "global".equals(scope) ? getGlobalManagementDir() : getLocalManagementDir(workspaceRoot);
         // Target directory: active directory
-        String targetDir = "global".equals(scope) ? getGlobalSkillsDir() : getLocalSkillsDir(workspaceRoot);
+        String targetDir = "global".equals(scope) ? getGlobalSkillsDir(workspaceRoot) : getLocalSkillsDir(workspaceRoot);
 
         if (sourceDir == null || targetDir == null) {
             result.addProperty("success", false);
@@ -524,7 +533,7 @@ public class SkillService {
         }
 
         // Source directory: active directory
-        String sourceDir = "global".equals(scope) ? getGlobalSkillsDir() : getLocalSkillsDir(workspaceRoot);
+        String sourceDir = "global".equals(scope) ? getGlobalSkillsDir(workspaceRoot) : getLocalSkillsDir(workspaceRoot);
         // Target directory: management directory (disabled skills)
         String targetDir = "global".equals(scope) ? getGlobalManagementDir() : getLocalManagementDir(workspaceRoot);
 

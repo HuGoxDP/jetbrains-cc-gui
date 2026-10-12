@@ -1,6 +1,7 @@
 package com.github.claudecodegui.account;
 
 import com.github.claudecodegui.bridge.NodeDetector;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.github.claudecodegui.util.PlatformUtils;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.diagnostic.Logger;
@@ -106,6 +107,9 @@ public final class ClaudeLoginService {
         for (String key : AUTH_ENV_TO_STRIP) {
             env.remove(key);
         }
+        // Sign in to Claude's folder for all projects (Settings → CLAUDE_CONFIG_DIR), where
+        // the account switcher reads the live login.
+        ClaudeConfigDir.applyTo(env, null, null);
         builder.directory(new File(PlatformUtils.getHomeDirectory()));
 
         Process process = builder.start();

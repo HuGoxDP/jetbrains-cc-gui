@@ -1304,8 +1304,18 @@ public class CodemossSettingsService {
         mcpServerManager.upsertMcpServer(server, projectPath);
     }
 
+    /** Upsert an MCP server in the .claude.json Claude reads for [locationPath]. */
+    public void upsertMcpServerAt(JsonObject server, String locationPath) throws IOException {
+        mcpServerManager.upsertMcpServer(server, null, locationPath);
+    }
+
     public boolean deleteMcpServer(String serverId) throws IOException {
         return mcpServerManager.deleteMcpServer(serverId);
+    }
+
+    /** Delete an MCP server from the .claude.json Claude reads for [locationPath]. */
+    public boolean deleteMcpServerAt(String serverId, String locationPath) throws IOException {
+        return mcpServerManager.deleteMcpServer(serverId, locationPath);
     }
 
     public Map<String, Object> validateMcpServer(JsonObject server) {

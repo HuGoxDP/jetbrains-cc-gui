@@ -185,6 +185,12 @@ export function isDangerousPath(filePath) {
     `${userHomeDir}/.local/`,
     `${userHomeDir}/.claude/.credentials.json`,
   ];
+  // The login lives in CLAUDE_CONFIG_DIR when Settings moved Claude's folder.
+  const configDir = (process.env.CLAUDE_CONFIG_DIR || '').trim().replace(/[\\/]+$/, '');
+  if (configDir) {
+    dangerousPatterns.push(`${configDir}/.credentials.json`);
+    if (isWindows) dangerousPatterns.push(`${configDir}\\.credentials.json`);
+  }
 
   if (isWindows) {
     dangerousPatterns.push(

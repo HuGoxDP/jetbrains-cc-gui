@@ -1,6 +1,7 @@
 package com.github.claudecodegui.skill;
 
 import com.github.claudecodegui.bridge.NodeDetector;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -40,14 +41,14 @@ final class PluginCommandScanner {
 
         Path pluginsBase;
         try {
-            pluginsBase = Paths.get(userHome, ".claude", "plugins").toAbsolutePath().normalize();
+            pluginsBase = ClaudeConfigDir.dirIn(userHome, cwd).resolve("plugins").toAbsolutePath().normalize();
         } catch (Exception e) {
             LOG.warn("Invalid user home path for plugin scanning: " + userHome);
             return List.of();
         }
 
         Map<String, InstalledPlugin> installedPlugins = getInstalledPlugins(pluginsBase);
-        Map<String, String> knownMarketplaces = SlashCommandJsonReader.readKnownMarketplaces(userHome);
+        Map<String, String> knownMarketplaces = SlashCommandJsonReader.readKnownMarketplaces(pluginsBase);
 
         List<SlashCommandRegistry.PluginPath> result = new ArrayList<>();
         Set<String> seen = new HashSet<>();

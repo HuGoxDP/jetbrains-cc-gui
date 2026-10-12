@@ -46,11 +46,25 @@ export function getCodemossDir() {
 }
 
 /**
- * Get the .claude configuration directory path.
- * @returns {string} The ~/.claude directory path
+ * Get the Claude configuration directory path: CLAUDE_CONFIG_DIR when set (the
+ * plugin sets it per request from Settings, as a terminal user would export it),
+ * otherwise ~/.claude. Read at call time, never cached: the daemon serves requests
+ * with different values.
+ * @returns {string} The Claude configuration directory path
  */
 export function getClaudeDir() {
-  return join(getRealHomeDir(), '.claude');
+  const configured = (process.env.CLAUDE_CONFIG_DIR || '').trim();
+  return configured || join(getRealHomeDir(), '.claude');
+}
+
+/**
+ * Get Claude Code's global config file (.claude.json): inside CLAUDE_CONFIG_DIR
+ * when set, otherwise in the home directory, as the CLI places it.
+ * @returns {string} The .claude.json path
+ */
+export function getClaudeGlobalConfigPath() {
+  const configured = (process.env.CLAUDE_CONFIG_DIR || '').trim();
+  return join(configured || getRealHomeDir(), '.claude.json');
 }
 
 const CLAUDE_SESSION_ID_PATTERN = /^[A-Za-z0-9._-]+$/;

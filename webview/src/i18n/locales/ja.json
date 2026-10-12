@@ -191,6 +191,22 @@
         "placeholder": "例: project1 または空欄でプロジェクトルートを使用",
         "hint": "Claudeが作業するディレクトリを指定します。相対パス(プロジェクトルートからの相対)または絶対パスを使用できます。空欄の場合はプロジェクトルートを使用します。"
       },
+      "claudeConfigDir": {
+        "allProjects": "すべてのプロジェクト",
+        "thisProject": "このプロジェクト",
+        "placeholderAll": "デフォルト (~/.claude)",
+        "placeholderProject": "すべてのプロジェクトと同じ",
+        "noProject": "このプロジェクトにはフォルダーがないため、すべてのプロジェクトの値を使います。",
+        "inUse": "ここで使用中:",
+        "source": {
+          "project": "このプロジェクトで設定",
+          "parentProject": "このプロジェクトを含む {{project}} で設定",
+          "global": "すべてのプロジェクトで設定",
+          "environment": "IDE の環境の CLAUDE_CONFIG_DIR",
+          "default": "デフォルト"
+        },
+        "hint": "Claude が設定、ログイン、セッション履歴を保存するフォルダーです。ターミナルで環境変数 CLAUDE_CONFIG_DIR を設定するのと同じです。次のメッセージから適用され、空欄ならデフォルトを使います。"
+      },
       "fontSize": {
         "label": "フォントサイズ",
         "level1": "小 (80%)",

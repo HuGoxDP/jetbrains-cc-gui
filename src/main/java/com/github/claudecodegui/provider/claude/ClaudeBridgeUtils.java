@@ -1,5 +1,6 @@
 package com.github.claudecodegui.provider.claude;
 
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.diagnostic.Logger;
 
@@ -27,6 +28,10 @@ final class ClaudeBridgeUtils {
             envVars.addProperty("IDEA_PROJECT_PATH", cwd);
             envVars.addProperty("PROJECT_PATH", cwd);
         }
+        // Claude's folder for this project (Settings → CLAUDE_CONFIG_DIR). Always sent:
+        // "" unsets it for the request, since the daemon may have been started with
+        // a value that has since been cleared.
+        envVars.addProperty(ClaudeConfigDir.ENV_NAME, ClaudeConfigDir.daemonValue(isValidCwd(cwd) ? cwd : null));
         return envVars;
     }
 

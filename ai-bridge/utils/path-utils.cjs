@@ -40,11 +40,13 @@ function getCodemossDir() {
 }
 
 /**
- * Get the .claude configuration directory path.
- * @returns {string} ~/.claude directory path
+ * Get the Claude configuration directory path: CLAUDE_CONFIG_DIR when set,
+ * otherwise ~/.claude (same rule as path-utils.js).
+ * @returns {string} Claude configuration directory path
  */
 function getClaudeDir() {
-  return path.join(getRealHomeDir(), '.claude');
+  const configured = (process.env.CLAUDE_CONFIG_DIR || '').trim();
+  return configured || path.join(getRealHomeDir(), '.claude');
 }
 
 module.exports = {

@@ -1,6 +1,6 @@
 package com.github.claudecodegui.provider.claude;
 
-import com.github.claudecodegui.bridge.NodeDetector;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.google.gson.Gson;
 import com.intellij.openapi.diagnostic.Logger;
 
@@ -24,29 +24,8 @@ public class ClaudeHistoryReader {
 
     private static final Logger LOG = Logger.getInstance(ClaudeHistoryReader.class);
 
-    private static volatile Path claudeDir;
-
-    private static Path claudeDir() {
-        Path dir = claudeDir;
-        if (dir == null) {
-            synchronized (ClaudeHistoryReader.class) {
-                dir = claudeDir;
-                if (dir == null) {
-                    dir = Paths.get(NodeDetector.resolveHomeForFileOps(), ".claude");
-                    claudeDir = dir;
-                }
-            }
-        }
-        return dir;
-    }
-
-    private static Path historyFile() {
-        return claudeDir().resolve("history.jsonl");
-    }
-
-    static Path projectsDir() {
-        return claudeDir().resolve("projects");
-    }
+    /** Claude's folder for the project this reader serves (Settings → CLAUDE_CONFIG_DIR). */
+    private final Path claudeDir;
 
     private final Gson gson = new Gson();
 
@@ -55,8 +34,18 @@ public class ClaudeHistoryReader {
     private final ClaudeHistoryIndexService indexService;
     private final ClaudeHistorySearchService searchService;
 
+    /** A reader of the folder for all projects. */
     public ClaudeHistoryReader() {
-        Path projectsDir = projectsDir();
+        this(null);
+    }
+
+    /**
+     * A reader of Claude's folder for [projectPath] (a project root or a folder in one;
+     * null for the folder all projects use).
+     */
+    public ClaudeHistoryReader(String projectPath) {
+        this.claudeDir = ClaudeConfigDir.dir(projectPath);
+        Path projectsDir = claudeDir.resolve("projects");
         this.parser = new ClaudeHistoryParser();
         this.indexService = new ClaudeHistoryIndexService(projectsDir, parser);
         this.searchService = new ClaudeHistorySearchService(projectsDir, this, indexService);
@@ -210,7 +199,7 @@ public class ClaudeHistoryReader {
     public List<HistoryEntry> readHistory() throws IOException {
         List<HistoryEntry> history = new ArrayList<>();
 
-        Path historyFile = historyFile();
+        Path historyFile = claudeDir.resolve("history.jsonl");
         if (!Files.exists(historyFile)) {
             return history;
         }

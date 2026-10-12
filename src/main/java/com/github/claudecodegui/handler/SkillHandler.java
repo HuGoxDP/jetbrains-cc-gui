@@ -3,6 +3,7 @@ package com.github.claudecodegui.handler;
 import com.github.claudecodegui.bridge.NodeDetector;
 import com.github.claudecodegui.handler.core.BaseMessageHandler;
 import com.github.claudecodegui.handler.core.HandlerContext;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 
 import com.github.claudecodegui.skill.CodexSkillService;
 import com.github.claudecodegui.skill.SkillService;
@@ -368,6 +369,10 @@ public class SkillHandler extends BaseMessageHandler {
             List<Path> validBases = new ArrayList<>();
             validBases.add(Paths.get(userHome, ".claude", "skills"));
             validBases.add(Paths.get(userHome, ".claude", "commands"));
+            // Claude's folder when moved in Settings (CLAUDE_CONFIG_DIR) for this project
+            Path claudeDir = ClaudeConfigDir.dir(projectBase);
+            validBases.add(claudeDir.resolve("skills"));
+            validBases.add(claudeDir.resolve("commands"));
             validBases.add(Paths.get(userHome, ".codemoss", "skills"));
             // Codex skills directories
             validBases.add(Paths.get(userHome, ".agents", "skills"));

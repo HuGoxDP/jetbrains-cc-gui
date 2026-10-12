@@ -5,6 +5,7 @@ import com.github.claudecodegui.bridge.NodeDetector;
 import com.github.claudecodegui.bridge.ProcessManager;
 import com.github.claudecodegui.provider.common.SessionHistoryIncompleteException;
 import com.github.claudecodegui.provider.common.SessionHistoryNotFoundException;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.github.claudecodegui.util.PlatformUtils;
 import com.github.claudecodegui.util.UserMessageSanitizer;
 import com.google.gson.Gson;
@@ -201,6 +202,8 @@ class ClaudeSessionQueryService {
         pb.directory(workDir);
         pb.redirectErrorStream(true);
         envConfigurator.updateProcessEnvironment(pb, node);
+        // The transcript is in Claude's folder for this project (Settings → CLAUDE_CONFIG_DIR).
+        ClaudeConfigDir.applyTo(pb.environment(), cwd, node);
 
         // L5 fix: register with ProcessManager so cleanupAllProcesses sees this child.
         String channelId = ProcessManager.newChannelId("claude-session-query");

@@ -6,6 +6,7 @@ import com.github.claudecodegui.bridge.NodeDetector;
 import com.github.claudecodegui.bridge.ProcessManager;
 import com.github.claudecodegui.provider.common.MessageCallback;
 import com.github.claudecodegui.provider.common.SDKResult;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.intellij.openapi.diagnostic.Logger;
@@ -135,6 +136,7 @@ class ClaudeProcessInvoker {
                 env.put("CLAUDE_USE_STDIN", "true");
                 pb.redirectErrorStream(true);
                 envConfigurator.updateProcessEnvironment(pb, node);
+                ClaudeConfigDir.applyTo(pb.environment(), cwd, node);
 
                 Process process = null;
                 try {

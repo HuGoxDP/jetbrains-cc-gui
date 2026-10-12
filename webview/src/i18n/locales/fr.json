@@ -191,6 +191,22 @@
         "placeholder": "e.g. project1 or leave empty to use project root",
         "hint": "Specify the directory where Claude works. Can use relative path (relative to project root) or absolute path. Leave empty to use project root."
       },
+      "claudeConfigDir": {
+        "allProjects": "Tous les projets",
+        "thisProject": "Ce projet",
+        "placeholderAll": "Par défaut (~/.claude)",
+        "placeholderProject": "Comme pour tous les projets",
+        "noProject": "Ce projet n'a pas de dossier, il utilise donc la valeur de tous les projets.",
+        "inUse": "Utilisé ici :",
+        "source": {
+          "project": "défini pour ce projet",
+          "parentProject": "défini pour {{project}}, qui contient celui-ci",
+          "global": "défini pour tous les projets",
+          "environment": "CLAUDE_CONFIG_DIR de l'environnement de l'IDE",
+          "default": "par défaut"
+        },
+        "hint": "Le dossier où Claude garde ses paramètres, sa connexion et l'historique des sessions, comme le fait la variable d'environnement CLAUDE_CONFIG_DIR dans un terminal. S'applique à partir du message suivant ; laissez vide pour la valeur par défaut."
+      },
       "fontSize": {
         "label": "Taille de police",
         "level1": "Petite (80%)",

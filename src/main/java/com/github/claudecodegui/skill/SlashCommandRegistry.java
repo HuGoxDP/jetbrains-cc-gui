@@ -1,6 +1,7 @@
 package com.github.claudecodegui.skill;
 
 import com.github.claudecodegui.bridge.NodeDetector;
+import com.github.claudecodegui.settings.ClaudeConfigDir;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -195,7 +196,7 @@ public final class SlashCommandRegistry {
                 globalCmdCommands = List.of();
                 globalSkillCommands = List.of();
             } else {
-                String claudeDir = userHome + File.separator + ".claude";
+                String claudeDir = ClaudeConfigDir.dirIn(userHome, cwd).toString();
                 globalCmdCommands = scanCommandsAsCommands(
                         claudeDir + File.separator + "commands", "user");
                 globalSkillCommands = scanSkillsAsCommands(
