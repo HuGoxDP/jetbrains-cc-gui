@@ -70,7 +70,7 @@
 | B23 | Выключатель стриминга ответов | ✅ Swttch: «Stream replies» в Settings → Appearance → Chat (docs/features/098) — выключено значит Claude Code запускается без `--include-partial-messages` и присылает каждое сообщение целиком; действует со следующего сообщения |
 | B24 | Подтверждение перед новой сессией | ✅ Swttch: «Ask before a new conversation» в Settings → General → Composer (docs/features/099) — `/clear`, Cmd/Ctrl+Shift+C и «Clear conversation» спрашивают, прежде чем покинуть начатую беседу; по умолчанию выключено, как `/clear` в CLI |
 | B25 | «Раскрывать diff по умолчанию» | ✅ Swttch: «Expand diffs» в Settings → Appearance → Chat (docs/features/100) — выключено значит карточки правок начинаются свёрнутыми со строкой «Modified +N −M»; каждую карточку можно открыть и закрыть щелчком |
-| B26 | Язык интерфейса хинди | ⬜ |
+| B26 | Язык интерфейса хинди | ✅ Swttch: «हिन्दी» в Settings → General → Interface Language (docs/features/115) — весь интерфейс, все строки английского каталога; 260 строк взяты из хинди CC GUI там, где английский текст совпадает, и поправлены там, где у Swttch другой смысл. Четыре кнопки над изменениями в просмотре diff (Accept, Deny, Reset, Back) в Swttch во всех языках остаются английскими — в хинди тоже |
 
 ## Не переносится
 
