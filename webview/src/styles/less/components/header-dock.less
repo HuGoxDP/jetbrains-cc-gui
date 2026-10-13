@@ -1,0 +1,128 @@
+/* The ⋮ menu of the chat header (components/ChatHeader/HeaderDockMenu): every header
+   action, with a handle to reorder it and an eye to keep it in the header. */
+.header-dock {
+    position: relative;
+    display: flex;
+}
+
+.header-dock-menu {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    z-index: 1000;
+    width: 260px;
+    padding: 4px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-secondary);
+    border-radius: 8px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.header-dock-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.header-dock-row {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    border-radius: 6px;
+
+    &:hover {
+        background: var(--bg-hover);
+    }
+
+    &.is-moving {
+        background: var(--bg-hover);
+        outline: 1px solid var(--accent-primary);
+    }
+}
+
+.header-dock-handle,
+.header-dock-eye {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        outline: none;
+    }
+}
+
+.header-dock-handle {
+    cursor: grab;
+    touch-action: none;
+}
+
+.header-dock-eye.is-docked {
+    color: var(--text-secondary);
+}
+
+.header-dock-run {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 30px;
+    padding: 0 6px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 13px;
+    text-align: start;
+    cursor: pointer;
+
+    .codicon {
+        font-size: 16px;
+        color: var(--text-secondary);
+    }
+
+    &:focus-visible {
+        outline: 1px solid var(--accent-primary);
+    }
+}
+
+.header-dock-label {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.header-dock-badge {
+    min-width: 16px;
+    height: 16px;
+    padding: 0 4px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: var(--accent-primary);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 16px;
+    text-align: center;
+}
+
+.header-dock-hint {
+    margin: 4px 6px 2px;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.4;
+}

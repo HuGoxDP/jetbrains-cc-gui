@@ -190,6 +190,13 @@
     "updateSdk": "更新 SDK",
     "commandNotImplemented": "`{{command}}` 功能暂未实现。",
     "clearCommandDescription": "清除对话历史并新建会话",
+    "headerDock": {
+      "menu": "更多操作",
+      "show": "显示在标题栏",
+      "hide": "从标题栏隐藏",
+      "move": "移动{{name}}",
+      "hint": "眼睛图标决定操作是否显示在标题栏。拖动 ⠿ 调整顺序，或在其上按空格后用 ↑ ↓。"
+    },
     "btwCommandDescription": "快速问一个旁支问题，不加入当前对话",
     "reloadPluginsCommandDescription": "无需重启即可在此对话中启用插件更改",
     "sideQuestion": {

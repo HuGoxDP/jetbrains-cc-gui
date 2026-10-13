@@ -2,6 +2,15 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { TFunction } from 'i18next';
 
 import { BackIcon } from '../Icons';
+import {
+  readHeaderDock,
+  reorderVisible,
+  saveHeaderDock,
+  toggleDocked,
+  type HeaderActionId,
+  type HeaderDockState,
+} from '../../utils/headerDock';
+import { HeaderDockMenu, type HeaderDockItem } from './HeaderDockMenu';
 
 export interface ChatHeaderProps {
   currentView: 'chat' | 'history' | 'settings';
@@ -41,6 +50,7 @@ export function ChatHeader({
   titleEditable = false,
 }: ChatHeaderProps): React.ReactElement | null {
   const [editing, setEditing] = useState(false);
+  const [dock, setDock] = useState<HeaderDockState>(readHeaderDock);
   const [editValue, setEditValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -94,9 +104,99 @@ export function ChatHeader({
     commitEdit();
   }, [commitEdit]);
 
+  const updateDock = useCallback((next: HeaderDockState) => {
+    setDock(next);
+    saveHeaderDock(next);
+  }, []);
+
   if (currentView === 'settings') {
     return null;
   }
+
+  const searchLabel = t('chat.search.openTooltip', { defaultValue: 'Search in conversation' });
+  // Every header action, as the ⋮ menu lists it; null when this conversation has none.
+  const actions: Record<HeaderActionId, Omit<HeaderDockItem, 'id' | 'docked'> | null> = {
+    newSession: { icon: 'codicon-plus', label: t('common.newSession'), run: onNewSession },
+    newTab: { icon: 'codicon-split-horizontal', label: t('common.newTab'), run: onNewTab },
+    search: onOpenSearch ? { icon: 'codicon-search', label: searchLabel, run: onOpenSearch } : null,
+    scheduled: onOpenScheduled
+      ? { icon: 'codicon-watch', label: t('chat.scheduled.openTooltip'), badge: scheduledCount, run: onOpenScheduled }
+      : null,
+    history: { icon: 'codicon-history', label: t('common.history'), run: onHistory },
+    settings: { icon: 'codicon-settings-gear', label: t('common.settings'), run: onSettings },
+  };
+  const menuItems: HeaderDockItem[] = dock.order.flatMap((id) => {
+    const action = actions[id];
+    return action ? [{ id, ...action, docked: dock.docked.includes(id) }] : [];
+  });
+  const isDocked = (id: HeaderActionId) => actions[id] !== null && dock.docked.includes(id);
+  const headerButton: Record<HeaderActionId, () => React.ReactNode> = {
+    newSession: () => (
+      <button key="newSession" className="icon-button" onClick={onNewSession} data-tooltip={t('common.newSession')} aria-label={t('common.newSession')}>
+        <span className="codicon codicon-plus" />
+      </button>
+    ),
+    newTab: () => (
+      <button
+        key="newTab"
+        className="icon-button"
+        onClick={onNewTab}
+        data-tooltip={t('common.newTab')}
+        aria-label={t('common.newTab')}
+      >
+        <span className="codicon codicon-split-horizontal" />
+      </button>
+    ),
+    search: () => (
+      <button
+        key="search"
+        className="icon-button"
+        onClick={onOpenSearch}
+        data-tooltip={searchLabel}
+        aria-label={searchLabel}
+      >
+        <span className="codicon codicon-search" />
+      </button>
+    ),
+    scheduled: () => (
+      <button
+        key="scheduled"
+        className="icon-button"
+        onClick={onOpenScheduled}
+        data-tooltip={t('chat.scheduled.openTooltip')}
+        aria-label={scheduledCount > 0
+          ? t('chat.scheduled.openTooltipCount', { n: scheduledCount })
+          : t('chat.scheduled.openTooltip')}
+      >
+        <span className="codicon codicon-watch" />
+        {scheduledCount > 0 && (
+          <span className="scheduled-badge" data-testid="scheduled-badge">{scheduledCount}</span>
+        )}
+      </button>
+    ),
+    history: () => (
+      <button
+        key="history"
+        className="icon-button"
+        onClick={onHistory}
+        data-tooltip={t('common.history')}
+        aria-label={t('common.history')}
+      >
+        <span className="codicon codicon-history" />
+      </button>
+    ),
+    settings: () => (
+      <button
+        key="settings"
+        className="icon-button"
+        onClick={onSettings}
+        data-tooltip={t('common.settings')}
+        aria-label={t('common.settings')}
+      >
+        <span className="codicon codicon-settings-gear" />
+      </button>
+    ),
+  };
 
   return (
     <div className="header">
@@ -142,58 +242,13 @@ export function ChatHeader({
       <div className="header-right">
         {currentView === 'chat' && (
           <>
-            <button className="icon-button" onClick={onNewSession} data-tooltip={t('common.newSession')} aria-label={t('common.newSession')}>
-              <span className="codicon codicon-plus" />
-            </button>
-            <button
-              className="icon-button"
-              onClick={onNewTab}
-              data-tooltip={t('common.newTab')}
-              aria-label={t('common.newTab')}
-            >
-              <span className="codicon codicon-split-horizontal" />
-            </button>
-            {onOpenSearch && (
-              <button
-                className="icon-button"
-                onClick={onOpenSearch}
-                data-tooltip={t('chat.search.openTooltip', { defaultValue: 'Search in conversation' })}
-                aria-label={t('chat.search.openTooltip', { defaultValue: 'Search in conversation' })}
-              >
-                <span className="codicon codicon-search" />
-              </button>
-            )}
-            {onOpenScheduled && (
-              <button
-                className="icon-button"
-                onClick={onOpenScheduled}
-                data-tooltip={t('chat.scheduled.openTooltip')}
-                aria-label={scheduledCount > 0
-                  ? t('chat.scheduled.openTooltipCount', { n: scheduledCount })
-                  : t('chat.scheduled.openTooltip')}
-              >
-                <span className="codicon codicon-watch" />
-                {scheduledCount > 0 && (
-                  <span className="scheduled-badge" data-testid="scheduled-badge">{scheduledCount}</span>
-                )}
-              </button>
-            )}
-            <button
-              className="icon-button"
-              onClick={onHistory}
-              data-tooltip={t('common.history')}
-              aria-label={t('common.history')}
-            >
-              <span className="codicon codicon-history" />
-            </button>
-            <button
-              className="icon-button"
-              onClick={onSettings}
-              data-tooltip={t('common.settings')}
-              aria-label={t('common.settings')}
-            >
-              <span className="codicon codicon-settings-gear" />
-            </button>
+            {dock.order.filter(isDocked).map((id) => headerButton[id]())}
+            <HeaderDockMenu
+              items={menuItems}
+              t={t}
+              onToggleDocked={(id) => updateDock(toggleDocked(dock, id))}
+              onReorder={(order) => updateDock(reorderVisible(dock, order))}
+            />
           </>
         )}
       </div>

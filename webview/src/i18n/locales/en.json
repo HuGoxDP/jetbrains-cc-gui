@@ -190,6 +190,13 @@
     "updateSdk": "Update SDK",
     "commandNotImplemented": "`{{command}}` feature is not yet implemented.",
     "clearCommandDescription": "Clear conversation history and start a new session",
+    "headerDock": {
+      "menu": "More actions",
+      "show": "Show in the header",
+      "hide": "Hide from the header",
+      "move": "Move {{name}}",
+      "hint": "The eye keeps an action in the header. Drag ⠿ to reorder, or press Space on it and use ↑ ↓."
+    },
     "btwCommandDescription": "Ask a quick side question without adding it to the conversation",
     "reloadPluginsCommandDescription": "Apply plugin changes without restarting",
     "sideQuestion": {

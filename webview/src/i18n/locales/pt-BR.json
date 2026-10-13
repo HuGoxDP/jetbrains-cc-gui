@@ -171,6 +171,13 @@
     "goInstallSdk": "Ir para Instalação",
     "commandNotImplemented": "O recurso `{{command}}` ainda não foi implementado.",
     "clearCommandDescription": "Limpar histórico de conversa e iniciar uma nova sessão",
+    "headerDock": {
+      "menu": "Mais ações",
+      "show": "Mostrar no cabeçalho",
+      "hide": "Ocultar do cabeçalho",
+      "move": "Mover {{name}}",
+      "hint": "O olho mantém uma ação no cabeçalho. Arraste ⠿ para reordenar, ou pressione Espaço nele e use ↑ ↓."
+    },
     "btwCommandDescription": "Faça uma pergunta rápida à parte sem adicioná-la à conversa",
     "reloadPluginsCommandDescription": "Ative as alterações de plugins nesta conversa sem reiniciar",
     "sideQuestion": {

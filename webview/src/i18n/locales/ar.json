@@ -194,6 +194,13 @@
     "updateSdk": "تحديث SDK",
     "commandNotImplemented": "ميزة `{{command}}` غير مطبّقة بعد.",
     "clearCommandDescription": "مسح سجل المحادثة وبدء جلسة جديدة",
+    "headerDock": {
+      "menu": "مزيد من الإجراءات",
+      "show": "إظهار في الترويسة",
+      "hide": "إخفاء من الترويسة",
+      "move": "نقل {{name}}",
+      "hint": "تُبقي العين الإجراء في الترويسة. اسحب ⠿ لإعادة الترتيب، أو اضغط المسافة عليه واستخدم ↑ ↓."
+    },
     "btwCommandDescription": "اطرح سؤالًا جانبيًا سريعًا دون إضافته إلى المحادثة",
     "reloadPluginsCommandDescription": "تفعيل تغييرات الإضافات في هذه المحادثة دون إعادة التشغيل",
     "sideQuestion": {

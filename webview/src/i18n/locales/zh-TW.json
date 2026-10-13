@@ -171,6 +171,13 @@
     "goInstallSdk": "前往安裝",
     "commandNotImplemented": "`{{command}}` 功能尚未實現。",
     "clearCommandDescription": "清除對話歷史並新建會話",
+    "headerDock": {
+      "menu": "更多操作",
+      "show": "顯示在標題列",
+      "hide": "從標題列隱藏",
+      "move": "移動{{name}}",
+      "hint": "眼睛圖示決定操作是否顯示在標題列。拖曳 ⠿ 調整順序，或在其上按空白鍵後用 ↑ ↓。"
+    },
     "btwCommandDescription": "快速問一個旁支問題，不加入目前對話",
     "reloadPluginsCommandDescription": "無需重新啟動即可在此對話中啟用外掛變更",
     "sideQuestion": {

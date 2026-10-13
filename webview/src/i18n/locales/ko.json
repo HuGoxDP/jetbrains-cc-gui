@@ -171,6 +171,13 @@
     "goInstallSdk": "설치하러 가기",
     "commandNotImplemented": "`{{command}}` 기능은 아직 구현되지 않았습니다.",
     "clearCommandDescription": "대화 기록을 지우고 새 세션을 시작합니다",
+    "headerDock": {
+      "menu": "더 많은 작업",
+      "show": "헤더에 표시",
+      "hide": "헤더에서 숨기기",
+      "move": "{{name}} 이동",
+      "hint": "눈 아이콘으로 작업을 헤더에 둡니다. ⠿를 끌어 순서를 바꾸거나, 그 위에서 Space를 누른 뒤 ↑ ↓를 사용하세요."
+    },
     "btwCommandDescription": "대화에 추가하지 않고 짧은 곁가지 질문하기",
     "reloadPluginsCommandDescription": "재시작 없이 이 대화에서 플러그인 변경 사항 적용",
     "sideQuestion": {

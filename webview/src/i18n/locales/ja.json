@@ -171,6 +171,13 @@
     "goInstallSdk": "インストールへ",
     "commandNotImplemented": "`{{command}}` 機能はまだ実装されていません。",
     "clearCommandDescription": "会話履歴をクリアして新しいセッションを開始",
+    "headerDock": {
+      "menu": "その他の操作",
+      "show": "ヘッダーに表示",
+      "hide": "ヘッダーから隠す",
+      "move": "{{name}}を移動",
+      "hint": "目のアイコンで操作をヘッダーに残します。⠿ をドラッグして並べ替えるか、その上で Space を押して ↑ ↓ を使います。"
+    },
     "btwCommandDescription": "会話に追加せずに、ちょっとした別の質問をする",
     "reloadPluginsCommandDescription": "再起動せずにこの会話でプラグインの変更を有効にする",
     "sideQuestion": {

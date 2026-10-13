@@ -171,6 +171,13 @@
     "goInstallSdk": "Aller installer",
     "commandNotImplemented": "La fonctionnalité `{{command}}` n'est pas encore implémentée.",
     "clearCommandDescription": "Effacer l'historique et démarrer une nouvelle session",
+    "headerDock": {
+      "menu": "Plus d'actions",
+      "show": "Afficher dans l'en-tête",
+      "hide": "Masquer de l'en-tête",
+      "move": "Déplacer {{name}}",
+      "hint": "L'œil garde une action dans l'en-tête. Faites glisser ⠿ pour réordonner, ou appuyez sur Espace dessus puis utilisez ↑ ↓."
+    },
     "btwCommandDescription": "Poser une petite question à part sans l'ajouter à la conversation",
     "reloadPluginsCommandDescription": "Activer les changements de plugins dans cette conversation sans redémarrer",
     "sideQuestion": {
