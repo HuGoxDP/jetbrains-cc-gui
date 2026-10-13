@@ -1,5 +1,6 @@
 import styles from './style.module.less';
 import { ClaudeConfigDirSection } from './ClaudeConfigDirSection';
+import { FileSuggestionSection } from './FileSuggestionSection';
 import { useTranslation } from 'react-i18next';
 
 export interface EnvironmentTabProps {
@@ -169,6 +170,9 @@ const EnvironmentTab = ({
           </span>
         </small>
       </div>
+
+      {/* Claude Code's fileSuggestion: a command of the user's own for the @ file list */}
+      <FileSuggestionSection />
     </div>
   );
 };

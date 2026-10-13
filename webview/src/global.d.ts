@@ -542,6 +542,8 @@ interface Window {
    * Update Claude's folder (CLAUDE_CONFIG_DIR) for all projects and this one
    */
   updateClaudeConfigDir?: (json: string) => void;
+  /** Claude Code's fileSuggestion setting: JSON { command, overriddenBy?, error? }. */
+  updateFileSuggestion?: (json: string) => void;
 
   /**
    * Update linkify/navigation capabilities used by Markdown rendering.

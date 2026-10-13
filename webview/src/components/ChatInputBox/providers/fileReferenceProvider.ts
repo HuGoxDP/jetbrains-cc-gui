@@ -109,7 +109,11 @@ function setupFileListCallback() {
     // (e.g. project folder "jetbrains-cc-gui" vs query "b") must not leak into UI.
     // Empty is correct when nothing actually matches the query.
     const searchQuery = pending.searchQuery;
-    if (searchQuery) {
+    // A list from the user's fileSuggestion command (Claude Code's setting) is already
+    // matched and ordered by that command, as in the CLI: keep it as it came.
+    const fromFileSuggestion = !Array.isArray(data)
+      && (data as { source?: unknown }).source === 'fileSuggestion';
+    if (searchQuery && !fromFileSuggestion) {
       files = filterFiles(files, searchQuery);
     }
 

@@ -299,6 +299,12 @@
         "placeholder": "例: project1 または空欄でプロジェクトルートを使用",
         "hint": "Claudeが作業するディレクトリを指定します。相対パス(プロジェクトルートからの相対)または絶対パスを使用できます。空欄の場合はプロジェクトルートを使用します。"
       },
+      "fileSuggestion": {
+        "label": "@ ファイル一覧のコマンド",
+        "placeholder": "例: git ls-files --recurse-submodules",
+        "hint": "Claude Code の fileSuggestion 設定：@ のファイル一覧を作る独自のコマンドです。標準入力で {\"query\": \"…\"} を受け取り、1 行に 1 つのパスを出力します。先頭の 15 件が使われます。このプロジェクト用の settings.json に保存され、空にすると組み込みの一覧を使います。",
+        "overridden": "このプロジェクトの {{file}} が独自のコマンドを設定しているため、そちらが使われます。"
+      },
       "claudeConfigDir": {
         "allProjects": "すべてのプロジェクト",
         "thisProject": "このプロジェクト",

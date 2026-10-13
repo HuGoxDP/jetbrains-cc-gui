@@ -299,6 +299,12 @@
         "placeholder": "e.g. project1 or leave empty to use project root",
         "hint": "Specify the directory where Claude works. Can use relative path (relative to project root) or absolute path. Leave empty to use project root."
       },
+      "fileSuggestion": {
+        "label": "Commande de la liste de fichiers @",
+        "placeholder": "p. ex. git ls-files --recurse-submodules",
+        "hint": "Réglage fileSuggestion de Claude Code : une commande à vous qui construit la liste de fichiers @. Elle reçoit {\"query\": \"…\"} sur stdin et affiche un chemin par ligne ; les 15 premiers sont utilisés. Enregistré dans votre settings.json pour ce projet ; vide utilise la liste intégrée.",
+        "overridden": "Le {{file}} de ce projet définit sa propre commande, utilisée à la place."
+      },
       "claudeConfigDir": {
         "allProjects": "Tous les projets",
         "thisProject": "Ce projet",

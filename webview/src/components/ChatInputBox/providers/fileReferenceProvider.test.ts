@@ -126,6 +126,27 @@ describe('fileReferenceProvider matching', () => {
     expect(names).toEqual(['build.gradle', 'CONTRIBUTING.md']);
   });
 
+  it('keeps a fileSuggestion command list as the command gave it', async () => {
+    const sendToJava = vi.fn();
+    window.sendToJava = sendToJava;
+
+    const promise = fileReferenceProvider('auth', new AbortController().signal);
+    const payload = JSON.parse(String(sendToJava.mock.calls[0][0]).replace(/^list_files:/, ''));
+
+    // The user's command matched by its own rules: neither name contains the query.
+    window.onFileListResult?.(JSON.stringify({
+      requestId: payload.requestId,
+      source: 'fileSuggestion',
+      files: [
+        { name: 'session.ts', path: 'src/login/session.ts', type: 'file' },
+        { name: 'tokens.ts', path: 'src/login/tokens.ts', type: 'file' },
+      ],
+    }));
+
+    const results = await promise;
+    expect(results.map(f => f.path)).toEqual(['src/login/session.ts', 'src/login/tokens.ts']);
+  });
+
   it('keeps backend hits that match on basename when requestId is missing', async () => {
     const sendToJava = vi.fn();
     window.sendToJava = sendToJava;

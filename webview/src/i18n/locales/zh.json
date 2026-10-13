@@ -542,6 +542,12 @@
         "placeholder": "例如 project1 或留空使用项目根目录",
         "hint": "指定 Claude 工作的目录。可以使用相对路径（相对于项目根目录）或绝对路径。留空则使用项目根目录。"
       },
+      "fileSuggestion": {
+        "label": "@ 文件列表命令",
+        "placeholder": "例如 git ls-files --recurse-submodules",
+        "hint": "Claude Code 的 fileSuggestion 设置：用你自己的命令生成 @ 文件列表。它从标准输入接收 {\"query\": \"…\"}，每行输出一个路径，使用前 15 个。保存在此项目所用的 settings.json 中；留空则使用内置列表。",
+        "overridden": "此项目的 {{file}} 设置了自己的命令，将改用该命令。"
+      },
       "claudeConfigDir": {
         "allProjects": "所有项目",
         "thisProject": "此项目",

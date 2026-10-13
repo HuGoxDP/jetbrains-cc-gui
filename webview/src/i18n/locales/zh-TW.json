@@ -299,6 +299,12 @@
         "placeholder": "e.g. project1 or leave empty to use project root",
         "hint": "Specify the directory where Claude works. Can use relative path (relative to project root) or absolute path. Leave empty to use project root."
       },
+      "fileSuggestion": {
+        "label": "@ 檔案清單命令",
+        "placeholder": "例如 git ls-files --recurse-submodules",
+        "hint": "Claude Code 的 fileSuggestion 設定：用你自己的命令產生 @ 檔案清單。它從標準輸入接收 {\"query\": \"…\"}，每行輸出一個路徑，使用前 15 個。儲存在此專案所用的 settings.json 中；留空則使用內建清單。",
+        "overridden": "此專案的 {{file}} 設定了自己的命令，將改用該命令。"
+      },
       "claudeConfigDir": {
         "allProjects": "所有專案",
         "thisProject": "此專案",

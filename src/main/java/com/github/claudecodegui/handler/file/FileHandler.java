@@ -155,6 +155,17 @@ public class FileHandler extends BaseMessageHandler {
                 // Priority 0: Active Services
                 runtimeContextCollector.collectServices(files, request);
 
+                // The user's own fileSuggestion command, when Claude Code's settings set one,
+                // builds the file list instead, in its own order, as in the CLI.
+                List<JsonObject> suggested = request.currentPath.isEmpty()
+                        ? suggestedFiles(basePath, request.query)
+                        : null;
+                if (suggested != null) {
+                    files.addAll(suggested);
+                    sendResult(files, request.requestId, true);
+                    return;
+                }
+
                 // Priority 1: Currently open files
                 openFileCollector.collect(files, fileSet, basePath, request);
 
@@ -168,25 +179,57 @@ public class FileHandler extends BaseMessageHandler {
                 sortFiles(files, request);
 
                 // 5. Return result (echo requestId so frontend can drop stale responses)
-                sendResult(files, request.requestId);
+                sendResult(files, request.requestId, false);
             } catch (ProcessCanceledException e) {
                 // Still reply so the frontend does not hang on an empty dropdown
-                sendResult(new ArrayList<>(), request.requestId);
+                sendResult(new ArrayList<>(), request.requestId, false);
                 throw e;
             } catch (Exception e) {
                 LOG.error("[FileHandler] Failed to list files: " + e.getMessage(), e);
                 // Always respond — a silent failure shows as "flash then empty" in the UI
-                sendResult(new ArrayList<>(), request.requestId);
+                sendResult(new ArrayList<>(), request.requestId, false);
             }
         });
     }
 
     /**
+     * The files the fileSuggestion command lists for {@code query}, or null when no command
+     * is set or it failed (the built-in list is used then).
+     */
+    private static List<JsonObject> suggestedFiles(String basePath, String query) {
+        String command = FileSuggestionCommand.commandFor(basePath);
+        if (command == null) {
+            return null;
+        }
+        try {
+            List<JsonObject> files = new ArrayList<>();
+            for (String line : FileSuggestionCommand.run(command, query, basePath)) {
+                File file = new File(line);
+                if (!file.isAbsolute()) {
+                    file = new File(basePath, line);
+                }
+                file = file.toPath().toAbsolutePath().normalize().toFile();
+                JsonObject fileObj = createFileObject(file, file.getName(), getRelativePath(file, basePath));
+                fileObj.addProperty("priority", 3);
+                files.add(fileObj);
+            }
+            return files;
+        } catch (Exception e) {
+            LOG.info("[FileHandler] fileSuggestion command failed, using the built-in list: " + e.getMessage());
+            return null;
+        }
+    }
+
+    /**
      * Send results back to the frontend.
      */
-    private void sendResult(List<JsonObject> files, Long requestId) {
+    private void sendResult(List<JsonObject> files, Long requestId, boolean fromFileSuggestion) {
         JsonObject result = new JsonObject();
         result.add("files", GSON.toJsonTree(files));
+        if (fromFileSuggestion) {
+            // The command's own matching and order are kept: the chat does not filter them again.
+            result.addProperty("source", "fileSuggestion");
+        }
         if (requestId != null) {
             result.addProperty("requestId", requestId);
         }
