@@ -292,4 +292,86 @@ describe('PermissionDialog', () => {
     expect(onApprove).toHaveBeenCalledTimes(1);
     expect(onApprove).toHaveBeenCalledWith('perm-1');
   });
+  describe('folding to one line', () => {
+    const renderDialog = (request: PermissionRequest, handlers: {
+      onApprove?: (id: string) => void;
+      onSkip?: (id: string) => void;
+      onApproveAlways?: (id: string) => void;
+    } = {}) => (
+      <PermissionDialog
+        isOpen
+        request={request}
+        onApprove={handlers.onApprove ?? (() => {})}
+        onSkip={handlers.onSkip ?? (() => {})}
+        onApproveAlways={handlers.onApproveAlways ?? (() => {})}
+        timeoutSeconds={30}
+      />
+    );
+
+    beforeEach(() => {
+      sessionStorage.clear();
+      localStorage.clear();
+    });
+
+    it('folds to a bar with the title and keeps the choices away while folded', () => {
+      const onApprove = vi.fn();
+      render(renderDialog(buildRequest({ channelId: 'fold-1' }), { onApprove }));
+
+      fireEvent.click(screen.getByRole('button', { name: 'permission.foldPanel' }));
+
+      expect(screen.queryByRole('button', { name: 'permission.allow 1' })).toBeNull();
+      expect(document.querySelector('.permission-dialog-v3-collapsed')?.textContent).toContain('permission.tools.execute');
+
+      fireEvent.keyDown(window, { key: '1' });
+      fireEvent.keyDown(window, { key: 'Enter' });
+      expect(onApprove).not.toHaveBeenCalled();
+    });
+
+    it('opens again on a click anywhere on the bar, and the keys work again', () => {
+      const onApprove = vi.fn();
+      render(renderDialog(buildRequest({ channelId: 'fold-2' }), { onApprove }));
+
+      fireEvent.click(screen.getByRole('button', { name: 'permission.foldPanel' }));
+      fireEvent.click(document.querySelector('.permission-dialog-v3-collapsed .permission-dialog-v3-title')!);
+
+      expect(screen.getByRole('button', { name: 'permission.allow 1' })).toBeTruthy();
+      fireEvent.keyDown(window, { key: '1' });
+      expect(onApprove).toHaveBeenCalledWith('fold-2');
+    });
+
+    it('still declines on its own when the time runs out while folded', () => {
+      vi.useFakeTimers();
+      const onSkip = vi.fn();
+      render(renderDialog(buildRequest({ channelId: 'fold-3' }), { onSkip }));
+
+      fireEvent.click(screen.getByRole('button', { name: 'permission.foldPanel' }));
+      act(() => {
+        vi.advanceTimersByTime(30_000);
+      });
+
+      expect(onSkip).toHaveBeenCalledWith('fold-3');
+    });
+
+    it('shows the next request open', () => {
+      const { rerender } = render(renderDialog(buildRequest({ channelId: 'fold-4' })));
+      fireEvent.click(screen.getByRole('button', { name: 'permission.foldPanel' }));
+      expect(document.querySelector('.permission-dialog-v3-collapsed')).toBeTruthy();
+
+      rerender(renderDialog(buildRequest({ channelId: 'fold-5' })));
+
+      expect(document.querySelector('.permission-dialog-v3-collapsed')).toBeNull();
+      expect(screen.getByRole('button', { name: 'permission.allow 1' })).toBeTruthy();
+    });
+
+    it('stays folded when the same request is shown again', () => {
+      const request = buildRequest({ channelId: 'fold-6' });
+      const { unmount } = render(renderDialog(request));
+      fireEvent.click(screen.getByRole('button', { name: 'permission.foldPanel' }));
+      unmount();
+
+      render(renderDialog(request));
+
+      expect(document.querySelector('.permission-dialog-v3-collapsed')).toBeTruthy();
+    });
+  });
 });

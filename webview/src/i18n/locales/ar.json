@@ -1641,6 +1641,8 @@
     "allow": "السماح مرة واحدة",
     "allowAlways": "السماح دائمًا",
     "deny": "رفض",
+    "foldPanel": "طيّ إلى سطر واحد",
+    "unfoldPanel": "فتح هذا الطلب",
     "userDenied": "رفض المستخدم طلب الإذن",
     "fromExternalProcess": "طلب من عملية خارجية",
     "tools": {

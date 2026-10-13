@@ -1194,6 +1194,8 @@
     "allow": "Autoriser une fois",
     "allowAlways": "Toujours autoriser",
     "deny": "Refuser",
+    "foldPanel": "Replier sur une ligne",
+    "unfoldPanel": "Ouvrir cette demande",
     "userDenied": "L'utilisateur a refusé la demande de permission",
     "fromExternalProcess": "Demande du processus externe",
     "tools": {

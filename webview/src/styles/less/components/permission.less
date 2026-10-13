@@ -627,6 +627,53 @@
     }
 }
 
+/* Permission dialog folded to one line (ported from Swttch): the chat behind it
+   stays readable and clickable; only the bar itself takes clicks. */
+.permission-dialog-overlay.collapsed-mode {
+    pointer-events: none;
+    padding-bottom: 0;
+}
+
+.permission-dialog-v3-collapsed {
+    pointer-events: auto;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 0 8px 6px;
+    padding: 8px 14px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-secondary);
+    border-radius: 8px;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+
+    .permission-dialog-v3-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    > .codicon-chevron-up {
+        color: var(--text-secondary);
+    }
+
+    &:hover,
+    &:focus-visible {
+        border-color: var(--accent-primary);
+        outline: none;
+    }
+
+    &.warning {
+        border-color: var(--text-warning);
+    }
+}
+
+.permission-dialog-v3-header-row .collapse-toggle-button {
+    width: 26px;
+    height: 26px;
+}
+
 /* Countdown timer display — shared by PermissionDialog v3 */
 .countdown-timer {
     display: flex;

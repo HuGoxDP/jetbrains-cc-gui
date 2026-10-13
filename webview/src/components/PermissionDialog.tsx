@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatCountdown } from '../utils/helpers';
 import { useDialogCountdownTimeout } from '../hooks/useDialogCountdownTimeout';
@@ -7,6 +7,7 @@ import MarkdownBlock from './MarkdownBlock';
 import { useDialogResize } from '../hooks/useDialogResize';
 import { isEditableEventTarget } from '../utils/isEditableEventTarget';
 import { clearDialogDraft, readDialogDraft, writeDialogDraft } from '../utils/dialogStateStorage';
+import { getAppViewport } from '../utils/viewport';
 
 export interface PermissionRequest {
   channelId: string;
@@ -31,6 +32,7 @@ interface PermissionDialogDraft {
   dialogToken?: string;
   showCommand?: boolean;
   selectedIndex?: number;
+  isCollapsed?: boolean;
 }
 
 // Format a single tool-input value for display. Pure helper hoisted to module
@@ -110,6 +112,31 @@ const PermissionDialog = ({
 }: PermissionDialogProps) => {
   const [showCommand, setShowCommand] = useState(true);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  // Folded to one line so the reply behind it can be read (ported from Swttch).
+  // Folding is not answering: the request keeps waiting, and keeps its countdown.
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  // Where the folded bar sits: just above the chat input, so it never covers the
+  // input's own buttons. Null until measured (or when there is no input).
+  const [foldedBottom, setFoldedBottom] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (!isOpen || !isCollapsed) return;
+    const inputArea = document.querySelector<HTMLElement>('.input-area');
+    if (!inputArea) return;
+    const place = () => {
+      const inputRect = inputArea.getBoundingClientRect();
+      const { height, top, fixedPosDivisor } = getAppViewport();
+      setFoldedBottom(Math.max(0, (height - (inputRect.top - top)) / fixedPosDivisor));
+    };
+    place();
+    const observer = typeof ResizeObserver !== 'undefined' ? new ResizeObserver(place) : null;
+    observer?.observe(inputArea);
+    window.addEventListener('resize', place);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('resize', place);
+    };
+  }, [isOpen, isCollapsed]);
   const [hydratedRequestKey, setHydratedRequestKey] = useState<string | null>(null);
   const { t } = useTranslation();
   const { dialogRef, dialogHeight, setDialogHeight, handleResizeStart } = useDialogResize({ minHeight: 150 });
@@ -162,6 +189,7 @@ const PermissionDialog = ({
           ? Math.max(0, Math.min(2, restoredIndex))
           : 0,
       );
+      setIsCollapsed(draft?.isCollapsed === true);
       setDialogHeight(null);
     }
   }
@@ -177,8 +205,9 @@ const PermissionDialog = ({
       dialogToken: request?.dialogToken,
       showCommand,
       selectedIndex,
+      isCollapsed,
     });
-  }, [isOpen, request?.channelId, request?.dialogToken, request?.deadlineMs, selectedIndex, showCommand]);
+  }, [isOpen, request?.channelId, request?.dialogToken, request?.deadlineMs, selectedIndex, showCommand, isCollapsed]);
 
   // Latest-handler ref: the keydown subscription stays stable across
   // selectedIndex/callback changes instead of re-subscribing every render.
@@ -186,6 +215,11 @@ const PermissionDialog = ({
   useEffect(() => {
     keydownHandlerRef.current = (e: KeyboardEvent) => {
       if (isEditableEventTarget(e.target)) {
+        return;
+      }
+      // While folded the user is reading the chat: a stray digit or Enter must
+      // never answer a request they cannot see.
+      if (isCollapsed) {
         return;
       }
 
@@ -247,6 +281,46 @@ const PermissionDialog = ({
     return translated;
   };
 
+  const title = getToolTitle(request.toolName);
+  const countdown = (
+    <span className={`countdown-timer ${isTimeWarning ? 'warning' : ''}`}>
+      <span className="codicon codicon-clock" />
+      <span className="countdown-time">{formatCountdown(remainingSeconds)}</span>
+    </span>
+  );
+
+  if (isCollapsed) {
+    const expandLabel = t('permission.unfoldPanel');
+    return (
+      <div
+        className="permission-dialog-overlay collapsed-mode"
+        style={foldedBottom !== null ? { bottom: foldedBottom } : undefined}
+      >
+        <div
+          className={`permission-dialog-v3-collapsed ${isTimeWarning ? 'warning' : ''}`}
+          role="button"
+          tabIndex={0}
+          aria-label={`${title} \u2014 ${expandLabel}`}
+          title={expandLabel}
+          onClick={() => setIsCollapsed(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsCollapsed(false);
+            }
+          }}
+        >
+          <span className="permission-dialog-v3-title">{title}</span>
+          {countdown}
+          <span className="codicon codicon-chevron-up" aria-hidden="true" />
+        </div>
+      </div>
+    );
+  }
+
+  const collapseLabel = t('permission.foldPanel');
+
   return (
     <div className="permission-dialog-overlay">
       <div
@@ -256,11 +330,17 @@ const PermissionDialog = ({
       >
         <div className="permission-dialog-v3-resize-handle" onPointerDown={handleResizeStart} />
         <div className="permission-dialog-v3-header-row">
-          <h3 className="permission-dialog-v3-title">{getToolTitle(request.toolName)}</h3>
-          <span className={`countdown-timer ${isTimeWarning ? 'warning' : ''}`}>
-            <span className="codicon codicon-clock" />
-            <span className="countdown-time">{formatCountdown(remainingSeconds)}</span>
-          </span>
+          <h3 className="permission-dialog-v3-title">{title}</h3>
+          {countdown}
+          <button
+            className="collapse-toggle-button"
+            onClick={() => setIsCollapsed(true)}
+            title={collapseLabel}
+            aria-label={collapseLabel}
+            aria-expanded="true"
+          >
+            <span className="codicon codicon-chevron-down" />
+          </button>
         </div>
         {isTimeWarning && (
           <div className="timeout-warning-banner">

@@ -1617,6 +1617,8 @@
     "allow": "اجازهٔ یک‌باره",
     "allowAlways": "همیشه اجازه بده",
     "deny": "رد",
+    "foldPanel": "جمع کردن در یک خط",
+    "unfoldPanel": "باز کردن این درخواست",
     "userDenied": "کاربر درخواست مجوز را رد کرد",
     "fromExternalProcess": "درخواست از فرایندی بیرونی",
     "tools": {

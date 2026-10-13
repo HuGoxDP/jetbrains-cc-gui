@@ -1194,6 +1194,8 @@
     "allow": "Permitir una vez",
     "allowAlways": "Permitir siempre",
     "deny": "Denegar",
+    "foldPanel": "Plegar en una línea",
+    "unfoldPanel": "Abrir esta solicitud",
     "userDenied": "El usuario denegó la solicitud de permiso",
     "fromExternalProcess": "Solicitud del proceso externo",
     "tools": {

@@ -1288,6 +1288,8 @@
     "allow": "한 번 허용",
     "allowAlways": "항상 허용",
     "deny": "거부",
+    "foldPanel": "한 줄로 접기",
+    "unfoldPanel": "이 요청 열기",
     "userDenied": "사용자가 권한 요청을 거부했습니다",
     "fromExternalProcess": "외부 프로세스의 요청",
     "tools": {

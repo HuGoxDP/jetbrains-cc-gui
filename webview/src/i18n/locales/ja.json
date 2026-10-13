@@ -1199,6 +1199,8 @@
     "allow": "1回のみ許可",
     "allowAlways": "常に許可",
     "deny": "拒否",
+    "foldPanel": "1行に折りたたむ",
+    "unfoldPanel": "このリクエストを開く",
     "userDenied": "ユーザーが権限リクエストを拒否しました",
     "fromExternalProcess": "外部プロセスからのリクエスト",
     "tools": {

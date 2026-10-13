@@ -65,9 +65,12 @@ the text Claude Code wraps around it for the model.
   sent as plain text to this conversation.
 - **A name belongs to a process.** When a Claude process restarts, its session gets a new
   name; an old `@@name` then no longer reaches it. Pick it again from the list.
-- **Incoming cards appear when the conversation is loaded.** Claude Code writes a message
+- **An incoming card appears once Claude has answered it.** Claude Code writes a message
   from another session to the conversation's transcript but does not send it on the live
-  stream, so the card shows when the conversation is opened from History or reloaded.
+  stream. When the turn it started ends, the plugin reloads the conversation from the
+  transcript (as it does for a background task's answer), and the card shows above that
+  answer. A message that arrives while you are waiting on a reply of your own shows after
+  that reply ends.
 - **WSL is not supported** for the list, because the CLI then runs inside WSL.
 
 ## Where it lives

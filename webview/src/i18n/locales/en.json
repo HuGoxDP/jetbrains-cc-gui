@@ -1618,6 +1618,8 @@
     "allow": "Allow Once",
     "allowAlways": "Always Allow",
     "deny": "Deny",
+    "foldPanel": "Fold to one line",
+    "unfoldPanel": "Open this request",
     "userDenied": "User denied the permission request",
     "fromExternalProcess": "Request from external process",
     "tools": {

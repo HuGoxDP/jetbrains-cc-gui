@@ -1623,6 +1623,8 @@
     "allow": "允许一次",
     "allowAlways": "总是允许",
     "deny": "拒绝",
+    "foldPanel": "折叠为一行",
+    "unfoldPanel": "展开此请求",
     "userDenied": "用户拒绝了权限请求",
     "fromExternalProcess": "来自外部进程的请求",
     "tools": {

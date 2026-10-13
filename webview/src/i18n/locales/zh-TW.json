@@ -1223,6 +1223,8 @@
     "allow": "允許一次",
     "allowAlways": "總是允許",
     "deny": "拒絕",
+    "foldPanel": "摺疊為一行",
+    "unfoldPanel": "展開此請求",
     "userDenied": "使用者拒絕了權限請求",
     "fromExternalProcess": "來自外部處理程序的請求",
     "tools": {
