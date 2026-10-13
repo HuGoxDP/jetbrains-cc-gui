@@ -1,7 +1,7 @@
 import { act } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const sendBridgeEventMock = vi.hoisted(() => vi.fn(() => true));
+const sendBridgeEventMock = vi.hoisted(() => vi.fn((_type: string, _payload?: string) => true));
 vi.mock('./bridge', () => ({ sendBridgeEvent: sendBridgeEventMock }));
 
 import {

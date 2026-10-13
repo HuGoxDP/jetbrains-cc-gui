@@ -1,7 +1,7 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-const sendBridgeEventMock = vi.hoisted(() => vi.fn(() => true));
+const sendBridgeEventMock = vi.hoisted(() => vi.fn((_type: string, _payload?: string) => true));
 vi.mock('../../utils/bridge', () => ({ sendBridgeEvent: sendBridgeEventMock }));
 vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key, i18n: { language: 'en' } }),
