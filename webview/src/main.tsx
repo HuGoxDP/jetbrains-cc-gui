@@ -470,7 +470,7 @@ function applyLanguageConfig(rawConfig: { language: string; source?: string; ide
   const { language, source } = config;
 
   // Validate that the language code is supported
-  const supportedLanguages = ['zh', 'en', 'zh-TW', 'hi', 'es', 'fr', 'ja', 'ru', 'ko', 'pt-BR', 'fa', 'ar'];
+  const supportedLanguages = ['zh', 'en', 'zh-TW', 'hi', 'es', 'fr', 'ja', 'ru', 'ko', 'pt-BR', 'fa', 'ar', 'de'];
   const targetLanguage = supportedLanguages.includes(language) ? language : 'en';
 
   debugLog('[Main] Applying language config:', config, 'target language:', targetLanguage, 'source:', source);

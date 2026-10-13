@@ -18,7 +18,7 @@ public class LanguageConfigService {
 
     private static final Logger LOG = Logger.getInstance(LanguageConfigService.class);
     private static final Set<String> SUPPORTED_LANGUAGES = Set.of(
-            "zh", "en", "zh-TW", "hi", "es", "fr", "ja", "ru", "ko", "pt-BR", "fa", "ar"
+            "zh", "en", "zh-TW", "hi", "es", "fr", "ja", "ru", "ko", "pt-BR", "fa", "ar", "de"
     );
 
     /**
@@ -67,6 +67,8 @@ public class LanguageConfigService {
                 return "fa";  // Persian (right to left)
             case "ar":
                 return "ar";  // Arabic (right to left)
+            case "de":
+                return "de";
             default:
                 // Unsupported language, fall back to English
                 LOG.info("[LanguageConfig] Unsupported language '" + language + "', falling back to English");

@@ -12,6 +12,7 @@ import ko from './locales/ko.json';
 import ptBR from './locales/pt-BR.json';
 import fa from './locales/fa.json';
 import ar from './locales/ar.json';
+import de from './locales/de.json';
 
 // Retrieve the saved language from localStorage; default to English if not set
 const getInitialLanguage = (): string => {
@@ -35,6 +36,7 @@ i18n
       'pt-BR': { translation: ptBR }, // Portuguese (Brazil)
       fa: { translation: fa }, // Persian (right to left)
       ar: { translation: ar }, // Arabic (right to left)
+      de: { translation: de }, // German
     },
     lng: getInitialLanguage(), // Initial language
     fallbackLng: 'en', // Fallback to English when a translation is missing

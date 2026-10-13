@@ -10,6 +10,7 @@ const LANGUAGE_OPTIONS = [
   { value: 'zh', label: 'settings.basic.language.simplifiedChinese' },
   { value: 'zh-TW', label: 'settings.basic.language.traditionalChinese' },
   { value: 'en', label: 'settings.basic.language.english' },
+  { value: 'de', label: 'settings.basic.language.german' },
   { value: 'hi', label: 'settings.basic.language.hindi' },
   { value: 'es', label: 'settings.basic.language.spanish' },
   { value: 'fr', label: 'settings.basic.language.french' },
