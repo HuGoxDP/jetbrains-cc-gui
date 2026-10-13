@@ -1,0 +1,72 @@
+/* Right-to-left layout (utils/uiDirection.ts, Settings → Basic → Appearance). The mirroring
+   itself is generated: postcss-rtlcss (vite.config.ts) gives every rule with a left or right
+   in it a [dir="rtl"] counterpart. This file holds what generation cannot know. */
+
+/*rtl:begin:ignore*/
+
+/* Code, terminal output, diffs and math read left to right in any interface. */
+[dir='rtl'] pre,
+[dir='rtl'] code,
+[dir='rtl'] kbd,
+[dir='rtl'] samp,
+[dir='rtl'] .katex,
+[dir='rtl'] .katex-display,
+[dir='rtl'] .code-block-wrapper,
+[dir='rtl'] .code-block,
+[dir='rtl'] .edit-diff-code,
+[dir='rtl'] .edit-diff-rows,
+[dir='rtl'] .bash-command-block,
+[dir='rtl'] .bash-output-text {
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+[dir='rtl'] pre,
+[dir='rtl'] .edit-diff-code,
+[dir='rtl'] .bash-output-text {
+    text-align: left;
+}
+
+/* What people and Claude write takes the direction of its own words: an English reply
+   stays left to right inside a mirrored interface, a Persian one reads right to left. */
+[dir='rtl'] .markdown-content p,
+[dir='rtl'] .markdown-content li,
+[dir='rtl'] .markdown-content h1,
+[dir='rtl'] .markdown-content h2,
+[dir='rtl'] .markdown-content h3,
+[dir='rtl'] .markdown-content h4,
+[dir='rtl'] .markdown-content h5,
+[dir='rtl'] .markdown-content h6,
+[dir='rtl'] .markdown-content blockquote,
+[dir='rtl'] .markdown-content td,
+[dir='rtl'] .markdown-content th,
+[dir='rtl'] .plain-text-content,
+[dir='rtl'] .peer-message-body,
+[dir='rtl'] .scheduled-row-message,
+[dir='rtl'] [contenteditable='true'],
+[dir='rtl'] textarea {
+    unicode-bidi: plaintext;
+}
+
+/* Icons that point a way (back, forward, send, expand) point the other way. */
+[dir='rtl'] .codicon-arrow-left,
+[dir='rtl'] .codicon-arrow-right,
+[dir='rtl'] .codicon-chevron-left,
+[dir='rtl'] .codicon-chevron-right,
+[dir='rtl'] .codicon-arrow-small-left,
+[dir='rtl'] .codicon-arrow-small-right,
+[dir='rtl'] .codicon-send,
+[dir='rtl'] .codicon-reply,
+[dir='rtl'] .codicon-discard,
+[dir='rtl'] .codicon-history,
+[dir='rtl'] .back-button svg {
+    transform: scaleX(-1);
+}
+
+/* Generated overrides reset the other side to zero; where the base rule gave it a value,
+   put that value back. */
+[dir='rtl'] .message.assistant {
+    padding-left: 20px;
+}
+
+/*rtl:end:ignore*/

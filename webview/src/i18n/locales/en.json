@@ -479,7 +479,9 @@
         "japanese": "日本語",
         "russian": "Русский",
         "korean": "한국어",
-        "portuguese": "Português (Brasil)"
+        "portuguese": "Português (Brasil)",
+        "persian": "فارسی",
+        "arabic": "العربية"
       },
       "nodePath": {
         "label": "Node.js Path",
@@ -621,6 +623,12 @@
         "enabled": "Shown",
         "disabled": "Hidden",
         "hint": "Shows a readable summary of Claude's thinking in the thinking block, which otherwise often stays empty. This is Claude Code's own showThinkingSummaries setting in ~/.claude/settings.json, so the terminal follows it too. Applies from the next message."
+      },
+      "rtl": {
+        "label": "Right-to-left layout",
+        "enabled": "Mirrored, read right to left",
+        "disabled": "Left to right",
+        "hint": "Mirror the whole interface for right-to-left languages. Choosing Persian or Arabic turns it on and choosing a left-to-right language turns it off; you can still flip it either way. Code, terminal output and math stay left to right."
       },
       "softWrap": {
         "label": "Wrap long lines",

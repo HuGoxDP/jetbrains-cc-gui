@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import tailwindcss from '@tailwindcss/vite';
 import { viteSingleFile } from 'vite-plugin-singlefile';
+import postcssRTLCSS from 'postcss-rtlcss';
+import { Mode } from 'postcss-rtlcss/options';
 
 export default defineConfig({
   plugins: [
@@ -9,6 +11,14 @@ export default defineConfig({
     tailwindcss(),
     viteSingleFile(),
   ],
+  css: {
+    postcss: {
+      // Right-to-left layout (utils/uiDirection.ts): every rule with a left or right in it
+      // gets a mirrored [dir="rtl"] counterpart, so the whole interface flips with the
+      // document root's dir. Left-to-right output is unchanged.
+      plugins: [postcssRTLCSS({ mode: Mode.override, processKeyFrames: true })],
+    },
+  },
   esbuild: {
     drop: ['debugger'],
     keepNames: true,

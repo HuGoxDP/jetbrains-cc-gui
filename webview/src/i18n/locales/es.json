@@ -240,7 +240,9 @@
         "japanese": "日本語",
         "russian": "Русский",
         "korean": "한국어",
-        "portuguese": "Português (Brasil)"
+        "portuguese": "Português (Brasil)",
+        "persian": "فارسی",
+        "arabic": "العربية"
       },
       "nodePath": {
         "label": "Ruta de Node.js",
@@ -378,6 +380,12 @@
         "enabled": "Visibles",
         "disabled": "Ocultos",
         "hint": "Muestra en el bloque de razonamiento un resumen legible de lo que pensó Claude; sin esto, el bloque suele quedar vacío. Es la propia opción showThinkingSummaries de Claude Code en ~/.claude/settings.json, así que la terminal también la sigue. Se aplica desde el siguiente mensaje."
+      },
+      "rtl": {
+        "label": "Diseño de derecha a izquierda",
+        "enabled": "Reflejado, se lee de derecha a izquierda",
+        "disabled": "De izquierda a derecha",
+        "hint": "Refleja toda la interfaz para idiomas de derecha a izquierda. Elegir persa o árabe lo activa y elegir un idioma de izquierda a derecha lo desactiva; aun así puedes cambiarlo. El código, la salida de terminal y las fórmulas siguen de izquierda a derecha."
       },
       "softWrap": {
         "label": "Ajustar líneas largas",

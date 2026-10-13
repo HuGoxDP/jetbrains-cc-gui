@@ -17,6 +17,8 @@ const LANGUAGE_OPTIONS = [
   { value: 'ru', label: 'settings.basic.language.russian' },
   { value: 'ko', label: 'settings.basic.language.korean' },
   { value: 'pt-BR', label: 'settings.basic.language.portuguese' },
+  { value: 'fa', label: 'settings.basic.language.persian' },
+  { value: 'ar', label: 'settings.basic.language.arabic' },
 ];
 
 const LanguageSection = () => {

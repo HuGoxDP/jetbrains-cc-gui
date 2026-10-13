@@ -28,6 +28,7 @@ import {
 } from './utils/surfaceDamagePulse';
 import { requestDependencyStatusUntilSettled, waitForBridge } from './utils/bridgeStartup';
 import type { UiFontConfig, CodeFontConfig } from './types/uiFontConfig';
+import { applyUiDirection, followLanguageChange, readUiDirection } from './utils/uiDirection';
 
 // Silence noisy console output in production (including third-party libs).
 // console.error is preserved so ErrorBoundary and unhandled exceptions still
@@ -45,6 +46,17 @@ if (!import.meta.env.DEV) {
 // through a deterministic subscriber registry instead of overriding
 // `window.update*Provider*` callbacks ad-hoc.
 installRuntimeProviderDispatchers();
+
+// Reading direction before the first paint, so a right-to-left interface never flashes
+// left to right; afterwards it follows a change of interface language between directions.
+applyUiDirection(readUiDirection());
+document.documentElement.lang = i18n.language || 'en';
+let lastLanguage: string | undefined = i18n.language;
+i18n.on('languageChanged', (language: string) => {
+  followLanguageChange(lastLanguage, language);
+  lastLanguage = language;
+  document.documentElement.lang = language;
+});
 
 function createBridgeHeartbeatStarter() {
   let started = false;
@@ -458,7 +470,7 @@ function applyLanguageConfig(rawConfig: { language: string; source?: string; ide
   const { language, source } = config;
 
   // Validate that the language code is supported
-  const supportedLanguages = ['zh', 'en', 'zh-TW', 'hi', 'es', 'fr', 'ja', 'ru', 'ko', 'pt-BR'];
+  const supportedLanguages = ['zh', 'en', 'zh-TW', 'hi', 'es', 'fr', 'ja', 'ru', 'ko', 'pt-BR', 'fa', 'ar'];
   const targetLanguage = supportedLanguages.includes(language) ? language : 'en';
 
   debugLog('[Main] Applying language config:', config, 'target language:', targetLanguage, 'source:', source);

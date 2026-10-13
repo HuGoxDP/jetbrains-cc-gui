@@ -4,6 +4,7 @@ import type { DiffThemeMode } from '../../../utils/diffTheme';
 import type { UiFontConfig, CodeFontConfig } from '../hooks/useSettingsBasicActions';
 import ThemeSection from './ThemeSection';
 import LanguageSection from './LanguageSection';
+import { DirectionSection } from './DirectionSection';
 import FontSizeSection from './FontSizeSection';
 import UiZoomSection from './UiZoomSection';
 import LineSpacingSection from './LineSpacingSection';
@@ -158,6 +159,9 @@ const AppearanceTab = ({
 
       {/* Language switcher */}
       <LanguageSection />
+
+      {/* Right-to-left layout */}
+      <DirectionSection />
 
       {/* Font size selector */}
       <FontSizeSection fontSizeLevel={fontSizeLevel} onFontSizeLevelChange={onFontSizeLevelChange} />

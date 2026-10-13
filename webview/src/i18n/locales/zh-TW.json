@@ -240,7 +240,9 @@
         "japanese": "日本語",
         "russian": "Русский",
         "korean": "한국어",
-        "portuguese": "Português (Brasil)"
+        "portuguese": "Português (Brasil)",
+        "persian": "فارسی",
+        "arabic": "العربية"
       },
       "nodePath": {
         "label": "Node.js 路徑",
@@ -378,6 +380,12 @@
         "enabled": "顯示",
         "disabled": "隱藏",
         "hint": "在思考區塊中顯示 Claude 思考過程的可讀摘要，否則該區塊常常是空的。這是 Claude Code 本身的 showThinkingSummaries 設定（位於 ~/.claude/settings.json），終端機也會遵循。從下一則訊息起生效。"
+      },
+      "rtl": {
+        "label": "由右至左版面",
+        "enabled": "鏡像，由右至左閱讀",
+        "disabled": "由左至右",
+        "hint": "為由右至左書寫的語言鏡像整個介面。選擇波斯語或阿拉伯語會開啟，選擇由左至右的語言會關閉；仍可手動切換。程式碼、終端輸出與數學式維持由左至右。"
       },
       "softWrap": {
         "label": "長行自動換行",

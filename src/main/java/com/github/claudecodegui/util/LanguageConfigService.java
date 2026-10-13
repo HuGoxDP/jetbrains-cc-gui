@@ -18,13 +18,13 @@ public class LanguageConfigService {
 
     private static final Logger LOG = Logger.getInstance(LanguageConfigService.class);
     private static final Set<String> SUPPORTED_LANGUAGES = Set.of(
-            "zh", "en", "zh-TW", "hi", "es", "fr", "ja", "ru", "ko", "pt-BR"
+            "zh", "en", "zh-TW", "hi", "es", "fr", "ja", "ru", "ko", "pt-BR", "fa", "ar"
     );
 
     /**
      * Map IDEA locale codes to i18n-supported language codes.
      * IDEA locale format: zh_CN, en, ja, ko, etc.
-     * Supported i18n languages: zh, en, zh-TW, hi, es, fr, ja, ru, ko, pt-BR
+     * Supported i18n languages: zh, en, zh-TW, hi, es, fr, ja, ru, ko, pt-BR, fa, ar
      *
      * @param ideaLocale the IDEA Locale
      * @return the i18n language code
@@ -63,6 +63,10 @@ public class LanguageConfigService {
                 return "ko";
             case "pt":
                 return "pt-BR";  // Portuguese -> Brazilian Portuguese
+            case "fa":
+                return "fa";  // Persian (right to left)
+            case "ar":
+                return "ar";  // Arabic (right to left)
             default:
                 // Unsupported language, fall back to English
                 LOG.info("[LanguageConfig] Unsupported language '" + language + "', falling back to English");
@@ -179,7 +183,7 @@ public class LanguageConfigService {
     /**
      * Get the current i18n language code.
      *
-     * @return the language code (zh, en, zh-TW, hi, es, fr, ja, ru, ko, pt-BR)
+     * @return the language code (zh, en, zh-TW, hi, es, fr, ja, ru, ko, pt-BR, fa, ar)
      */
     public static String getCurrentLanguage(CodemossSettingsService settingsService) {
         String userLanguage = getUserLanguage(settingsService);

@@ -240,7 +240,9 @@
         "japanese": "日本語",
         "russian": "Русский",
         "korean": "한국어",
-        "portuguese": "Português (Brasil)"
+        "portuguese": "Português (Brasil)",
+        "persian": "فارسی",
+        "arabic": "العربية"
       },
       "nodePath": {
         "label": "Node.jsパス",
@@ -378,6 +380,12 @@
         "enabled": "表示",
         "disabled": "非表示",
         "hint": "思考ブロックに Claude の思考の読みやすい要約を表示します。オフのままだとブロックが空のことがよくあります。~/.claude/settings.json にある Claude Code 自身の showThinkingSummaries 設定なので、ターミナルにも反映されます。次のメッセージから適用されます。"
+      },
+      "rtl": {
+        "label": "右から左のレイアウト",
+        "enabled": "反転（右から左に読む）",
+        "disabled": "左から右",
+        "hint": "右から左に書く言語のためにインターフェース全体を反転します。ペルシア語かアラビア語を選ぶとオンになり、左から右の言語を選ぶとオフになります。どちらでも手動で切り替えられます。コード、ターミナル出力、数式は左から右のままです。"
       },
       "softWrap": {
         "label": "長い行を折り返す",
