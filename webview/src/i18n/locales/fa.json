@@ -190,6 +190,36 @@
     "updateSdk": "به‌روزرسانی SDK",
     "commandNotImplemented": "قابلیت `{{command}}` هنوز پیاده‌سازی نشده است.",
     "clearCommandDescription": "پاک کردن تاریخچهٔ گفت‌وگو و شروع جلسهٔ جدید",
+    "btwCommandDescription": "یک پرسش کوتاه جانبی بپرسید بی‌آنکه به گفت‌وگو افزوده شود",
+    "reloadPluginsCommandDescription": "فعال کردن تغییرات افزونه‌ها در این گفت‌وگو بدون راه‌اندازی دوباره",
+    "sideQuestion": {
+      "title": "پرسش جانبی",
+      "thinking": "در حال فکر…",
+      "close": "بستن",
+      "notInConversation": "به گفت‌وگو افزوده نشد",
+      "empty": "پرسش را پس از /btw بنویسید",
+      "errors": {
+        "no-session": "ابتدا گفت‌وگو را آغاز کنید: /btw دربارهٔ آن می‌پرسد",
+        "no-runtime": "Claude برای این گفت‌وگو راه‌اندازی نشد",
+        "unsupported": "Claude Agent SDK نصب‌شده نمی‌تواند به پرسش‌های جانبی پاسخ دهد. آن را در تنظیمات → وابستگی‌های SDK به‌روز کنید.",
+        "unsupported-provider": "/btw فقط برای Claude در دسترس است",
+        "no-answer": "Claude پاسخی نداد",
+        "timeout": "پاسخ به‌موقع نرسید",
+        "failed": "پرسیدن ممکن نشد"
+      }
+    },
+    "reloadPlugins": {
+      "done": "افزونه‌ها دوباره بارگذاری شدند · {{count}} فعال",
+      "doneWithErrors": "افزونه‌ها دوباره بارگذاری شدند · {{count}} فعال، {{errors}} بارگذاری نشد",
+      "noRuntime": "هنوز فرایند Claude در این زبانه اجرا نمی‌شود؛ افزونه‌ها با آغاز گفت‌وگو بارگذاری می‌شوند",
+      "errors": {
+        "unsupported": "Claude Agent SDK نصب‌شده نمی‌تواند افزونه‌ها را دوباره بارگذاری کند. آن را در تنظیمات → وابستگی‌های SDK به‌روز کنید.",
+        "unsupported-provider": "/reload-plugins فقط برای Claude در دسترس است",
+        "no-session": "ابتدا گفت‌وگو را آغاز کنید",
+        "timeout": "بارگذاری دوباره به‌موقع تمام نشد",
+        "failed": "بارگذاری دوبارهٔ افزونه‌ها ممکن نشد"
+      }
+    },
     "attachmentFile": "[پیوست: {{fileName}}]",
     "unknownFile": "فایل ناشناخته",
     "attachmentsUploaded": "[پیوست‌ها بارگذاری شدند]",

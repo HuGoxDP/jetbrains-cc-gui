@@ -181,6 +181,18 @@ interface Window {
   onBackgroundTaskStopResult?: (json: string) => void;
 
   /**
+   * Answer to an ask_side_question request (/btw): JSON { requestId, ok, answer?:
+   * { response, ... }, reason? }. See utils/sideCommands.ts.
+   */
+  onSideQuestionResult?: (json: string) => void;
+
+  /**
+   * Answer to a reload_plugins request (/reload-plugins): JSON { requestId, ok,
+   * result?: the SDK's reloadPlugins() answer, reason? }. See utils/sideCommands.ts.
+   */
+  onReloadPluginsResult?: (json: string) => void;
+
+  /**
    * What the open chat tabs are doing: JSON { "<sessionId>": "running" |
    * "awaiting" | "done" | "open" }. See utils/sessionActivity.ts.
    */

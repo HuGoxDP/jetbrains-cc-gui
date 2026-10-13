@@ -11,6 +11,8 @@ import type { Attachment, ChatInputBoxHandle, PermissionMode, ReasoningEffort, S
 import { expandQuoteTokens } from '../components/ChatInputBox/utils/quoteRegistry';
 import type { ViewMode } from './useModelProviderState';
 import { findSessionMention } from '../components/ChatInputBox/providers/sessionMentionProvider';
+import { resetSlashCommandsState } from '../components/ChatInputBox/providers/slashCommandProvider';
+import { askSideQuestion, reloadPlugins } from '../utils/sideCommands';
 
 /**
  * Command sets for local handling (shared with App.tsx to avoid duplication)
@@ -19,6 +21,8 @@ export const NEW_SESSION_COMMANDS = new Set(['/new', '/clear', '/reset']);
 export const RESUME_COMMANDS = new Set(['/resume', '/continue']);
 export const PLAN_COMMANDS = new Set(['/plan']);
 export const CONTEXT_COMMANDS = new Set(['/context']);
+/** Run on the live Claude process without a turn, so they work while Claude is answering. */
+export const SIDE_COMMANDS = new Set(['/btw', '/reload-plugins']);
 
 // Hoisted regex to avoid creating new RegExp on every call
 const WHITESPACE_REGEX = /\s+/;
@@ -183,6 +187,52 @@ export function useMessageSender({
     }
     return false;
   }, [currentProvider, selectedModel, longContextEnabled, addToast, t, openContextUsageDialog, closeContextUsageDialog]);
+
+  /**
+   * /btw <question> and /reload-plugins (Claude only, ported from Swttch): run on the
+   * conversation's live Claude process without adding a turn, as in the terminal.
+   */
+  const checkSideCommand = useCallback((text: string): boolean => {
+    if (!text.startsWith('/')) return false;
+    const command = text.split(WHITESPACE_REGEX)[0].toLowerCase();
+    if (!SIDE_COMMANDS.has(command)) return false;
+    if (currentProvider !== 'claude') {
+      addToast(t('chat.commandProviderOnly', {
+        command,
+        provider: 'Claude',
+        defaultValue: `${command} is only available for Claude provider`,
+      }), 'warning');
+      return true;
+    }
+    if (command === '/btw') {
+      const question = text.slice(command.length).trim();
+      if (!question) {
+        addToast(t('chat.sideQuestion.empty'), 'warning');
+        return true;
+      }
+      askSideQuestion(question);
+      return true;
+    }
+    void reloadPlugins().then((outcome) => {
+      if (outcome.ok) {
+        const active = Array.isArray(outcome.result?.plugins) ? outcome.result.plugins.length : 0;
+        const errors = typeof outcome.result?.error_count === 'number' ? outcome.result.error_count : 0;
+        // Commands and agents a reloaded plugin brings are listed on the next '/'.
+        resetSlashCommandsState();
+        addToast(errors > 0
+          ? t('chat.reloadPlugins.doneWithErrors', { count: active, errors })
+          : t('chat.reloadPlugins.done', { count: active }), errors > 0 ? 'warning' : 'success');
+      } else if (outcome.reason === 'no-runtime') {
+        addToast(t('chat.reloadPlugins.noRuntime'), 'info');
+      } else {
+        addToast(t(`chat.reloadPlugins.errors.${outcome.reason ?? 'failed'}`, {
+          defaultValue: t('chat.reloadPlugins.errors.failed', { reason: outcome.reason ?? '' }),
+          reason: outcome.reason ?? '',
+        }), 'error');
+      }
+    });
+    return true;
+  }, [currentProvider, addToast, t]);
 
   /**
    * Check for unimplemented slash commands
@@ -448,12 +498,15 @@ export function useMessageSender({
     // Check context usage command (/context)
     if (checkContextCommand(text)) return;
 
+    // /btw and /reload-plugins
+    if (checkSideCommand(text)) return;
+
     // Check for unimplemented commands
     if (checkUnimplementedCommand(text)) return;
 
     // Execute message
     executeMessage(content, attachments);
-  }, [checkNewSessionCommand, checkLocalCommand, checkContextCommand, checkUnimplementedCommand, executeMessage]);
+  }, [checkNewSessionCommand, checkLocalCommand, checkContextCommand, checkSideCommand, checkUnimplementedCommand, executeMessage]);
 
   /**
    * Interrupt the current session

@@ -41,7 +41,9 @@ import {
   getContextUsagePersistent,
   getSnapshot as getClaudeRuntimeSnapshot,
   setPermissionModePersistent,
-  stopTaskPersistent
+  stopTaskPersistent,
+  askSideQuestionPersistent,
+  reloadPluginsPersistent
 } from './services/claude/persistent-query-service.js';
 import {
   sendMessagePersistent as grokSendPersistent,
@@ -858,6 +860,32 @@ async function runDaemonMain() {
         .catch((e) => {
           _originalStderrWrite(`[daemon] stopTask error: ${e.message}\n`, 'utf8');
           writeRawLine({ id: stopId, done: true, success: false, error: e.message || String(e) });
+        });
+      return;
+    }
+
+    // A side question (/btw) and a plugin reload act on the live runtime and,
+    // like stopTask, must not wait for a turn in progress. Their result travels
+    // as the call's one line, followed by the done signal.
+    if (request.method === 'claude.askSideQuestion' || request.method === 'claude.reloadPlugins') {
+      const callId = request.id || '0';
+      const run = request.method === 'claude.askSideQuestion'
+        ? askSideQuestionPersistent
+        : reloadPluginsPersistent;
+      run(request.params || {})
+        .then((result) => {
+          writeRawLine({ id: callId, line: JSON.stringify(result || { ok: false, reason: 'failed' }) });
+          writeRawLine({
+            id: callId,
+            done: true,
+            success: result?.ok === true,
+            ...(result?.ok ? {} : { error: result?.reason || 'failed' }),
+          });
+        })
+        .catch((e) => {
+          _originalStderrWrite(`[daemon] ${request.method} error: ${e.message}\n`, 'utf8');
+          writeRawLine({ id: callId, line: JSON.stringify({ ok: false, reason: e.message || String(e) }) });
+          writeRawLine({ id: callId, done: true, success: false, error: e.message || String(e) });
         });
       return;
     }

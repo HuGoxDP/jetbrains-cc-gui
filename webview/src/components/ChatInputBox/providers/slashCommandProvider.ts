@@ -21,11 +21,30 @@ const HIDDEN_COMMANDS = new Set([
  */
 const NEW_SESSION_COMMAND_ALIASES = new Set(['/clear', '/new', '/reset']);
 
+/**
+ * Commands the terminal runs on the live process without a turn (ported from Swttch).
+ * The CLI leaves them out of the list it gives a non-interactive client; the plugin
+ * runs them through the SDK instead (see utils/sideCommands.ts).
+ */
+const SIDE_COMMAND_NAMES = new Set(['/btw', '/reload-plugins']);
+
 function getLocalNewSessionCommands(): CommandItem[] {
   return [{
     id: 'clear',
     label: '/clear',
     description: i18n.t('chat.clearCommandDescription'),
+    category: 'system',
+    contentType: 'command',
+  }, {
+    id: 'btw',
+    label: '/btw',
+    description: i18n.t('chat.btwCommandDescription'),
+    category: 'system',
+    contentType: 'command',
+  }, {
+    id: 'reload-plugins',
+    label: '/reload-plugins',
+    description: i18n.t('chat.reloadPluginsCommandDescription'),
     category: 'system',
     contentType: 'command',
   }];
@@ -248,7 +267,8 @@ function isHiddenCommand(name: string): boolean {
   // Hide SDK-returned /clear (use local version instead)
   if (NEW_SESSION_COMMAND_ALIASES.has(normalized)) return true;
   const baseName = normalized.split(' ')[0];
-  return HIDDEN_COMMANDS.has(baseName) || NEW_SESSION_COMMAND_ALIASES.has(baseName);
+  return HIDDEN_COMMANDS.has(baseName) || NEW_SESSION_COMMAND_ALIASES.has(baseName)
+    || SIDE_COMMAND_NAMES.has(baseName);
 }
 
 function getCategoryFromCommand(name: string): string {

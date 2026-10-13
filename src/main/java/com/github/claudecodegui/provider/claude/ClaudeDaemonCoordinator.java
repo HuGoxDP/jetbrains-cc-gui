@@ -218,6 +218,49 @@ class ClaudeDaemonCoordinator {
         });
     }
 
+    /**
+     * Start the runtime of a conversation now and wait for it, for calls that act on
+     * a live runtime (a side question) when the conversation has none yet. Same
+     * request as the session prewarm; completes false when it could not start.
+     */
+    CompletableFuture<Boolean> preconnectNow(String cwd, String runtimeSessionEpoch, String sessionId) {
+        DaemonBridge daemon = getDaemonBridge();
+        if (daemon == null) {
+            return CompletableFuture.completedFuture(false);
+        }
+        JsonObject params = new JsonObject();
+        params.addProperty("cwd", cwd != null ? cwd : "");
+        params.addProperty("sessionId", sessionId != null ? sessionId : "");
+        params.addProperty("runtimeSessionEpoch", runtimeSessionEpoch != null ? runtimeSessionEpoch : "");
+        params.addProperty("permissionMode", "");
+        params.addProperty("model", "");
+        params.addProperty("streaming", true);
+        params.add("env", ClaudeBridgeUtils.buildDaemonEnv(cwd));
+        try {
+            return daemon.sendCommand("claude.preconnect", params, new DaemonBridge.DaemonOutputCallback() {
+                @Override
+                public void onLine(String line) {
+                }
+
+                @Override
+                public void onStderr(String text) {
+                }
+
+                @Override
+                public void onError(String error) {
+                    log.warn("[DaemonCoordinator] Preconnect failed: " + error);
+                }
+
+                @Override
+                public void onComplete(boolean success) {
+                }
+            }).orTimeout(45, TimeUnit.SECONDS).exceptionally(ex -> false);
+        } catch (Exception e) {
+            log.warn("[DaemonCoordinator] Preconnect failed: " + e.getMessage());
+            return CompletableFuture.completedFuture(false);
+        }
+    }
+
     void resetPersistentRuntime(String runtimeSessionEpoch) {
         DaemonBridge daemon = daemonBridge;
         if (daemon == null || !daemon.isAlive()) {

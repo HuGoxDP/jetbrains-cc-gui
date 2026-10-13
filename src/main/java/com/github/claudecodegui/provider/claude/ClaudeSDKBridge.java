@@ -711,6 +711,100 @@ public class ClaudeSDKBridge extends BaseSDKBridge {
     }
 
     /**
+     * Start the runtime of a conversation and wait for it (see
+     * ClaudeDaemonCoordinator#preconnectNow).
+     */
+    public CompletableFuture<Boolean> preconnectSession(String cwd, String runtimeSessionEpoch, String sessionId) {
+        return daemonCoordinator.preconnectNow(normalizeCwdForNode(cwd), runtimeSessionEpoch, sessionId);
+    }
+
+    /**
+     * Ask a side question about the conversation without adding it to it, as
+     * {@code /btw} does in the terminal, on the live runtime (beside a turn in
+     * progress). Completes with {ok, answer: {response, ...}} or {ok: false,
+     * reason}: "no-runtime", "unsupported" (an SDK without it), "no-answer", or a
+     * message.
+     */
+    public CompletableFuture<JsonObject> askSideQuestionLive(
+            String sessionId, String runtimeSessionEpoch, String question) {
+        JsonObject params = liveParams(sessionId, runtimeSessionEpoch);
+        params.addProperty("question", question != null ? question : "");
+        return liveCall("claude.askSideQuestion", params, 180);
+    }
+
+    /**
+     * Activate pending plugin changes in the live runtime, as {@code /reload-plugins}
+     * does in the terminal. Completes with {ok, result} (the SDK's answer as it
+     * came) or {ok: false, reason}.
+     */
+    public CompletableFuture<JsonObject> reloadPluginsLive(String sessionId, String runtimeSessionEpoch) {
+        return liveCall("claude.reloadPlugins", liveParams(sessionId, runtimeSessionEpoch), 60);
+    }
+
+    private static JsonObject liveParams(String sessionId, String runtimeSessionEpoch) {
+        JsonObject params = new JsonObject();
+        if (sessionId != null && !sessionId.isEmpty()) {
+            params.addProperty("sessionId", sessionId);
+        }
+        if (runtimeSessionEpoch != null && !runtimeSessionEpoch.isEmpty()) {
+            params.addProperty("runtimeSessionEpoch", runtimeSessionEpoch);
+        }
+        return params;
+    }
+
+    /** A call the daemon answers beside the command queue, with one result line. */
+    private CompletableFuture<JsonObject> liveCall(String method, JsonObject params, long timeoutSeconds) {
+        DaemonBridge db = this.daemonCoordinator.getCurrentDaemonBridge();
+        if (db == null || !db.isAlive()) {
+            return CompletableFuture.completedFuture(failure("no-runtime"));
+        }
+        AtomicReference<JsonObject> lineRef = new AtomicReference<>();
+        CompletableFuture<JsonObject> resultFuture = new CompletableFuture<>();
+        DaemonBridge.DaemonOutputCallback callback = new DaemonBridge.DaemonOutputCallback() {
+            @Override
+            public void onLine(String line) {
+                try {
+                    lineRef.set(ClaudeSDKBridge.this.gson.fromJson(line, JsonObject.class));
+                } catch (Exception ignored) {
+                    // Not the result line.
+                }
+            }
+
+            @Override
+            public void onStderr(String text) {
+            }
+
+            @Override
+            public void onError(String error) {
+                resultFuture.complete(lineRef.get() != null ? lineRef.get() : failure(error));
+            }
+
+            @Override
+            public void onComplete(boolean success) {
+                resultFuture.complete(lineRef.get() != null ? lineRef.get() : failure("failed"));
+            }
+        };
+        try {
+            db.sendCommand(method, params, callback).exceptionally(ex -> {
+                resultFuture.complete(failure(ex.getMessage()));
+                return false;
+            });
+        } catch (Exception e) {
+            LOG.warn("[ClaudeSDKBridge] " + method + " failed: " + e.getMessage(), e);
+            return CompletableFuture.completedFuture(failure(e.getMessage()));
+        }
+        return resultFuture.orTimeout(timeoutSeconds, TimeUnit.SECONDS)
+                .exceptionally(ex -> failure("timeout"));
+    }
+
+    private static JsonObject failure(String reason) {
+        JsonObject result = new JsonObject();
+        result.addProperty("ok", false);
+        result.addProperty("reason", reason != null ? reason : "failed");
+        return result;
+    }
+
+    /**
      * Hot-swap the permission mode of the live daemon runtime mid-conversation.
      *
      * Pushes the new mode to the SDK query and the reactive state the PreToolUse

@@ -194,6 +194,36 @@
     "updateSdk": "تحديث SDK",
     "commandNotImplemented": "ميزة `{{command}}` غير مطبّقة بعد.",
     "clearCommandDescription": "مسح سجل المحادثة وبدء جلسة جديدة",
+    "btwCommandDescription": "اطرح سؤالًا جانبيًا سريعًا دون إضافته إلى المحادثة",
+    "reloadPluginsCommandDescription": "تفعيل تغييرات الإضافات في هذه المحادثة دون إعادة التشغيل",
+    "sideQuestion": {
+      "title": "سؤال جانبي",
+      "thinking": "جارٍ التفكير…",
+      "close": "إغلاق",
+      "notInConversation": "لم يُضَف إلى المحادثة",
+      "empty": "اكتب السؤال بعد /btw",
+      "errors": {
+        "no-session": "ابدأ المحادثة أولًا: /btw يسأل عنها",
+        "no-runtime": "تعذّر تشغيل Claude لهذه المحادثة",
+        "unsupported": "لا يستطيع Claude Agent SDK المثبّت الإجابة عن الأسئلة الجانبية. حدّثه من الإعدادات → اعتماديات SDK.",
+        "unsupported-provider": "/btw متاح لـ Claude فقط",
+        "no-answer": "لم يقدّم Claude إجابة",
+        "timeout": "لم تصل الإجابة في الوقت المناسب",
+        "failed": "تعذّر طرح السؤال"
+      }
+    },
+    "reloadPlugins": {
+      "done": "أُعيد تحميل الإضافات · المفعّلة: {{count}}",
+      "doneWithErrors": "أُعيد تحميل الإضافات · المفعّلة: {{count}}، فشل تحميل: {{errors}}",
+      "noRuntime": "لا تعمل عملية Claude في هذا التبويب بعد؛ ستُحمَّل الإضافات عند بدء المحادثة",
+      "errors": {
+        "unsupported": "لا يستطيع Claude Agent SDK المثبّت إعادة تحميل الإضافات. حدّثه من الإعدادات → اعتماديات SDK.",
+        "unsupported-provider": "/reload-plugins متاح لـ Claude فقط",
+        "no-session": "ابدأ المحادثة أولًا",
+        "timeout": "لم تنتهِ إعادة التحميل في الوقت المناسب",
+        "failed": "تعذّرت إعادة تحميل الإضافات"
+      }
+    },
     "attachmentFile": "[مرفق: {{fileName}}]",
     "unknownFile": "ملف غير معروف",
     "attachmentsUploaded": "[تم رفع المرفقات]",

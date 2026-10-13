@@ -820,6 +820,97 @@ export async function stopTaskPersistent(params = {}) {
   return { stopped: true };
 }
 
+/**
+ * The live runtime of a conversation, for calls made on it while a turn may be
+ * running. Null when the conversation has none (or the epoch moved on).
+ */
+function liveRuntimeFor(sessionId, epoch) {
+  let runtime = sessionId ? getRuntimeForSession(sessionId) : null;
+  if (!runtime || runtime.closed) {
+    const active = getActiveTurnRuntime();
+    if (active && !active.closed && (!sessionId || active.sessionId === sessionId)) {
+      runtime = active;
+    }
+  }
+  if (!runtime || runtime.closed) return null;
+  if (epoch && runtime.runtimeSessionEpoch !== epoch) return null;
+  return runtime;
+}
+
+function logBypass(msg) {
+  const w = process.stderr._originalStderrWrite;
+  if (typeof w === 'function') {
+    w(`[LIFECYCLE] ${msg}\n`, 'utf8');
+  } else {
+    process.stderr.write(`[LIFECYCLE] ${msg}\n`);
+  }
+}
+
+/**
+ * Answer a side question about the conversation without adding it to the
+ * conversation: what `/btw <question>` does in the terminal (ported from Swttch).
+ * The CLI runs it on the live process (`side_question`), beside a turn in
+ * progress if there is one. The SDK's Query exposes it as askSideQuestion(),
+ * which its typings do not list yet, so an SDK without it answers "unsupported".
+ *
+ * Bypasses the command queue like stopTaskPersistent: logs to the original
+ * stderr writer and prints nothing on stdout; the result is returned to the
+ * caller, which sends it as the call's one line.
+ *
+ * @param {object} params - { sessionId?, runtimeSessionEpoch?, question }
+ * @returns {Promise<{ ok: boolean, reason?: string, answer?: object }>}
+ */
+export async function askSideQuestionPersistent(params = {}) {
+  const safeParams = params || {};
+  const question = typeof safeParams.question === 'string' ? safeParams.question.trim() : '';
+  if (!question) {
+    return { ok: false, reason: 'empty' };
+  }
+  const runtime = liveRuntimeFor(safeParams.sessionId || null, safeParams.runtimeSessionEpoch || null);
+  if (!runtime) {
+    logBypass(`askSideQuestion skipped: no live runtime sessionId=${safeParams.sessionId || '(none)'}`);
+    return { ok: false, reason: 'no-runtime' };
+  }
+  if (typeof runtime.query?.askSideQuestion !== 'function') {
+    logBypass('askSideQuestion skipped: this SDK has no Query.askSideQuestion()');
+    return { ok: false, reason: 'unsupported' };
+  }
+  const answer = await runtime.query.askSideQuestion(question);
+  if (!answer || typeof answer.response !== 'string') {
+    return { ok: false, reason: 'no-answer' };
+  }
+  logBypass(`askSideQuestion answered sessionId=${safeParams.sessionId || '(none)'}`);
+  return { ok: true, answer };
+}
+
+/**
+ * Activate pending plugin changes in the live process, as `/reload-plugins` does
+ * in the terminal (ported from Swttch), through the SDK's Query.reloadPlugins().
+ * The SDK's answer (commands, agents, plugins, MCP servers, error_count) is
+ * returned as it came.
+ *
+ * Bypasses the command queue like stopTaskPersistent.
+ *
+ * @param {object} params - { sessionId?, runtimeSessionEpoch? }
+ * @returns {Promise<{ ok: boolean, reason?: string, result?: object }>}
+ */
+export async function reloadPluginsPersistent(params = {}) {
+  const safeParams = params || {};
+  const runtime = liveRuntimeFor(safeParams.sessionId || null, safeParams.runtimeSessionEpoch || null);
+  if (!runtime) {
+    logBypass(`reloadPlugins skipped: no live runtime sessionId=${safeParams.sessionId || '(none)'}`);
+    return { ok: false, reason: 'no-runtime' };
+  }
+  if (typeof runtime.query?.reloadPlugins !== 'function') {
+    logBypass('reloadPlugins skipped: this SDK has no Query.reloadPlugins()');
+    return { ok: false, reason: 'unsupported' };
+  }
+  const result = await runtime.query.reloadPlugins();
+  logBypass(`reloadPlugins done sessionId=${safeParams.sessionId || '(none)'}`
+    + ` errors=${result?.error_count ?? '(unknown)'}`);
+  return { ok: true, result };
+}
+
 export async function abortCurrentTurn() {
   // Atomic swap: clear first to prevent double-disposal from rapid abort calls.
   // JS is single-threaded so assignment is atomic — only the first caller gets

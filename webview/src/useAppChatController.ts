@@ -20,6 +20,7 @@ import {
   RESUME_COMMANDS,
   PLAN_COMMANDS,
   CONTEXT_COMMANDS,
+  SIDE_COMMANDS,
 } from './hooks/useMessageSender';
 import type { Attachment, ChatInputBoxHandle, PermissionMode } from './components/ChatInputBox/types';
 import type { ChatScreenProps } from './components/ChatScreen';
@@ -327,6 +328,11 @@ export const useAppChatController = ({
       }
       // /context - handled locally even while loading
       if (CONTEXT_COMMANDS.has(command)) {
+        hookHandleSubmit(content, attachments);
+        return;
+      }
+      // /btw and /reload-plugins run beside the reply in progress, not after it
+      if (SIDE_COMMANDS.has(command)) {
         hookHandleSubmit(content, attachments);
         return;
       }

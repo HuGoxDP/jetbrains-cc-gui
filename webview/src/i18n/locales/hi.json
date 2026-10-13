@@ -171,6 +171,36 @@
     "goInstallSdk": "इंस्टॉल करने जाएं",
     "commandNotImplemented": "`{{command}}` सुविधा अभी तक लागू नहीं की गई है।",
     "clearCommandDescription": "बातचीत इतिहास साफ़ करें और नया सत्र शुरू करें",
+    "btwCommandDescription": "बातचीत में जोड़े बिना एक छोटा सा अलग सवाल पूछें",
+    "reloadPluginsCommandDescription": "बिना रीस्टार्ट किए इस बातचीत में प्लगइन बदलाव लागू करें",
+    "sideQuestion": {
+      "title": "अलग सवाल",
+      "thinking": "सोच रहा है…",
+      "close": "बंद करें",
+      "notInConversation": "बातचीत में नहीं जोड़ा गया",
+      "empty": "/btw के बाद सवाल लिखें",
+      "errors": {
+        "no-session": "पहले बातचीत शुरू करें: /btw उसी के बारे में पूछता है",
+        "no-runtime": "इस बातचीत के लिए Claude शुरू नहीं हो सका",
+        "unsupported": "इंस्टॉल किया गया Claude Agent SDK अलग सवालों का जवाब नहीं दे सकता। इसे सेटिंग्स → SDK निर्भरताएँ में अपडेट करें।",
+        "unsupported-provider": "/btw केवल Claude के लिए उपलब्ध है",
+        "no-answer": "Claude ने कोई जवाब नहीं दिया",
+        "timeout": "समय पर जवाब नहीं मिला",
+        "failed": "सवाल पूछा नहीं जा सका"
+      }
+    },
+    "reloadPlugins": {
+      "done": "प्लगइन फिर से लोड हुए · {{count}} सक्रिय",
+      "doneWithErrors": "प्लगइन फिर से लोड हुए · {{count}} सक्रिय, {{errors}} लोड नहीं हो सके",
+      "noRuntime": "इस टैब में अभी कोई Claude प्रोसेस नहीं चल रहा; बातचीत शुरू होने पर प्लगइन लोड होंगे",
+      "errors": {
+        "unsupported": "इंस्टॉल किया गया Claude Agent SDK प्लगइन फिर से लोड नहीं कर सकता। इसे सेटिंग्स → SDK निर्भरताएँ में अपडेट करें।",
+        "unsupported-provider": "/reload-plugins केवल Claude के लिए उपलब्ध है",
+        "no-session": "पहले बातचीत शुरू करें",
+        "timeout": "रीलोड समय पर पूरा नहीं हुआ",
+        "failed": "प्लगइन फिर से लोड नहीं हो सके"
+      }
+    },
     "attachmentFile": "[अटैचमेंट: {{fileName}}]",
     "unknownFile": "Unknown file",
     "attachmentsUploaded": "[अटैचमेंट अपलोड हो गए]",

@@ -171,6 +171,36 @@
     "goInstallSdk": "インストールへ",
     "commandNotImplemented": "`{{command}}` 機能はまだ実装されていません。",
     "clearCommandDescription": "会話履歴をクリアして新しいセッションを開始",
+    "btwCommandDescription": "会話に追加せずに、ちょっとした別の質問をする",
+    "reloadPluginsCommandDescription": "再起動せずにこの会話でプラグインの変更を有効にする",
+    "sideQuestion": {
+      "title": "別の質問",
+      "thinking": "考え中…",
+      "close": "閉じる",
+      "notInConversation": "会話には追加されません",
+      "empty": "/btw の後に質問を書いてください",
+      "errors": {
+        "no-session": "まず会話を始めてください：/btw はその会話について尋ねます",
+        "no-runtime": "この会話の Claude を起動できませんでした",
+        "unsupported": "インストールされている Claude Agent SDK は別の質問に答えられません。設定 → SDK依存関係 で更新してください。",
+        "unsupported-provider": "/btw は Claude でのみ使えます",
+        "no-answer": "Claude から回答がありませんでした",
+        "timeout": "時間内に回答がありませんでした",
+        "failed": "質問できませんでした"
+      }
+    },
+    "reloadPlugins": {
+      "done": "プラグインを再読み込みしました · 有効 {{count}}",
+      "doneWithErrors": "プラグインを再読み込みしました · 有効 {{count}}、読み込み失敗 {{errors}}",
+      "noRuntime": "このタブではまだ Claude プロセスが動いていません。プラグインは会話の開始時に読み込まれます",
+      "errors": {
+        "unsupported": "インストールされている Claude Agent SDK はプラグインを再読み込みできません。設定 → SDK依存関係 で更新してください。",
+        "unsupported-provider": "/reload-plugins は Claude でのみ使えます",
+        "no-session": "まず会話を始めてください",
+        "timeout": "再読み込みが時間内に終わりませんでした",
+        "failed": "プラグインを再読み込みできませんでした"
+      }
+    },
     "attachmentFile": "[添付ファイル: {{fileName}}]",
     "unknownFile": "Unknown file",
     "attachmentsUploaded": "[添付ファイルがアップロードされました]",

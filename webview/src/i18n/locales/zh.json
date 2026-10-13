@@ -190,6 +190,36 @@
     "updateSdk": "更新 SDK",
     "commandNotImplemented": "`{{command}}` 功能暂未实现。",
     "clearCommandDescription": "清除对话历史并新建会话",
+    "btwCommandDescription": "快速问一个旁支问题，不加入当前对话",
+    "reloadPluginsCommandDescription": "无需重启即可在此对话中启用插件更改",
+    "sideQuestion": {
+      "title": "旁支问题",
+      "thinking": "思考中…",
+      "close": "关闭",
+      "notInConversation": "未加入对话",
+      "empty": "请在 /btw 后写下问题",
+      "errors": {
+        "no-session": "请先开始对话：/btw 针对的是当前对话",
+        "no-runtime": "无法为此对话启动 Claude",
+        "unsupported": "已安装的 Claude Agent SDK 不支持旁支问题。请在 设置 → SDK 依赖 中更新。",
+        "unsupported-provider": "/btw 仅适用于 Claude",
+        "no-answer": "Claude 没有给出回答",
+        "timeout": "未能及时得到回答",
+        "failed": "无法提出该问题"
+      }
+    },
+    "reloadPlugins": {
+      "done": "插件已重新加载 · {{count}} 个已启用",
+      "doneWithErrors": "插件已重新加载 · {{count}} 个已启用，{{errors}} 个加载失败",
+      "noRuntime": "此标签页中还没有运行的 Claude 进程；插件会在对话开始时加载",
+      "errors": {
+        "unsupported": "已安装的 Claude Agent SDK 不支持重新加载插件。请在 设置 → SDK 依赖 中更新。",
+        "unsupported-provider": "/reload-plugins 仅适用于 Claude",
+        "no-session": "请先开始对话",
+        "timeout": "重新加载未能及时完成",
+        "failed": "无法重新加载插件"
+      }
+    },
     "attachmentFile": "[附件: {{fileName}}]",
     "unknownFile": "未知文件",
     "attachmentsUploaded": "[已上传附件]",

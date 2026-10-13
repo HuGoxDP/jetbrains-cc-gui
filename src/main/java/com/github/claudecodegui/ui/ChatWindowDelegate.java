@@ -34,6 +34,7 @@ import com.github.claudecodegui.handler.provider.ProviderHandler;
 import com.github.claudecodegui.handler.provider.claude.ClaudePlanUsageHandler;
 import com.github.claudecodegui.handler.RewindHandler;
 import com.github.claudecodegui.handler.BackgroundTaskHandler;
+import com.github.claudecodegui.handler.SideCommandsHandler;
 import com.github.claudecodegui.handler.ActiveSessionsHandler;
 import com.github.claudecodegui.handler.ScheduledMessageHandler;
 import com.github.claudecodegui.handler.SessionActivityHandler;
@@ -386,6 +387,7 @@ public class ChatWindowDelegate {
         messageDispatcher.registerHandler(new TabHandler(handlerContext));
         messageDispatcher.registerHandler(new RewindHandler(handlerContext));
         messageDispatcher.registerHandler(new BackgroundTaskHandler(handlerContext));
+        messageDispatcher.registerHandler(new SideCommandsHandler(handlerContext));
         messageDispatcher.registerHandler(new SessionActivityHandler(handlerContext));
         messageDispatcher.registerHandler(new ScheduledMessageHandler(handlerContext));
         messageDispatcher.registerHandler(new ActiveSessionsHandler(handlerContext));

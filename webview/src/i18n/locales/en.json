@@ -190,6 +190,36 @@
     "updateSdk": "Update SDK",
     "commandNotImplemented": "`{{command}}` feature is not yet implemented.",
     "clearCommandDescription": "Clear conversation history and start a new session",
+    "btwCommandDescription": "Ask a quick side question without adding it to the conversation",
+    "reloadPluginsCommandDescription": "Apply plugin changes without restarting",
+    "sideQuestion": {
+      "title": "Side question",
+      "thinking": "Thinking…",
+      "close": "Close",
+      "notInConversation": "Not added to the conversation",
+      "empty": "Write the question after /btw",
+      "errors": {
+        "no-session": "Start the conversation first: /btw asks about it",
+        "no-runtime": "Claude could not be started for this conversation",
+        "unsupported": "The installed Claude Agent SDK cannot answer side questions. Update it in Settings → SDK Dependencies.",
+        "unsupported-provider": "/btw is only available for Claude",
+        "no-answer": "Claude gave no answer",
+        "timeout": "No answer in time",
+        "failed": "The question could not be asked"
+      }
+    },
+    "reloadPlugins": {
+      "done": "Plugins reloaded · {{count}} active",
+      "doneWithErrors": "Plugins reloaded · {{count}} active, {{errors}} failed to load",
+      "noRuntime": "No Claude process runs in this tab yet; plugins load when the conversation starts",
+      "errors": {
+        "unsupported": "The installed Claude Agent SDK cannot reload plugins. Update it in Settings → SDK Dependencies.",
+        "unsupported-provider": "/reload-plugins is only available for Claude",
+        "no-session": "Start the conversation first",
+        "timeout": "The reload did not finish in time",
+        "failed": "Plugins could not be reloaded"
+      }
+    },
     "attachmentFile": "[Attachment: {{fileName}}]",
     "unknownFile": "Unknown file",
     "attachmentsUploaded": "[Attachments Uploaded]",

@@ -171,6 +171,36 @@
     "goInstallSdk": "Ir para Instalação",
     "commandNotImplemented": "O recurso `{{command}}` ainda não foi implementado.",
     "clearCommandDescription": "Limpar histórico de conversa e iniciar uma nova sessão",
+    "btwCommandDescription": "Faça uma pergunta rápida à parte sem adicioná-la à conversa",
+    "reloadPluginsCommandDescription": "Ative as alterações de plugins nesta conversa sem reiniciar",
+    "sideQuestion": {
+      "title": "Pergunta à parte",
+      "thinking": "Pensando…",
+      "close": "Fechar",
+      "notInConversation": "Não adicionado à conversa",
+      "empty": "Escreva a pergunta depois de /btw",
+      "errors": {
+        "no-session": "Comece a conversa primeiro: /btw pergunta sobre ela",
+        "no-runtime": "Não foi possível iniciar o Claude para esta conversa",
+        "unsupported": "O Claude Agent SDK instalado não responde perguntas à parte. Atualize-o em Configurações → Dependências do SDK.",
+        "unsupported-provider": "/btw está disponível apenas para o Claude",
+        "no-answer": "O Claude não respondeu",
+        "timeout": "Nenhuma resposta a tempo",
+        "failed": "Não foi possível fazer a pergunta"
+      }
+    },
+    "reloadPlugins": {
+      "done": "Plugins recarregados · {{count}} ativos",
+      "doneWithErrors": "Plugins recarregados · {{count}} ativos, {{errors}} não carregaram",
+      "noRuntime": "Ainda não há um processo do Claude nesta aba; os plugins serão carregados quando a conversa começar",
+      "errors": {
+        "unsupported": "O Claude Agent SDK instalado não recarrega plugins. Atualize-o em Configurações → Dependências do SDK.",
+        "unsupported-provider": "/reload-plugins está disponível apenas para o Claude",
+        "no-session": "Comece a conversa primeiro",
+        "timeout": "A recarga não terminou a tempo",
+        "failed": "Não foi possível recarregar os plugins"
+      }
+    },
     "attachmentFile": "[Anexo: {{fileName}}]",
     "unknownFile": "Arquivo desconhecido",
     "attachmentsUploaded": "[Anexos Enviados]",

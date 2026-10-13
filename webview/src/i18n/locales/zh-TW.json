@@ -171,6 +171,36 @@
     "goInstallSdk": "前往安裝",
     "commandNotImplemented": "`{{command}}` 功能尚未實現。",
     "clearCommandDescription": "清除對話歷史並新建會話",
+    "btwCommandDescription": "快速問一個旁支問題，不加入目前對話",
+    "reloadPluginsCommandDescription": "無需重新啟動即可在此對話中啟用外掛變更",
+    "sideQuestion": {
+      "title": "旁支問題",
+      "thinking": "思考中…",
+      "close": "關閉",
+      "notInConversation": "未加入對話",
+      "empty": "請在 /btw 後寫下問題",
+      "errors": {
+        "no-session": "請先開始對話：/btw 針對的是目前對話",
+        "no-runtime": "無法為此對話啟動 Claude",
+        "unsupported": "已安裝的 Claude Agent SDK 不支援旁支問題。請在 設定 → SDK 依賴 中更新。",
+        "unsupported-provider": "/btw 僅適用於 Claude",
+        "no-answer": "Claude 沒有給出回答",
+        "timeout": "未能及時得到回答",
+        "failed": "無法提出該問題"
+      }
+    },
+    "reloadPlugins": {
+      "done": "外掛已重新載入 · {{count}} 個已啟用",
+      "doneWithErrors": "外掛已重新載入 · {{count}} 個已啟用，{{errors}} 個載入失敗",
+      "noRuntime": "此分頁中還沒有執行中的 Claude 程序；外掛會在對話開始時載入",
+      "errors": {
+        "unsupported": "已安裝的 Claude Agent SDK 不支援重新載入外掛。請在 設定 → SDK 依賴 中更新。",
+        "unsupported-provider": "/reload-plugins 僅適用於 Claude",
+        "no-session": "請先開始對話",
+        "timeout": "重新載入未能及時完成",
+        "failed": "無法重新載入外掛"
+      }
+    },
     "attachmentFile": "[附件: {{fileName}}]",
     "unknownFile": "Unknown file",
     "attachmentsUploaded": "[已上傳附件]",

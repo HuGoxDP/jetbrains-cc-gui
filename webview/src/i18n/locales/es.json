@@ -171,6 +171,36 @@
     "goInstallSdk": "Ir a instalar",
     "commandNotImplemented": "La función `{{command}}` aún no está implementada.",
     "clearCommandDescription": "Borrar historial de conversación e iniciar nueva sesión",
+    "btwCommandDescription": "Haz una pregunta rápida aparte sin añadirla a la conversación",
+    "reloadPluginsCommandDescription": "Activa los cambios de plugins en esta conversación sin reiniciar",
+    "sideQuestion": {
+      "title": "Pregunta aparte",
+      "thinking": "Pensando…",
+      "close": "Cerrar",
+      "notInConversation": "No se añadió a la conversación",
+      "empty": "Escribe la pregunta después de /btw",
+      "errors": {
+        "no-session": "Primero inicia la conversación: /btw pregunta sobre ella",
+        "no-runtime": "No se pudo iniciar Claude para esta conversación",
+        "unsupported": "El Claude Agent SDK instalado no puede responder preguntas aparte. Actualízalo en Configuración → Dependencias del SDK.",
+        "unsupported-provider": "/btw solo está disponible para Claude",
+        "no-answer": "Claude no dio respuesta",
+        "timeout": "No hubo respuesta a tiempo",
+        "failed": "No se pudo hacer la pregunta"
+      }
+    },
+    "reloadPlugins": {
+      "done": "Plugins recargados · {{count}} activos",
+      "doneWithErrors": "Plugins recargados · {{count}} activos, {{errors}} no se pudieron cargar",
+      "noRuntime": "Aún no hay un proceso de Claude en esta pestaña; los plugins se cargarán al iniciar la conversación",
+      "errors": {
+        "unsupported": "El Claude Agent SDK instalado no puede recargar plugins. Actualízalo en Configuración → Dependencias del SDK.",
+        "unsupported-provider": "/reload-plugins solo está disponible para Claude",
+        "no-session": "Primero inicia la conversación",
+        "timeout": "La recarga no terminó a tiempo",
+        "failed": "No se pudieron recargar los plugins"
+      }
+    },
     "attachmentFile": "[Adjunto: {{fileName}}]",
     "unknownFile": "Unknown file",
     "attachmentsUploaded": "[Archivos adjuntos cargados]",

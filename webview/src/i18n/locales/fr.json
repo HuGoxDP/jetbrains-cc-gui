@@ -171,6 +171,36 @@
     "goInstallSdk": "Aller installer",
     "commandNotImplemented": "La fonctionnalité `{{command}}` n'est pas encore implémentée.",
     "clearCommandDescription": "Effacer l'historique et démarrer une nouvelle session",
+    "btwCommandDescription": "Poser une petite question à part sans l'ajouter à la conversation",
+    "reloadPluginsCommandDescription": "Activer les changements de plugins dans cette conversation sans redémarrer",
+    "sideQuestion": {
+      "title": "Question à part",
+      "thinking": "Réflexion…",
+      "close": "Fermer",
+      "notInConversation": "Non ajouté à la conversation",
+      "empty": "Écrivez la question après /btw",
+      "errors": {
+        "no-session": "Commencez d'abord la conversation : /btw porte sur elle",
+        "no-runtime": "Impossible de démarrer Claude pour cette conversation",
+        "unsupported": "Le Claude Agent SDK installé ne peut pas répondre aux questions à part. Mettez-le à jour dans Paramètres → Dépendances SDK.",
+        "unsupported-provider": "/btw n'est disponible que pour Claude",
+        "no-answer": "Claude n'a pas donné de réponse",
+        "timeout": "Pas de réponse à temps",
+        "failed": "Impossible de poser la question"
+      }
+    },
+    "reloadPlugins": {
+      "done": "Plugins rechargés · {{count}} actifs",
+      "doneWithErrors": "Plugins rechargés · {{count}} actifs, {{errors}} non chargés",
+      "noRuntime": "Aucun processus Claude ne tourne encore dans cet onglet ; les plugins seront chargés au début de la conversation",
+      "errors": {
+        "unsupported": "Le Claude Agent SDK installé ne peut pas recharger les plugins. Mettez-le à jour dans Paramètres → Dépendances SDK.",
+        "unsupported-provider": "/reload-plugins n'est disponible que pour Claude",
+        "no-session": "Commencez d'abord la conversation",
+        "timeout": "Le rechargement n'a pas abouti à temps",
+        "failed": "Impossible de recharger les plugins"
+      }
+    },
     "attachmentFile": "[Pièce jointe: {{fileName}}]",
     "unknownFile": "Unknown file",
     "attachmentsUploaded": "[Pièces jointes téléchargées]",

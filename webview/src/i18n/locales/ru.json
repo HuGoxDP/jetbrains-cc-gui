@@ -173,6 +173,36 @@
     "goInstallSdk": "Перейти к установке",
     "commandNotImplemented": "Функция `{{command}}` ещё не реализована.",
     "clearCommandDescription": "Очистить историю и начать новый чат",
+    "btwCommandDescription": "Задать быстрый вопрос в сторону, не добавляя его в разговор",
+    "reloadPluginsCommandDescription": "Применить изменения плагинов в этом разговоре без перезапуска",
+    "sideQuestion": {
+      "title": "Вопрос в сторону",
+      "thinking": "Думает…",
+      "close": "Закрыть",
+      "notInConversation": "Не добавлено в разговор",
+      "empty": "Напишите вопрос после /btw",
+      "errors": {
+        "no-session": "Сначала начните разговор: /btw спрашивает о нём",
+        "no-runtime": "Не удалось запустить Claude для этого разговора",
+        "unsupported": "Установленный Claude Agent SDK не умеет отвечать на вопросы в сторону. Обновите его в Настройки → Зависимости SDK.",
+        "unsupported-provider": "/btw доступна только для Claude",
+        "no-answer": "Claude не дал ответа",
+        "timeout": "Ответ не пришёл вовремя",
+        "failed": "Не удалось задать вопрос"
+      }
+    },
+    "reloadPlugins": {
+      "done": "Плагины перезагружены · активно: {{count}}",
+      "doneWithErrors": "Плагины перезагружены · активно: {{count}}, не загрузилось: {{errors}}",
+      "noRuntime": "В этой вкладке ещё не запущен процесс Claude; плагины загрузятся, когда начнётся разговор",
+      "errors": {
+        "unsupported": "Установленный Claude Agent SDK не умеет перезагружать плагины. Обновите его в Настройки → Зависимости SDK.",
+        "unsupported-provider": "/reload-plugins доступна только для Claude",
+        "no-session": "Сначала начните разговор",
+        "timeout": "Перезагрузка не завершилась вовремя",
+        "failed": "Не удалось перезагрузить плагины"
+      }
+    },
     "attachmentFile": "[Вложение: {{fileName}}]",
     "unknownFile": "Неизвестный файл",
     "attachmentsUploaded": "[Вложения загружены]",
